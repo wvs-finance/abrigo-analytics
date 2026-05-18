@@ -78,7 +78,43 @@ Every direction in the portfolio progresses through 5 gates. Blockers surface as
 | **E5-revised RefiColombia** | FROZEN READY (PARTIAL Day-1) | **G1 PARTIAL** (effective cohort N=70 <75; lifetime 521d) | Wait ~10 weeks for cohort growth OR reframe Y → Δlog(claim_ops) weekly + activate |
 | **E7 Mento minter** | FROZEN READY (pinned) | **G0** (not yet dispatched) | G0 cohort feasibility scoping (~2 days) |
 | **E4 narrowed (Superfluid R3+)** | FROZEN READY (E4.0 narrowed) | **G1 PARTIAL** (Option A narrowing locked; re-execute Dune q/3399900 needed) | Re-execute Dune + draft narrowed-E4 spec v0.1 |
-| **E3 + E8 joint methods-paper** | PARALLEL TRACK | **G2** (theory + empirical anchors in place) | Methods-paper draft (multi-year track, not gated like β-iterations) |
+| **E9 NEW Energy-AMM convex hedge** | NEW 2026-05-18 (user-added via Fabi et al. 2025-12) | **G0 dispatch pending** | G0 feasibility scoping: Colombian prosumer cohorts + EVM energy-flow observability |
+| **E3 + E8 + E9 joint methods-paper** | PARALLEL TRACK | **G2** (theory + empirical anchors in place; E9 extends to energy-numéraire) | Methods-paper draft (multi-year track) |
+
+## Direction E9 — Energy-AMM Convex Hedge (NEW 2026-05-18)
+
+### Theoretical anchor
+**Fabi, Nadkarni, Leone, Ferreira (2025-12)** "Automated Market Making for Energy Sharing" arXiv:2512.24432. Mean-Field Game equilibrium for prosumer-community AMMs. Numerical experiments on Paris administrative region. Result: prosumer community achieves up to **40% gains-from-trade vs grid-only**. Theoretical only — no live blockchain implementation in 2026.
+
+### The conceptual move
+Price the M-layer in **kWh-equivalent** rather than COP/USD. Energy is the cleanest P_i numéraire possible per BLR/Minsky lens — it directly represents real-economy productive consumption rather than financialized derivative-of-money. Connects to Soddy (1926) energy-money / real-wealth distinction, Daly steady-state economics, Hodgson institutional money theory.
+
+### Cohort candidate (Colombia-specific per user §0.8.2)
+- **Rural solar prosumers** under Resolución CREG 174/2017 (PV self-generation framework)
+- **IPSE** (Instituto de Planificación y Promoción de Soluciones Energéticas) rural electrification beneficiaries
+- **UPME Subasta de Energía Firme** participants (small-scale generators)
+- Aggregator cohorts via **EPM** (Empresas Públicas de Medellín), **Codensa**, **Celsia**
+
+### Pre-pin sketch (G1 — locked after G0 PASS)
+- **Y**: cohort-aggregate prosumer realized kWh-output ÷ expected baseline (productivity ratio); or kWh × spot energy price = real economic output
+- **X**: energy-shock micro-risks per PK theory — XM operator dispatch costs; CREG resolution regime shifts; El Niño / La Niña hydropower volatility (Colombia ~70% hydro); tokenized REC price shocks
+- **M**: Panoptic-equivalent perpetual put on tokenized-kWh-credit / USDC pool, sized to prosumer expected production stream-tail; premium funded by kWh-credit head receipts — **same streamed-liability M-shape as E4/E5/E7/E8**
+- **PK anchor**: literal energy-money / real-resource hedging — direct empirical operationalization of BLR/Minsky "real economy" P_i side
+
+### G0 feasibility checks (1-3 days, dispatched alongside Wave 1)
+1. **EVM-side energy-tokenization observability** in 2026 — Powerledger / GridSingularity / Energy Web Chain / WePower / SunContract — which are live EVM, what TVL, what volume
+2. **Colombian XM operator public data** — dispatch costs, prosumer registries, daily/monthly time-series
+3. **CREG-174 prosumer cohort scale** — UPME public registry; could clear N_MIN=75?
+4. **Tokenized-REC precedent on EVM** — any LATAM RECs on Toucan / Solid World / KlimaDAO adjacent infrastructure?
+5. **Permissionless premise**: can Colombian prosumer hold tokenized kWh on EVM without KYC?
+
+### Fantasy-threshold lock (per portfolio memo)
+Energy-AMM is theoretical-only in 2026; simulation IS the path to G1 → G2 unless live infrastructure surfaces. Pre-pin BEFORE simulation:
+- Real Colombian XM dispatch data (public-default ✓)
+- Real CREG-174 prosumer registry (UPME public ✓)
+- Real Colombian electricity prices (XM ✓)
+- Synthetic AMM-equivalent dynamics priced via Fabi et al. 2025 Mean-Field Game framework
+- DO NOT generate counterfactual "10K Colombian energy-prosumer-AMMs" — that crosses fantasy threshold per `project_abrigo_portfolio_prioritization_with_fallback.md`
 
 ## Parallel Dispatch Plan (sorted by primary-fallback order)
 
@@ -87,6 +123,7 @@ Every direction in the portfolio progresses through 5 gates. Blockers surface as
 2. **E8 LATAM-operator simulation pre-pin** (under fantasy-threshold guard) — parallel to spec
 3. **E7 G0 cohort feasibility** (Mento minter) — 2-day cheap scoping in parallel
 4. **E4 narrowed (Superfluid R3+) Dune re-execute** + spec v0.1 draft
+5. **E9 G0 feasibility scoping** — Colombian prosumer + EVM energy-tokenization observability (NEW 2026-05-18 per user Fabi et al. paper)
 
 ### Wave 2 (post-Wave-1 verdicts)
 5. **E8 plan v0.1** + 2-way review (G3 → G4)
