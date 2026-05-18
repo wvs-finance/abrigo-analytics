@@ -1,0 +1,193 @@
+
+### USDC
+- N daily observations: 2323
+- First/last date: 2020-01-08 → 2026-05-18
+- Mean price: 0.999924
+- Min/max price: 0.967000 / 1.010000
+- StdDev: 0.000868
+- |dev|≥0.10%: 21 days (below=11, above=10)
+- |dev|≥0.25%: 7 days (below=2, above=5)
+- |dev|≥0.50%: 7 days (below=2, above=5)
+- |dev|≥1.00%: 6 days (below=1, above=5)
+- |dev|≥2.00%: 1 days (below=1, above=0)
+- |dev|≥5.00%: 0 days (below=0, above=0)
+- |dev|≥10.00%: 0 days (below=0, above=0)
+
+### USDT
+- N daily observations: 2220
+- First/last date: 2018-09-26 → 2026-05-18
+- Mean price: 0.999240
+- Min/max price: 0.949700 / 1.012000
+- StdDev: 0.004583
+- |dev|≥0.10%: 526 days (below=342, above=184)
+- |dev|≥0.25%: 274 days (below=177, above=97)
+- |dev|≥0.50%: 167 days (below=136, above=31)
+- |dev|≥1.00%: 89 days (below=81, above=8)
+- |dev|≥2.00%: 33 days (below=33, above=0)
+- |dev|≥5.00%: 1 days (below=1, above=0)
+- |dev|≥10.00%: 0 days (below=0, above=0)
+
+### DAI
+- N daily observations: 2428
+- First/last date: 2019-09-25 → 2026-05-18
+- Mean price: 1.001525
+- Min/max price: 0.972200 / 1.060000
+- StdDev: 0.005176
+- |dev|≥0.10%: 518 days (below=117, above=401)
+- |dev|≥0.25%: 385 days (below=31, above=354)
+- |dev|≥0.50%: 270 days (below=17, above=253)
+- |dev|≥1.00%: 164 days (below=1, above=163)
+- |dev|≥2.00%: 47 days (below=1, above=46)
+- |dev|≥5.00%: 2 days (below=0, above=2)
+- |dev|≥10.00%: 0 days (below=0, above=0)
+
+## Episodes (≥1.0% tail-distance, ≥1 day)
+
+
+### USDC below-peg episodes (≥1.0%)
+- 2023-03-11 → 2023-03-11 (1 d), max tail 3.30%, min price 0.9670
+### USDC above-peg episodes (≥1.0%)
+- 2020-01-08 → 2020-01-08 (1 d), max tail 1.00%, max price 1.0100
+- 2020-01-10 → 2020-01-11 (2 d), max tail 1.00%, max price 1.0100
+- 2020-01-14 → 2020-01-15 (2 d), max tail 1.00%, max price 1.0100
+
+### USDT below-peg episodes (≥1.0%)
+- 2018-10-09 → 2018-10-27 (19 d), max tail 4.58%, min price 0.9542
+- 2018-10-29 → 2018-10-29 (1 d), max tail 1.33%, min price 0.9867
+- 2018-11-02 → 2018-11-02 (1 d), max tail 1.13%, min price 0.9887
+- 2018-11-08 → 2018-12-06 (29 d), max tail 5.03%, min price 0.9497
+- 2018-12-13 → 2018-12-15 (3 d), max tail 1.20%, min price 0.9880
+- 2019-02-02 → 2019-02-09 (8 d), max tail 1.49%, min price 0.9851
+- 2019-02-11 → 2019-02-13 (3 d), max tail 1.23%, min price 0.9877
+- 2019-02-16 → 2019-02-17 (2 d), max tail 1.11%, min price 0.9889
+- 2019-02-21 → 2019-02-21 (1 d), max tail 1.04%, min price 0.9896
+- 2019-04-25 → 2019-05-03 (9 d), max tail 2.98%, min price 0.9702
+- 2019-05-06 → 2019-05-07 (2 d), max tail 1.48%, min price 0.9852
+- 2019-06-26 → 2019-06-27 (2 d), max tail 1.48%, min price 0.9852
+- 2019-06-30 → 2019-06-30 (1 d), max tail 1.00%, min price 0.9900
+### USDT above-peg episodes (≥1.0%)
+- 2018-12-25 → 2018-12-25 (1 d), max tail 1.00%, max price 1.0100
+- 2018-12-28 → 2018-12-29 (2 d), max tail 1.10%, max price 1.0110
+- 2019-01-06 → 2019-01-06 (1 d), max tail 1.10%, max price 1.0110
+- 2019-01-10 → 2019-01-10 (1 d), max tail 1.00%, max price 1.0100
+- 2019-05-26 → 2019-05-26 (1 d), max tail 1.00%, max price 1.0100
+- 2020-03-13 → 2020-03-14 (2 d), max tail 1.20%, max price 1.0120
+
+### DAI below-peg episodes (≥1.0%)
+- 2023-03-11 → 2023-03-11 (1 d), max tail 2.78%, min price 0.9722
+### DAI above-peg episodes (≥1.0%)
+- 2019-09-26 → 2019-09-28 (3 d), max tail 1.30%, max price 1.0130
+- 2019-10-04 → 2019-10-07 (4 d), max tail 1.40%, max price 1.0140
+- 2019-10-23 → 2019-10-25 (3 d), max tail 1.30%, max price 1.0130
+- 2019-10-31 → 2019-10-31 (1 d), max tail 1.10%, max price 1.0110
+- 2020-03-01 → 2020-03-01 (1 d), max tail 1.10%, max price 1.0110
+- 2020-03-11 → 2020-04-25 (46 d), max tail 6.00%, max price 1.0600
+- 2020-04-27 → 2020-05-02 (6 d), max tail 1.80%, max price 1.0180
+- 2020-06-14 → 2020-06-14 (1 d), max tail 1.40%, max price 1.0140
+- 2020-06-30 → 2020-07-01 (2 d), max tail 1.40%, max price 1.0140
+- 2020-07-03 → 2020-07-18 (16 d), max tail 2.00%, max price 1.0200
+- 2020-07-20 → 2020-07-24 (5 d), max tail 3.70%, max price 1.0370
+- 2020-07-26 → 2020-08-13 (19 d), max tail 3.20%, max price 1.0320
+- 2020-08-15 → 2020-08-15 (1 d), max tail 1.10%, max price 1.0110
+- 2020-08-24 → 2020-09-01 (9 d), max tail 1.60%, max price 1.0160
+- 2020-09-04 → 2020-09-20 (17 d), max tail 3.70%, max price 1.0370
+- 2020-09-22 → 2020-10-02 (11 d), max tail 1.20%, max price 1.0120
+- 2020-10-04 → 2020-10-10 (7 d), max tail 1.20%, max price 1.0120
+- 2020-10-13 → 2020-10-14 (2 d), max tail 1.10%, max price 1.0110
+- 2020-10-30 → 2020-11-06 (8 d), max tail 1.10%, max price 1.0110
+- 2020-11-08 → 2020-11-08 (1 d), max tail 1.00%, max price 1.0100
+
+## Episodes (≥0.5% tail-distance, ≥1 day) — noise + event mixture
+
+
+### USDC |dev|≥0.5%
+- 2020-01-08 → 2020-01-08 (1 d) ABOVE max 1.00% price 1.0100
+- 2020-01-10 → 2020-01-11 (2 d) ABOVE max 1.00% price 1.0100
+- 2020-01-14 → 2020-01-15 (2 d) ABOVE max 1.00% price 1.0100
+- 2023-03-11 → 2023-03-12 (2 d) BELOW max 3.30% price 0.9670
+
+### USDT |dev|≥0.5%
+- 2018-10-01 → 2018-12-07 (68 d) BELOW max 5.03% price 0.9497
+- 2018-12-09 → 2018-12-16 (8 d) BELOW max 1.20% price 0.9880
+- 2018-12-20 → 2018-12-20 (1 d) ABOVE max 0.60% price 1.0060
+- 2018-12-22 → 2018-12-22 (1 d) ABOVE max 0.80% price 1.0080
+- 2018-12-25 → 2018-12-30 (6 d) ABOVE max 1.10% price 1.0110
+- 2019-01-02 → 2019-01-02 (1 d) ABOVE max 0.70% price 1.0070
+- 2019-01-04 → 2019-01-04 (1 d) ABOVE max 0.60% price 1.0060
+- 2019-01-06 → 2019-01-15 (10 d) ABOVE max 1.10% price 1.0110
+- 2019-01-27 → 2019-01-27 (1 d) BELOW max 0.58% price 0.9942
+- 2019-01-29 → 2019-02-22 (25 d) BELOW max 1.49% price 0.9851
+- 2019-02-27 → 2019-02-28 (2 d) BELOW max 0.57% price 0.9943
+- 2019-03-03 → 2019-03-03 (1 d) BELOW max 0.58% price 0.9942
+- 2019-03-08 → 2019-03-09 (2 d) BELOW max 0.66% price 0.9934
+- 2019-03-11 → 2019-03-12 (2 d) BELOW max 0.55% price 0.9945
+- 2019-03-14 → 2019-03-15 (2 d) BELOW max 0.56% price 0.9944
+- 2019-03-24 → 2019-03-26 (3 d) BELOW max 0.65% price 0.9935
+- 2019-04-02 → 2019-04-03 (2 d) ABOVE max 0.80% price 1.0080
+- 2019-04-05 → 2019-04-05 (1 d) ABOVE max 0.60% price 1.0060
+- 2019-04-08 → 2019-04-09 (2 d) ABOVE max 0.60% price 1.0060
+- 2019-04-25 → 2019-05-10 (16 d) BELOW max 2.98% price 0.9702
+- 2019-05-20 → 2019-05-20 (1 d) ABOVE max 0.60% price 1.0060
+- 2019-05-26 → 2019-05-26 (1 d) ABOVE max 1.00% price 1.0100
+- 2019-06-22 → 2019-06-23 (2 d) BELOW max 0.78% price 0.9922
+- 2019-06-25 → 2019-06-27 (3 d) BELOW max 1.48% price 0.9852
+- 2019-06-30 → 2019-06-30 (1 d) BELOW max 1.00% price 0.9900
+- 2020-03-13 → 2020-03-14 (2 d) ABOVE max 1.20% price 1.0120
+- 2023-03-11 → 2023-03-12 (2 d) ABOVE max 0.80% price 1.0080
+
+### DAI |dev|≥0.5%
+- 2019-09-25 → 2019-09-30 (6 d) ABOVE max 1.30% price 1.0130
+- 2019-10-04 → 2019-10-07 (4 d) ABOVE max 1.40% price 1.0140
+- 2019-10-09 → 2019-10-10 (2 d) ABOVE max 0.80% price 1.0080
+- 2019-10-12 → 2019-10-12 (1 d) ABOVE max 0.70% price 1.0070
+- 2019-10-14 → 2019-10-14 (1 d) ABOVE max 0.70% price 1.0070
+- 2019-10-16 → 2019-10-16 (1 d) ABOVE max 0.60% price 1.0060
+- 2019-10-18 → 2019-11-03 (17 d) ABOVE max 1.30% price 1.0130
+- 2019-11-14 → 2019-11-16 (3 d) ABOVE max 0.80% price 1.0080
+- 2019-11-20 → 2019-11-20 (1 d) ABOVE max 0.60% price 1.0060
+- 2019-11-23 → 2019-11-23 (1 d) ABOVE max 0.90% price 1.0090
+- 2019-11-25 → 2019-11-25 (1 d) ABOVE max 0.90% price 1.0090
+- 2019-11-29 → 2019-11-30 (2 d) ABOVE max 0.80% price 1.0080
+- 2019-12-07 → 2019-12-08 (2 d) BELOW max 0.60% price 0.9940
+- 2019-12-15 → 2019-12-15 (1 d) BELOW max 0.63% price 0.9937
+- 2019-12-18 → 2019-12-18 (1 d) BELOW max 0.55% price 0.9945
+- 2019-12-21 → 2019-12-21 (1 d) BELOW max 0.60% price 0.9940
+- 2019-12-23 → 2019-12-23 (1 d) BELOW max 0.55% price 0.9945
+- 2019-12-26 → 2019-12-26 (1 d) BELOW max 0.68% price 0.9932
+- 2019-12-30 → 2020-01-01 (3 d) BELOW max 0.72% price 0.9928
+- 2020-01-07 → 2020-01-07 (1 d) BELOW max 0.56% price 0.9944
+- 2020-01-18 → 2020-01-21 (4 d) BELOW max 0.64% price 0.9936
+- 2020-02-27 → 2020-03-01 (4 d) ABOVE max 1.10% price 1.0110
+- 2020-03-05 → 2020-03-05 (1 d) ABOVE max 0.60% price 1.0060
+- 2020-03-09 → 2020-05-03 (56 d) ABOVE max 6.00% price 1.0600
+- 2020-05-05 → 2020-05-05 (1 d) ABOVE max 0.60% price 1.0060
+- 2020-05-09 → 2020-05-09 (1 d) ABOVE max 0.60% price 1.0060
+- 2020-05-11 → 2020-05-11 (1 d) ABOVE max 0.80% price 1.0080
+- 2020-05-13 → 2020-05-13 (1 d) ABOVE max 0.90% price 1.0090
+- 2020-05-15 → 2020-05-17 (3 d) ABOVE max 0.90% price 1.0090
+- 2020-06-10 → 2020-06-11 (2 d) ABOVE max 0.60% price 1.0060
+- 2020-06-14 → 2020-06-15 (2 d) ABOVE max 1.40% price 1.0140
+- 2020-06-17 → 2020-06-20 (4 d) ABOVE max 0.80% price 1.0080
+- 2020-06-23 → 2020-06-23 (1 d) ABOVE max 0.60% price 1.0060
+- 2020-06-30 → 2020-07-24 (25 d) ABOVE max 3.70% price 1.0370
+- 2020-07-26 → 2020-08-17 (23 d) ABOVE max 3.20% price 1.0320
+- 2020-08-19 → 2020-08-21 (3 d) ABOVE max 0.70% price 1.0070
+- 2020-08-23 → 2020-10-24 (63 d) ABOVE max 3.70% price 1.0370
+- 2020-10-26 → 2020-11-15 (21 d) ABOVE max 1.10% price 1.0110
+- 2020-11-30 → 2020-11-30 (1 d) ABOVE max 0.80% price 1.0080
+- 2023-03-11 → 2023-03-12 (2 d) BELOW max 2.78% price 0.9722
+
+## GPD POT fits (below-peg, u = $0.99 ⇒ exceedance over 1%)
+
+- USDC: N_exc=1, ξ̂=nan, σ̂=nan
+- USDC (u=0.5%): N_exc=2, ξ̂=nan, σ̂=nan
+- USDT: N_exc=81, ξ̂=0.0183, σ̂=0.0098
+- USDT (u=0.5%): N_exc=136, ξ̂=0.0368, σ̂=0.0094
+- DAI: N_exc=1, ξ̂=nan, σ̂=nan
+- DAI (u=0.5%): N_exc=17, ξ̂=0.4718, σ̂=0.0011
+
+## Recovery statistics (days from |dev|≥0.5% back to within ±0.1%)
+
+- USDC: {'n': 4, 'mean_days': 2.0, 'median_days': 2.0, 'p90_days': 2.7, 'max_days': 3}
+- USDT: {'n': 11, 'mean_days': 21.272727272727273, 'median_days': 10.0, 'p90_days': 69.0, 'max_days': 81}
+- DAI: {'n': 12, 'mean_days': 31.666666666666668, 'median_days': 8.5, 'p90_days': 79.50000000000001, 'max_days': 183}
