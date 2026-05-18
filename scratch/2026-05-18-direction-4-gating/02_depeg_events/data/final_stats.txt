@@ -1,0 +1,32 @@
+
+=== USDC ===
+u=0.50%  N_exc=2  (insufficient for GPD)
+u=0.75%  N_exc=2  (insufficient for GPD)
+u=1.00%  N_exc=1  (insufficient for GPD)
+
+=== USDT ===
+u=0.50%  N_exc=136  ξ̂=0.0368 [5%-95% CI -0.130 0.185]  σ̂=0.0094
+   tail-quantile P(X>x|X>u)=0.1: x=2.76%
+   tail-quantile P(X>x|X>u)=0.01: x=5.23%
+u=0.75%  N_exc=105  ξ̂=0.0121 [5%-95% CI -0.187 0.209]  σ̂=0.0098
+   tail-quantile P(X>x|X>u)=0.1: x=3.03%
+   tail-quantile P(X>x|X>u)=0.01: x=5.38%
+u=1.00%  N_exc=81  ξ̂=0.0183 [5%-95% CI -0.274 0.400]  σ̂=0.0098
+   tail-quantile P(X>x|X>u)=0.1: x=3.30%
+   tail-quantile P(X>x|X>u)=0.01: x=5.69%
+
+=== DAI ===
+u=0.50%  N_exc=17  ξ̂=0.4718 [5%-95% CI -1.553 0.912]  σ̂=0.0011
+   tail-quantile P(X>x|X>u)=0.1: x=0.94%
+   tail-quantile P(X>x|X>u)=0.01: x=2.24%
+u=0.75%  N_exc=1  (insufficient for GPD)
+u=1.00%  N_exc=1  (insufficient for GPD)
+
+=== Duration distribution: contiguous days with tail_below ≥ 0.5% ===
+USDC: N_episodes=1, mean=2.00d median=2.0d max=2d
+USDT: N_episodes=14, mean=9.71d median=2.0d max=68d
+DAI: N_episodes=10, mean=1.70d median=1.0d max=4d
+
+=== Pooled USDC+USDT+DAI below-peg exceedances (≥0.5%) ===
+N_pooled = 155
+Pooled GPD: ξ̂=0.1811  σ̂=0.0075
