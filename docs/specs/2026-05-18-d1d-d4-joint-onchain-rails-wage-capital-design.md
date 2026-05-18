@@ -124,7 +124,7 @@ This iteration is a **demonstration-grade** Stage-1 test: does the on-chain rail
 | **Denominator (E)** | Aggregate CEX inflow to {Bitso, Lemon} hot wallets in month t × 20% Colombia-share scalar |
 | Sign | ρ̂ ≥ 0 (population aggregate; cohort cannot collectively decumulate while receiving) |
 | **Magnitude floor (RC C4)** | Floor REMOVED from v0.1. No pre-specified ρ̂ ≥ 0.05 threshold (undertheorized — RC C4 found no derivation). Verdict criteria in §7 are sign + significance + sensitivity-arm sign-concordance only, NOT magnitude-threshold |
-| Off-ramp decomposition (CR strong rec) | `ρ̂_window = 1 − off_ramp_ratio − consumption_ratio + external_inflow_ratio + residual`. `off_ramp_ratio` measured from Mento broker volume + Bitso CO-bank withdrawals; `consumption_ratio` unobserved (residual proxy); **residual term explicit** — partition is NOT a clean identity (CR strong rec) |
+| Off-ramp decomposition (CR strong rec) | `ρ̂_window = 1 − off_ramp_ratio − consumption_ratio + external_inflow_ratio + residual`. `off_ramp_ratio` measured from Mento broker volume + Bitso CO-bank withdrawals; `consumption_ratio` unobserved (residual proxy); **residual term explicit** — partition is NOT a clean identity (CR strong rec). **Residual sign expectation (RC N-NEW-3)**: residual ≥ 0 expected at panel mean (unmeasured external inflows dominate unmeasured leakage). If realized residual < −0.10 at panel mean, HALT with disposition memo (measurement error suggests cohort definition is wrong) |
 | **Aggregation HALT** | `\|ρ̂_window\| > 1.5` → HALT with disposition memo (measurement error or wallet-set non-overlap dominates; identity has broken down) |
 | **Denominator floor** | If `Σ_t E_t < $10M` (below Mento COPm total supply scale of $65K × 10× × N=76 months), HALT with disposition memo — panel is too thin to measure aggregate transmission |
 | **Secondary visualization (NOT inferential)** | `ρ_t = ΔCF_t / E_t` monthly time-series, with denominator floor `E_t > 0.05 × max(E_t)` to suppress blowups. **For descriptive plotting only**; no inferential claim attached |
@@ -148,7 +148,7 @@ This iteration is a **demonstration-grade** Stage-1 test: does the on-chain rail
 
 | Source | Coverage | Method |
 |---|---|---|
-| Banrep BoP services-credit | Quarterly 2018-Q1 → 2025-Q4, interpolated to monthly via cubic spline | `suameca.banrep.gov.co` |
+| Banrep BoP services-credit | Quarterly 2018-Q1 → 2025-Q4. **NOT interpolated** (RC C3 / MUST-1). Used quarterly-only as upper-bound validation against §4.1 quarterly cross-check; never as monthly regressor | `suameca.banrep.gov.co` |
 | Banrep TRM (COP/USD spot) | Daily 2018-01-01 → 2026-04-30 | `fetch_banrep.py` (existing) |
 | Banrep CoE (compensation of employees) | Quarterly, used as sanity-check upper bound NOT as Y | `informeBOP2025XX.pdf` |
 
@@ -219,7 +219,7 @@ Six notebooks, each with mandatory (why-markdown → code-cell → interpretatio
 - **HALT trigger**: σ > 10% (7-day realized) → suspend roll, hold convex payoff (per §0.10.c)
 
 ### 8.3 Joint deployment alignment
-Both positions deploy on the **same on-chain infrastructure** used to measure the panel. Measurement channel = deployment channel — unique structural alignment that collapses the typical measurement-vs-deployment gap.
+Both positions would deploy on the **same on-chain infrastructure** used to measure the panel (Bitso/Lemon CEX flows + Mento USDC/COPm pool + Panoptic perpetuals). Measurement and deployment channels are **co-located on the same protocol stack** — narrows the typical measurement-vs-deployment gap (CR NIT-6: not "identical"; co-location ≠ wallet-set identity).
 
 ## 9. Sub-package scaffold (per CLAUDE.md three-tier discipline)
 
@@ -330,7 +330,7 @@ Per CR MUST 1-4 + RC C1-C4 findings, the following amendments are user-approved 
 7. **NEW (for closure review only)**: are the 5 coverage-scalar sensitivity arms (10/10, 20/20, 35/35, 20/35, 35/20) sufficient to cover the asymmetric-scalar bias case (CR strong rec), or should we add a 6th arm at independent priors?
 8. **NEW**: stationarity-gate threshold (ADF p<0.05 AND KPSS p>0.05) — is the AND-conjunction too restrictive? Spec adopts conservative AND; reviewer flag if should be OR.
 
-## 14. Anti-fishing closure
+## 15. Anti-fishing closure
 
 This spec inherits anti-fishing carry-forward from spec v0.3 §0.8 transparency condition + `feedback_pathological_halt_anti_fishing_checkpoint.md`:
 - All pre-pin fields declared above BEFORE data is touched
