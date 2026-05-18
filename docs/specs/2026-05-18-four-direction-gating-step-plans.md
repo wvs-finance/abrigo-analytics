@@ -1,7 +1,7 @@
 # Four-Direction Parallel Exploration — Gating-Step Plans
 
 **Date:** 2026-05-18
-**Version:** v0.2 (post 8-agent review; see `scratch/2026-05-18-four-direction-gating-review/CONSOLIDATION.md`)
+**Version:** v0.3 (post gate-execution + user lock-in 2026-05-18; see `scratch/2026-05-18-direction-{1-g1,4}-gating/gate_decision.md`)
 **Status:** AMENDED — see §0 corrections block before reading direction sections
 **Anchor:** post-dev_ai_cost_v2 PAUSED-PENDING-MORE-DATA verdict (`memory/project_dev_ai_cost_v2_verdict.md`). The R5 descriptive null (FX-vol share ≈ 0.003%) on Colombian single-developer subscription cost is informative: it tells us the *cost-side / subscription-quoted* Y for a salaried wage-earner suppresses FX-vol β structurally. To preserve the Abrigo (Y, M, X) framework, we explore four parallel candidates, each with a defined **gating-step** that resolves a single feasibility question before any full iteration is dispatched.
 
@@ -68,6 +68,70 @@ The contact-side ADP request is still permitted as a **parallel asynchronous tra
 1. **D2 (micro-vendors) runs serially first** — strongest theoretical Numo-analog support; DIAN/RUES data is genuinely public-default and the gate runs cleanly in 5 days without parallel-attention split.
 2. **After D2 completes**: D1-G1 + D4 dispatch as a parallel pair (both are public-data-only, both have independent data sources, no cross-dependency).
 3. **D3 closed-FAIL** (§0.4); no further work.
+
+### §0.7 D1 SALVAGE → DIRECTION 1.D (user 2026-05-18)
+
+D1 G1 initial 4-sub-task investigation closed FAIL at panel-construction gate (GEIH FAIL, Banrep BoP FAIL, salary surveys CONDITIONAL, Fermi PASS — cohort exists at 75K central but not measurable monthly on standard public data). Salvage-path investigation found Path 4 (on-chain crypto rails) viable as **Direction 1.D**.
+
+**Cohort scope (NARROWED)**: Colombian-resident wallets depositing USDC/USDT to Bitso/Lemon hot wallets across {ETH, Polygon, Tron, Base, Arbitrum}. Crypto-rail-paid sub-cohort = 15-35% of broader USD-paid remote-worker cohort. Anchor address: Bitso 1 `0x58b704065b7aff3ed351052f8560019e05925023`.
+
+**N=76** monthly observations 2020-01 → 2026-04 structurally achievable; anti-fishing N_MIN=75 invariant satisfied.
+
+**Two binding gaps (acknowledged + non-fatal)**:
+- Layer A+B Colombia-resident attribution: 20% scalar (sensitivity 10-35%) — constant in regression, doesn't bias β
+- Layer C wage-vs-speculator attribution: Phase 2 only; Phase 1 treats composite stablecoin inflow as wage+savings indicator
+
+### §0.8 D1 STANDING TRANSPARENCY CONDITION (user 2026-05-18, anti-fishing carry-forward)
+
+D1.D may proceed **if and only if** every iteration step explicitly discloses:
+1. What data is required
+2. What data quality is actually achieved (not optimistic projection)
+3. What gaps remain
+4. **What outcomes are possible — including the possibility that the iteration may not retire the cohort question, and the possibility that data quality won't support firm conclusions**
+
+This is NOT a license to drag the iteration indefinitely; it is a license to honestly close at FAIL or PARTIAL-PASS without escalation pressure to manufacture a clean verdict. "We may not be able to retire this iteration" is an acceptable interim conclusion that does NOT trigger threshold-tuning. Memorialized in `memory/feedback_d1_transparency_continuation.md`.
+
+### §0.9 D1.D + D4 JOINT WORKSTREAM (user 2026-05-18)
+
+D1.D (wage-earner crypto-rail cohort) and D4.1 (USDC-saver cohort) share the same on-chain rail with structural overlap 30-60% and directional causality D1.D → D4.1 (wage receipt → savings → capital position). User decision 2026-05-18: **combine D1.D + D4 into a single joint iteration with shared on-chain pipeline + joint model**, rather than two separate iterations.
+
+**Joint (Y, M, X) framing**:
+- **E_T (D1.D)** = Bitso/Lemon USDC inflow × Colombia-share scalar (monthly)
+- **L_T** = COP off-ramp flow (Mento broker + Bitso CO-bank withdrawals) + savings retention rate
+- **CF_T (D4.1)** = USDC-saver wallet balance trajectory
+- **Joint identity**: `CF_T = E_T − L_T` — directly operationalizes `~/learning/post-keynesian/notes/FINANCILATION.md`
+
+**Headline quantity**: *"fraction of wage flow that transitions into capital position"* = (D4.1 ΔCF_T) / (D1.D E_T) over time. This is the wage→capital transmission measure the Abrigo framework was designed to produce.
+
+**M-sketch (joint, cohort-wallet perspective per §0.1)**:
+- D1.D side: long-COPm / short-USDC sized to expected next-period USDC inflow (FX-conversion hedge for the wage receipt step)
+- D4.1 side: long-tail OTM put on USDC (depeg insurance for the savings retention step)
+- Both deploy on the *same on-chain rail* used to measure the panel — measurement and deployment co-located
+
+### §0.10 D4 SPEC AMENDMENTS (user 2026-05-18, locked)
+
+Three amendments from D4.3 premium-yield gate findings, all tightening (not loosening) the M-design:
+
+**§0.10.a — 25-delta OTM put strike (NOT K=$0.99)**
+Strike K≈$0.97-0.98 at σ=5%; K=$0.974 at σ=15%. Auto-adjusts to vol regime. K=$0.99 is structurally underwater on Panoptic streaming premium in calm regime (Uniswap 0.05% fee tier → 9.1% annualized floor; K=$0.99 1-mo BS premium 0.02% annualized → coverage flip). 25-delta calm-regime premium ≈ 0.5-2.6% annualized covered by 3-5% USDC supply yield with margin.
+
+**§0.10.b — Collateral-yield-bearing requirement**
+Premium funding comes from yield on **posted collateral** (aUSDC, sUSDS), NOT yield diverted from a separate pool. This is the structural premium-funded ratchet: the same USDC the cohort holds for savings (D4.1) earns Aave/Compound supply yield; that yield pays the streaming Panoptic premium. Risk-adjusted yield: headline minus 60-130 bps (smart-contract + issuer + oracle + bridge risk) ≈ 3.2-3.9% on 4.5% headline.
+
+**§0.10.c — σ ≥ 10% (7-day realized) HALT trigger**
+When 7-day realized USDC volatility exceeds 10%: suspend roll discipline, hold convex payoff position, re-evaluate strike post-event. This is the regime where premium-yield coverage flips negative across all yield bands; rolling new positions destroys the premium-funded ratchet's compounding logic. Calibration: March 2023 SVB event had σ realized ~15-20% during 3-11 → 3-12 window — HALT trigger fires before the payoff fully materializes.
+
+### §0.11 CORRECTIONS-A (user-signed 2026-05-18) — Direction 4 USDC N=1 promotion
+
+D4.2 gate-step confirmed USDC genuine depeg event count **N=1** (March 2023 SVB; 12.6% intraday tail; 3-day persistence) over 2018-09 → 2026-05 window on Kraken-direct daily bars. USDT cross-stablecoin prior contains **N=14 multi-day ≥1% episodes**. Pooled GPD ξ ∈ [0, 0.2] exponential-tail regime.
+
+Per anti-fishing invariant in `feedback_pathological_halt_anti_fishing_checkpoint.md`, this CORRECTIONS-A block elevates Direction 4 from CONDITIONAL FAIL to CONDITIONAL PASS via:
+
+1. **Pooled-stablecoin Bayesian prior** justified by hedge-permissionlessness (cohort can rotate stablecoins under stress)
+2. **Demonstration-grade verdict scope** — Stage-2 M-sketch is unblocked; Stage-3 deployment requires fresh USDC depeg observations
+3. **HALT trigger preserved**: if no USDC depeg occurs in next 24 months AND cross-stablecoin pool deviates structurally, re-evaluate the prior
+
+**Signed by user 2026-05-18.**
 
 ---
 
