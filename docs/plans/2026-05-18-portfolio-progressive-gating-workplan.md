@@ -24,8 +24,9 @@ Instances of this primitive across the portfolio:
 | **E5-revised (RefiColombia)** | 10K-COPm claims every ~9.6h | Forward-expected COPm flow × COP-realized purchasing-power | Panoptic put on COPm/cUSD straddle |
 | **E8 (Bittensor dTAO)** | TAO + alpha subnet emissions | Future-revenue alpha/TAO un-converted balance | Maymin-CEV-priced put on alpha/TAO native pool |
 | **E7 (Mento minter)** | COPm/EURm/BRLm peg-defense seigniorage stream | Mento reserve composition risk | Cross-Mento basket convex hedge |
+| **E10 (GSPS data-consumption)** | Colombian Web3-analyst USDC outflow stream paying for blockchain-data services (Superfluid CFA on Optimism primary; x402-on-Base future) | COP-denominated cost of monthly USDC stream notional under COP/USD adverse move | Panoptic put on COPm/USDC sized to monthly stream notional; premium itself paid as a parallel Superfluid CFA — first cost-side instance of the family |
 
-The unifying observation: **the stream itself is the premium-funding source for the convex hedge on the stream-tail**. This collapses Abrigo's "premium-funded ratchet" framework into a single repeatable instrument design.
+The unifying observation: **the stream itself is the premium-funding source for the convex hedge on the stream-tail**. This collapses Abrigo's "premium-funded ratchet" framework into a single repeatable instrument design. With E10, the family closes under stream direction: receipt-side streams (E4, E5, E7, E8) and cost-side streams (E10) share the same M-shape with the cohort's exposure-direction as the only sign-flip.
 
 ## Progressive Gating Framework (G0 → G4)
 
@@ -79,7 +80,8 @@ Every direction in the portfolio progresses through 5 gates. Blockers surface as
 | **E7 Mento minter** | FROZEN READY (pinned) | **G0** (not yet dispatched) | G0 cohort feasibility scoping (~2 days) |
 | **E4 narrowed (Superfluid R3+)** | FROZEN READY (E4.0 narrowed) | **G1 PARTIAL** (Option A narrowing locked; re-execute Dune q/3399900 needed) | Re-execute Dune + draft narrowed-E4 spec v0.1 |
 | **E9 NEW Energy-AMM convex hedge** | NEW 2026-05-18 (user-added via Fabi et al. 2025-12) | **G0 dispatch pending** | G0 feasibility scoping: Colombian prosumer cohorts + EVM energy-flow observability |
-| **E3 + E8 + E9 joint methods-paper** | PARALLEL TRACK | **G2** (theory + empirical anchors in place; E9 extends to energy-numéraire) | Methods-paper draft (multi-year track) |
+| **E10 GSPS x402-data-stream FX hedge** | NEW 2026-05-19 (cost-side streamed-liability extension) | **G2 DRAFTED** (spec v0.1 at `docs/specs/2026-05-19-e10-gsps-x402-data-stream-fx-hedge-design.md`; G0 PASS-FREE confirmed via Superfluid Optimism subgraph; G1 PASS — Y/X/pre-pin in spec §3-§5; CORRECTIONS-E10-1 substrate pivot recorded) | v0.2 spec amendment propagating substrate pivot to §2-§5 + RC+CR 2-way review → G3 plan |
+| **E3 + E8 + E9 + E10 joint methods-paper** | PARALLEL TRACK | **G2** (theory + empirical anchors in place; E9 extends to energy-numéraire; E10 extends to cost-side streamed-liability on continuous-consumption payment streams) | Methods-paper draft (multi-year track) |
 
 ## Direction E9 — Energy-AMM Convex Hedge (NEW 2026-05-18)
 
@@ -115,6 +117,50 @@ Energy-AMM is theoretical-only in 2026; simulation IS the path to G1 → G2 unle
 - Real Colombian electricity prices (XM ✓)
 - Synthetic AMM-equivalent dynamics priced via Fabi et al. 2025 Mean-Field Game framework
 - DO NOT generate counterfactual "10K Colombian energy-prosumer-AMMs" — that crosses fantasy threshold per `project_abrigo_portfolio_prioritization_with_fallback.md`
+
+## Direction E10 — GSPS x402-Data-Stream FX Hedge (NEW 2026-05-19)
+
+### Theoretical anchor
+**x402 protocol** (HTTP 402 Payment Required revival; Linux Foundation governance 2026-04-02; founding members include Coinbase, Google, AWS, Microsoft, Stripe, Visa, Mastercard) + **Superfluid CFA** (constant-flow agreement, continuous on-chain token streaming). The Graph Decentralized Gateway launched USDC-on-Base x402 pay-per-query endpoints 2026-05-12. The conjunction makes per-call and streamed payments to data-services API endpoints natively on-chain — for the first time, a continuous-consumption API service is a fully-observable on-chain payment stream.
+
+### The conceptual move
+**Generalize the streamed-liability primitive from receipt-side to cost-side.** All prior instances (E4 RetroPGF receipts, E5 Refi claims, E7 Mento seigniorage, E8 Bittensor emissions, E9 AGPE excedentes) hedge a stream that the cohort *receives*. E10 hedges a stream the cohort *pays*. The Panoptic-perpetual-put M-shape is identical; the only sign-flip is exposure direction. This closes the streamed-liability family under stream direction — a methodological contribution independent of E10's empirical β verdict. Connects to BLR/Minsky on the *data-services-import* margin: a Colombian Web3 analyst's productive output (P_i) is observable code/dashboards/models; the API-consumption input is USDC-priced, while income is COP-denominated, and the COP/USD adverse move during the stream window is the hedgeable micro-risk.
+
+### Cohort candidate (Colombia-specific per user §0.8.2)
+- **Colombian Web3-analyst cohort** paying recurring USDC streams to data-services endpoints (The Graph Gateway via x402-on-Base or API-key; CoinGecko x402 endpoints; QuickNode x402 RPC) — observable as on-chain payment events
+- Colombian-attribution via one of three rules (per E10 spec §1.4 [DEF-1]): (a) wallet co-occurrence with COPm Mento transactions on Celo + bridge-traceable Base/Optimism activity; (b) self-disclosed payment-receipt metadata if x402 spec permits; (c) IP-geo from public gateway logs (privacy-bounded)
+- Dust filter: aggregate monthly USDC consumption-stream notional ≥ $10 USDC equivalent
+
+### Pre-pin sketch (G1 — locked in spec v0.1 §5; awaiting v0.2 amendment per CORRECTIONS-E10-1)
+- **Y**: realized COP-equivalent monthly cost of wallet i's USDC consumption stream during month t (USDC notional × Banrep TRM monthly mean)
+- **X**: Δlog(COP/USD_t) per Pair D PASS substrate (β = +0.137, p ≈ 1.5e-08); contemporaneous monthly primary; k=1, k=7, k=28 day daily-aggregation secondaries
+- **M**: Panoptic perpetual put on COPm/USDC (Mento native on Celo) sized to monthly stream notional; premium funded as a parallel Superfluid CFA outflow from the same wallet — **same streamed-liability M-shape as E4/E5/E7/E8/E9, sign-flipped on exposure direction**
+- **Sign**: β > 0 (mechanical; USDC-priced stream × COP/USD multiplier)
+- **Magnitude floor**: 0.10 SD-units demonstration-grade by default; 0.40 SD-units confirmatory-grade iff N_cohort ≥ 75
+- **PK anchor**: BLR cost-side instantiation on data-services-import margin; Minsky P_k/P_i operationalized via the gap between USDC-priced API service (P_k-equivalent virtual-economy input price) and COP-denominated productive output (P_i analog)
+
+### G0 feasibility checks (RESOLVED 2026-05-19)
+1. **Subgraph coverage**: Superfluid V1 Optimism subgraph `48YRvi7PHbX4RJChq4nF8DpmJGZxcvUgwfdf8QoHBXxT` confirmed on Graph Decentralized Network with Stream/FlowUpdatedEvent/Account/Token/Index/Pool entities — PASS
+2. **Cost path**: Graph free tier 100k queries/mo dominates Dune Plus $390/mo at 20× headroom on E10 budget — PASS-FREE
+3. **x402-on-Base substrate maturity**: protocol launched 2026-05-12 (8 days before spec); cohort sample window for x402 events is structurally too short — **substrate-too-young; CORRECTIONS-E10-1 pivoted primary substrate to Superfluid-Optimism** (memory pin: `project_e10_x402_substrate_pending_maturity_2026_11`)
+4. **X-substrate prior**: Pair D PASS verdict reused as Δlog(COP/USD) prior — substrate confirmed
+5. **Colombian-attribution rule**: three candidate rules in [DEF-1]; resolution at G3 dispatch
+
+### Substrate-pivot lock per CORRECTIONS-E10-1 (per anti-fishing rule)
+- **Primary substrate**: Superfluid CFA flows on Optimism (subgraph confirmed free-tier)
+- **Future substrate (NON-RETIREMENT-PENDING-MATURITY)**: x402 USDC payments on Base; re-check trigger 2026-11 (x402 age ≥ 6 months AND ≥ 50 Colombian-attributable payer wallets)
+- **DO NOT** propose x402-on-Base as primary substrate for any iteration before 2026-11 re-check confirms both conditions
+
+### G-progression for E10 (per portfolio framework G0→G6)
+| Gate | Status (2026-05-19) | Next-gate trigger |
+|---|---|---|
+| **G0** Cohort + observability feasibility | PASS-FREE (resolved 2026-05-19; G3 background research closure) | — |
+| **G1** Y construction + pre-pin sketch | PASS (spec v0.1 §3-§5 locked; 7-field pre-pin per CLAUDE.md anti-fishing invariants) | — |
+| **G2** Pre-pin draft spec + 2-way review | **DRAFTED** (v0.1 at `docs/specs/2026-05-19-e10-gsps-x402-data-stream-fx-hedge-design.md`); v0.2 amendment pending to propagate CORRECTIONS-E10-1 substrate pivot through §2 cohort filter / §3 Y construction / §5 spec amendments | v0.2 amendment + RC+CR 2-way review dispatch |
+| **G3** Implementation plan + 2-way review | PENDING — blocked on G2 v0.2 close | After G2 close: draft plan v0.1 per `docs/plans/...-e10-implementation-plan-v0.1.md` template |
+| **G4** Iteration execution + verdict | PENDING — blocked on G3 | Per spec §10 sub-task sequence (E10.0 → E10.5); 21-day budget |
+| **G5** Stage-2 M-sketch (post-PASS only) | PENDING — blocked on G4 PASS verdict | Stage-2 Panoptic-position descriptive write-up per spec §6 |
+| **G6** Stage-3 deployment | OUT OF SCOPE for this workplan | Requires live LP capital + Panoptic-mainnet-tradability verification on COPm/USDC pool |
 
 ## Parallel Dispatch Plan (sorted by primary-fallback order)
 
