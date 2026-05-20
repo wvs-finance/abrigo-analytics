@@ -1,0 +1,64 @@
+{
+  "task": "E10 Phase 1 task 1.4 \u2014 panel-window diagnostics + cell-count",
+  "spec": "docs/specs/2026-05-20-e10-gsps-v0.5-convex-multicurrency-design.md \u00a73.3 / \u00a77 field 6",
+  "corrections_ref": "CORRECTIONS-E10-5 (HALT-DV at E10.0; user-enumerated pivot 2026-05-20 \u2014 5-currency re-spec)",
+  "generated_at_utc": "2026-05-20T17:22:59.946346+00:00",
+  "panel_window": {
+    "window_start": "2023-11-01",
+    "window_end": "2026-04-30",
+    "n_currencies": 5,
+    "months_per_currency": 30,
+    "n_cells": 150
+  },
+  "panel_currencies": [
+    "COP",
+    "BRL",
+    "EUR",
+    "GBP",
+    "NGN"
+  ],
+  "halt_dv_dropped_currencies": [
+    "ZAR",
+    "KES",
+    "GHS"
+  ],
+  "per_currency": {
+    "COP": {
+      "daily_rows": 590,
+      "monthly_cells": 30,
+      "first_obs": "2023-11-01",
+      "last_obs": "2026-04-30",
+      "snapshot": "fx_COP.2026-05-20T15-20-48Z.raw"
+    },
+    "BRL": {
+      "daily_rows": 627,
+      "monthly_cells": 30,
+      "first_obs": "2023-11-01",
+      "last_obs": "2026-04-30",
+      "snapshot": "fx_BRL.2026-05-20T15-19-59Z.raw"
+    },
+    "EUR": {
+      "daily_rows": 635,
+      "monthly_cells": 30,
+      "first_obs": "2023-11-01",
+      "last_obs": "2026-04-30",
+      "snapshot": "fx_EUR.2026-05-20T15-20-02Z.raw"
+    },
+    "GBP": {
+      "daily_rows": 631,
+      "monthly_cells": 30,
+      "first_obs": "2023-11-01",
+      "last_obs": "2026-04-30",
+      "snapshot": "fx_GBP.2026-05-20T15-20-03Z.raw"
+    },
+    "NGN": {
+      "daily_rows": 617,
+      "monthly_cells": 30,
+      "first_obs": "2023-11-01",
+      "last_obs": "2026-04-30",
+      "snapshot": "fx_NGN.2026-05-20T15-19-58Z.raw"
+    }
+  },
+  "derivation": "Post-regime-break intersection window across the 5 v0.5 panel currencies. NGN is confined to its post-June-2023 float regime (CORRECTIONS-E10-4 Fix 3); all NGN rows in the window fall inside the post-float regime. COP/BRL/EUR/GBP free-float throughout. The 5 currencies share the common qualifying window 2023-11-01 -> 2026-04-30, 30 calendar months each, 150 (currency, month) cells total.",
+  "anti_fishing_note": "The ~150-cell panel clears N_MIN = 75 at the cell dimension; the binding identification dimension is G = 5 currency clusters (spec v0.5 \u00a78 \u2014 structurally thinner than the v0.4 G = 8; the descriptive posture is unchanged). No panel-window extension, no panel-currency expansion: ZAR/KES/GHS are dropped, not substituted."
+}

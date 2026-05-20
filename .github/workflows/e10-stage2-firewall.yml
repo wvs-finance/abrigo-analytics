@@ -1,0 +1,54 @@
+name: e10-stage2-firewall
+
+# Plan v0.2 Phase 0.11 + 0.12 + 0.13 mechanical enforcement.
+#
+# Runs the three E10 firewalls on the main-line E10 scope:
+#
+#   simulations/e10_gsps/
+#   notebooks/e10_gsps/
+#
+# 1. Stage-2 firewall (0.11): rejects Panoptic / LP / strike-selection /
+#    range-geometry / payoff-fitting / deployment language outside true
+#    Python docstrings and CHECK_ALLOWLIST-marked lines. The Stage-1
+#    measurement layer is firewalled from the Stage-2 section-13 M-sketch.
+#
+# 2. Fantasy-firewall (0.12): rejects any commit where the FX series or
+#    the per-query USDC multiplier is sourced from a fitted prior, a
+#    synthetic generator, or a placeholder constant instead of the real
+#    central-bank pull or the verified x402 price. Q is the ONLY
+#    simulated quantity.
+#
+# 3. Descriptive-posture firewall (0.13): rejects PASS / confirmatory /
+#    inferential-beta verdict language outside an explicitly tagged
+#    spec-quoting block. E10 v0.4 is descriptive-only.
+
+on:
+  pull_request:
+    paths:
+      - 'simulations/e10_gsps/**'
+      - 'notebooks/e10_gsps/**'
+      - 'scripts/e10_firewall_check.py'
+      - '.github/workflows/e10-stage2-firewall.yml'
+  push:
+    branches: [main, master]
+    paths:
+      - 'simulations/e10_gsps/**'
+      - 'notebooks/e10_gsps/**'
+      - 'scripts/e10_firewall_check.py'
+      - '.github/workflows/e10-stage2-firewall.yml'
+  workflow_dispatch:
+
+jobs:
+  firewall:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Run E10 firewall checker (Stage-2 + fantasy + descriptive-posture)
+        run: python scripts/e10_firewall_check.py
