@@ -50,12 +50,22 @@ class CurrencyDailyFXRow:
 class MonthlyRealizedVarianceCell:
     """One (currency, month) monthly realized-log-variance cell.
 
+    An INTERMEDIATE carrier for panel construction — it supplies the cell
+    identity, the daily FX trading-day count, and the qualifying flag.
+
     ``realized_log_variance`` is the within-month sum of squared daily
-    log-returns of the FX rate (sum-vs-mean convention fixed at pre-pin;
-    spec v0.5 §3.2). ``n_trading_days`` is the count of daily
-    observations contributing to the cell on the common differencing
-    grid (plan task 3.0). ``qualifying`` records whether the cell lies
-    inside the currency's post-regime-break qualifying window.
+    log-returns of the FX rate on the FULL daily grid (sum-vs-mean
+    convention fixed at pre-pin; spec §3.2). NOTE (spec v0.7
+    CORRECTIONS-E10-7): this full-daily-grid quantity is NOT the canonical
+    panel X. The canonical X — ``PanelCell.x_realized_variance`` — is the
+    realized variance of Δlog(FX) on the surviving non-zero-Q-day common
+    index (the daily gapped grid), the SAME FX object as
+    ``decomposition.var_fx``. ``build_panel_cell`` re-computes X on the
+    surviving grid and does not carry this field onto the panel cell.
+    ``n_trading_days`` is the count of daily observations on the common
+    (full) differencing grid (plan task 3.0). ``qualifying`` records
+    whether the cell lies inside the currency's post-regime-break
+    qualifying window.
     """
 
     currency: str

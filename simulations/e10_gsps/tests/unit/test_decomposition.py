@@ -73,11 +73,12 @@ def test_mismatched_grid_raises_identity_error() -> None:
         decompose_cell(fx_log_returns=fx_lr, q_log_returns=q_lr_short)
 
 
-def test_module_aggregates_q_to_common_daily_grid() -> None:
-    """Plan task 3.0: the module aggregates the NHPP intra-day arrivals
-    to a daily Q index BEFORE differencing, matching the daily FX index.
-    The decomposed cell's grid_index_length must equal the FX cell's
-    n_trading_days."""
+def test_module_decomposes_on_surviving_gapped_grid() -> None:
+    """Plan task 3.0 + spec v0.7 CORRECTIONS-E10-7: the module aggregates
+    the NHPP intra-day arrivals to a daily Q index, drops the zero-Q days
+    on the common index, and decomposes on the surviving gapped grid. The
+    decomposed cell's grid_index_length is the surviving non-zero-Q-day
+    log-return count."""
     fx_cell = MonthlyRealizedVarianceCell(
         currency="COP",
         year=2025,
@@ -86,25 +87,54 @@ def test_module_aggregates_q_to_common_daily_grid() -> None:
         n_trading_days=20,
         qualifying=True,
     )
+    # 20 daily FX days; days 4 and 11 (0-indexed) carry zero queries —
+    # they are dropped on the common index, leaving 18 surviving days.
+    counts = tuple(
+        0 if i in (4, 11) else 100 + i for i in range(20)
+    )
     traj = CostStreamTrajectory(
         currency="COP",
         year=2025,
         month=3,
-        daily_query_counts=tuple(100 + i for i in range(20)),
+        daily_query_counts=counts,
         daily_fx_rate=tuple(4000.0 + i for i in range(20)),
-        daily_cost=tuple((100 + i) * 0.01 * (4000.0 + i) for i in range(20)),
+        daily_cost=tuple(
+            counts[i] * 0.01 * (4000.0 + i) for i in range(20)
+        ),
         seed=7,
     )
     module = ThreeWayDecompositionModule()
     cell = module(fx_cell, traj)
-    assert cell.grid_index_length == fx_cell.n_trading_days
+    # 18 surviving days ⇒ 17 daily log-returns on the gapped grid.
+    assert cell.grid_index_length == 17
+    # The exact §4.2 identity still holds on the surviving gapped grid.
+    residual = cell.var_total - (cell.var_fx + cell.var_q + cell.cov_term)
+    assert abs(residual) < _IDENTITY_TOL
 
 
 def test_covariance_term_near_zero_under_qfx_independence() -> None:
     """Spec v0.4 §6.4: under primary-spec Q-perp-FX independence the
-    covariance term is approximately zero. With FX returns and Q returns
-    drawn independently, |cov_term| must be small relative to var_total."""
-    fx_lr = [0.01, -0.012, 0.008, -0.005, 0.011, -0.009, 0.006, -0.007]
-    q_lr = [-0.02, 0.018, -0.015, 0.022, -0.019, 0.017, -0.021, 0.016]
+    covariance term is approximately zero.
+
+    The fixtures are two mean-zero log-return series constructed to be
+    EXACTLY uncorrelated — ``q_lr`` is orthogonal to ``fx_lr`` (their
+    centred inner product is zero). Under that genuine independence the
+    §4.2 covariance term ``2·Cov(Δlog FX, Δlog Q)`` is exactly zero, and
+    the exact additive identity collapses to ``var_total = var_fx +
+    var_q``. (The earlier fixture pair was near-perfectly *anti*-correlated
+    despite the docstring — it did not model independence; Cauchy-Schwarz
+    permits ``|2·Cov| > var_total`` whenever Δlog FX and Δlog Q are
+    strongly negatively correlated, so the old ``|cov| <= var_total``
+    bound was not a universal property.)"""
+    # fx_lr: mean-zero, symmetric. q_lr: mean-zero and orthogonal to fx_lr
+    # — a sign pattern whose centred dot-product with fx_lr is zero, so
+    # Cov(fx_lr, q_lr) == 0 exactly.
+    fx_lr = [0.01, -0.01, 0.01, -0.01, 0.01, -0.01, 0.01, -0.01]
+    q_lr = [0.02, 0.02, -0.02, -0.02, 0.02, 0.02, -0.02, -0.02]
     cell = decompose_cell(fx_log_returns=fx_lr, q_log_returns=q_lr)
-    assert abs(cell.cov_term) <= cell.var_total + _IDENTITY_TOL
+    # Genuine independence ⇒ the covariance term is exactly zero.
+    assert abs(cell.cov_term) < _IDENTITY_TOL
+    # ⇒ the exact identity collapses to var_total == var_fx + var_q.
+    assert abs(cell.var_total - (cell.var_fx + cell.var_q)) < _IDENTITY_TOL
+    # And the universal Cauchy-Schwarz bound on the covariance holds.
+    assert abs(cell.cov_term) <= 2.0 * (cell.var_fx * cell.var_q) ** 0.5 + _IDENTITY_TOL

@@ -21,6 +21,7 @@ from .nhpp import (
     LambdaModulationSpec,
     NHPPIntensityParameters,
 )
+from .panel import PanelCell
 from .protocols import (
     DescriptiveVerdictClassifier,
     NHPPSimulationEngine,
@@ -41,6 +42,7 @@ __all__ = [
     "LambdaModulationSpec",
     "NHPPIntensityParameters",
     "CostStreamTrajectory",
+    "PanelCell",
     "ThreeWayDecompositionCell",
     "SurfaceGridPoint",
     "SurfaceGridResult",

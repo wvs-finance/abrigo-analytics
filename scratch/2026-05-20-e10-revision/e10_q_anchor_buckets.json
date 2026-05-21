@@ -1,0 +1,153 @@
+{
+ "centre": {
+  "per_week": {
+   "2026-W19": 27,
+   "2026-W20": 1,
+   "2026-W21": 35
+  },
+  "per_month": {
+   "2026-05": 63
+  },
+  "diurnal_utc": {
+   "11": 18,
+   "12": 15,
+   "15": 3,
+   "19": 3,
+   "21": 16,
+   "22": 7,
+   "23": 1
+  },
+  "weekday": {
+   "0": 27,
+   "1": 8,
+   "4": 27,
+   "6": 1
+  },
+  "per_session": {
+   "15beb448": 27,
+   "a2cad089": 16,
+   "3da79a9c": 12,
+   "5cded56d": 8
+  },
+  "tool_mix": {
+   "WebSearch": 33,
+   "WebFetch": 19,
+   "Bash:curl/rpc": 7,
+   "mcp:arxiv": 4
+  },
+  "target_mix": {
+   "WebSearch": 33,
+   "mcp__arxiv__search_papers": 4,
+   "WebFetch:www.encodeclub.com": 3,
+   "curl:microdatos.dane.gov.co": 3,
+   "WebFetch:dorahacks.io": 2,
+   "WebFetch:atrium.academy": 2,
+   "WebFetch:ethglobal.com": 1,
+   "WebFetch:agentdeadlines.com": 1,
+   "curl:www.encodeclub.com": 1,
+   "curl:raw.githubusercontent.com": 1,
+   "WebFetch:wiiw.ac.at": 1,
+   "WebFetch:www.semanticscholar.org": 1,
+   "WebFetch:x.com": 1,
+   "WebFetch:nitter.net": 1,
+   "curl:nitter.privacydev.net": 1,
+   "curl:nitter.poast.org": 1,
+   "WebFetch:www.celopg.eco": 1,
+   "WebFetch:blog.refidao.com": 1,
+   "WebFetch:subsidios.reficolombia.org": 1,
+   "WebFetch:arxiv.org": 1,
+   "WebFetch:bittensor.com": 1,
+   "WebFetch:matthewkaras.medium.com": 1
+  },
+  "vmr": {
+   "day": 20.645,
+   "week": 15.048,
+   "session": 4.249,
+   "burst_5min": 4.648
+  }
+ },
+ "bracket": {
+  "per_week": {
+   "2026-W16": 2,
+   "2026-W17": 6,
+   "2026-W18": 25,
+   "2026-W19": 44,
+   "2026-W20": 74
+  },
+  "per_month": {
+   "2026-04": 28,
+   "2026-05": 123
+  },
+  "diurnal_utc": {
+   "3": 24,
+   "11": 26,
+   "12": 22,
+   "13": 5,
+   "14": 5,
+   "15": 18,
+   "16": 3,
+   "17": 5,
+   "19": 6,
+   "20": 14,
+   "22": 4,
+   "23": 19
+  },
+  "weekday": {
+   "0": 75,
+   "1": 9,
+   "2": 30,
+   "3": 26,
+   "4": 2,
+   "6": 9
+  },
+  "per_session": {
+   "9253ad77": 40,
+   "7b0cb94b": 28,
+   "9bbc494f": 28,
+   "d1cfac41": 21,
+   "43b0ee4f": 16,
+   "5252ca69": 10,
+   "2064fd88": 8
+  },
+  "tool_mix": {
+   "Bash:curl/rpc": 56,
+   "mcp:github": 30,
+   "WebSearch": 26,
+   "mcp:dune": 23,
+   "WebFetch": 16
+  },
+  "target_mix": {
+   "WebSearch": 26,
+   "mcp__github__search_repositories": 15,
+   "mcp__github__get_file_contents": 14,
+   "mcp__dune__searchTablesByContractAddress": 8,
+   "mcp__dune__executeQueryById": 7,
+   "mcp__dune__getExecutionResults": 7,
+   "curl:localhost:8888": 6,
+   "WebFetch:github.com": 6,
+   "curl:www.d2pfinance.xyz": 6,
+   "curl:forno.celo.org": 5,
+   "WebFetch:mcpmarket.com": 3,
+   "curl:www.d2pfinance.xyz$u": 3,
+   "curl:localhost:3033": 3,
+   "curl:localhost:3033$u": 3,
+   "curl:www.datos.gov.co": 2,
+   "WebFetch:docs.mento.org": 2,
+   "curl:mcpmarket.com": 2,
+   "curl:content.scirp.org": 2,
+   "WebFetch:panoptic.xyz": 2,
+   "curl:avatars.githubusercontent.com": 2,
+   "curl:localhost:3000": 2,
+   "WebFetch:www.encodeclub.com": 2,
+   "curl:d2p-frontend-b6hv8ndkd-jmsbpps-projects.vercel.app": 2,
+   "mcp__dune__searchTables": 1,
+   "WebFetch:celoscan.io": 1
+  },
+  "vmr": {
+   "day": 19.784,
+   "week": 29.113,
+   "session": 5.962,
+   "burst_5min": 5.312
+  }
+ }
+}

@@ -1,0 +1,62 @@
+{
+  "task": "E10 Phase 3 task 3.3/3.5 \u2014 exact \u00a74.2 three-way log-variance decomposition summary",
+  "spec": "docs/specs/2026-05-20-e10-gsps-v0.6-convex-multicurrency-design.md \u00a74.2 / \u00a74.3",
+  "generated_at_utc": "2026-05-21T00:45:30.596908+00:00",
+  "panel": {
+    "n_cells": 150,
+    "n_currencies": 5,
+    "months_per_currency": 30,
+    "n_material_gap": 0
+  },
+  "additive_identity": {
+    "operator": "population variance Var(z)=mean(z^2)-mean(z)^2 on the surviving positive-Q common grid",
+    "max_abs_identity_residual": 1.3322676295501878e-15,
+    "holds_exactly": true,
+    "note": "Var(dlog cost) = Var(dlog FX) + Var(dlog Q) + 2 Cov(dlog FX, dlog Q) \u2014 exact, no leading-order term"
+  },
+  "fx_variance_share": {
+    "definition": "Var(dlog FX) / Var(dlog cost)",
+    "panel_min": 3.669593381096941e-07,
+    "panel_median": 2.4658701466432066e-05,
+    "panel_mean": 0.00015351576177496533,
+    "panel_max": 0.003933464804119587
+  },
+  "per_currency": {
+    "COP": {
+      "mean_fx_variance_share": 6.15916596650237e-05,
+      "mean_var_fx": 0.00011818233149683905,
+      "mean_var_q": 2.521767094373977,
+      "mean_cov_term": 0.0028757398533944146
+    },
+    "BRL": {
+      "mean_fx_variance_share": 5.9217621007604524e-05,
+      "mean_var_fx": 8.130325602456498e-05,
+      "mean_var_q": 2.211962694666745,
+      "mean_cov_term": -0.0011783661578558808
+    },
+    "EUR": {
+      "mean_fx_variance_share": 2.9079631304077215e-05,
+      "mean_var_fx": 3.467880928529067e-05,
+      "mean_var_q": 1.9478262014261334,
+      "mean_cov_term": -0.00033262996358288826
+    },
+    "GBP": {
+      "mean_fx_variance_share": 2.100712077792606e-05,
+      "mean_var_fx": 3.213868635310515e-05,
+      "mean_var_q": 2.2958405517175557,
+      "mean_cov_term": 0.0007789255031266407
+    },
+    "NGN": {
+      "mean_fx_variance_share": 0.0005966827761201951,
+      "mean_var_fx": 0.001313426606029116,
+      "mean_var_q": 2.50862087954242,
+      "mean_cov_term": -0.01039128395082524
+    }
+  },
+  "break_even_reference": {
+    "s_be": 0.25,
+    "source": "E10.2.5 ex-ante break-even threshold (Phase 2.5, FROZEN)",
+    "cells_above_break_even": 0,
+    "note": "descriptive observation only; the surface-vs-break-even verdict is Phase 4/6, out of Phase-3 scope"
+  }
+}
