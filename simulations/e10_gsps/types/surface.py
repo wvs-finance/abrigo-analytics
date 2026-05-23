@@ -61,13 +61,22 @@ class SurfaceGridResult:
     ``anchored_range_low`` / ``anchored_range_high`` are the §6.2
     defended-range bounds.
 
-    ``q_variance_dominance_flag`` is True iff Q-variance dominates the
-    decomposition at EVERY grid point — i.e. ``var_q / var_total >
-    (1 - break_even_share)`` at every grid point (equivalently the
-    FX-variance share is strictly below ``break_even_share`` panel-wide).
-    Per spec v0.7 §7 field 7b, this maps to the NON-RETIREMENT rung of
-    the §9 descriptive ladder and is consumed by the §9 classifier
-    (plan task 6.1) — added per pre-Phase-4 Model QA review item 6.
+    ``q_variance_dominance_flag`` (code/share-form): True iff the
+    FX-variance share is strictly below ``break_even_share`` at every
+    grid point — i.e. ``var_fx / var_total < break_even_share`` panel-
+    wide. This is the load-bearing input to the §9 classifier (plan
+    task 6.1) — added per pre-Phase-4 Model QA review item 6.
+
+    ``q_variance_dominance_flag_spec_form``: True iff
+    ``var_q / var_total > 1 - break_even_share`` at every grid point.
+    This is the spec-narrative form (spec v0.7 §7 field 7b). The two
+    flags are algebraically equivalent IFF ``cov_term = 0`` in the §4.2
+    three-way decomposition ``var_total = var_fx + var_q + cov_term``;
+    they differ in general by the sign of ``cov_term``. Both are
+    emitted for audit transparency. For the E10 panel ``cov_term`` is
+    small (decomposition residual ~1e-15 across non-material-gap cells)
+    and the two flags coincide. Added per Phase-6 Delphi auditor-1
+    MID-1 disclosure requirement (2026-05-23).
 
     ``refined`` records whether the adaptive doubling fired (user-locked
     rule: refine to 100 log-spaced points if any cell on the base 50-pt
@@ -76,6 +85,24 @@ class SurfaceGridResult:
     ``grid_resolution_decision_citation`` carries the 4-part
     decision-citation for the user-locked grid choice (reference / why /
     relevance / connection).
+
+    ``is_panel_mean_broadcast`` discloses the construction of the surface
+    values across the Q-grid. When True (default) the surface is a
+    horizontal line at the panel-mean (or per-currency mean) share —
+    every ``SurfaceGridPoint.fx_variance_share`` carries the same scalar
+    by construction. This is the honest semantics of the E10 v0.7
+    evaluator: the calibrated Cox Q-process produces a panel whose share
+    is approximately invariant in Q-volume across the anchored range, so
+    the evaluator broadcasts the panel-mean share across the grid (see
+    ``modules/surface_grid.py`` and ``modules/currency_spread.py``).
+    When False the surface is per-cell (the Phase-0
+    ``SurfaceGridModule.__call__`` overload emits one grid point per
+    decomposition cell with the cell's own share). Downstream LaTeX
+    (§5 methods-paper export) and audit consumers MUST read this flag
+    when characterizing the surface — a flat broadcast is descriptively
+    honest for E10 v0.7 but MUST NOT be claimed as a Q-dependent
+    function. Added per Phase-6 Delphi auditor-1 MID-3 disclosure
+    requirement (2026-05-23).
     """
 
     points: tuple[SurfaceGridPoint, ...]
@@ -89,6 +116,8 @@ class SurfaceGridResult:
     refined: bool
     effective_n_grid: int
     grid_resolution_decision_citation: str
+    is_panel_mean_broadcast: bool = True
+    q_variance_dominance_flag_spec_form: bool = False
 
 
 @dataclass(frozen=True, slots=True)

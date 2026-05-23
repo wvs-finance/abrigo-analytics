@@ -25,10 +25,16 @@ HALT. The Phase-4 trajectory is NON-RETIREMENT via HALT-Q-DOMINANCE; the
 arms quantify how robust that descriptive surface is to alternative
 panel constructions.
 
-Arm (b) -- the user-pinned operationalization
----------------------------------------------
-The user-locked elasticity is -0.3 on monthly Q with respect to
-standardized monthly realized FX volatility (within currency):
+Arm (b) -- the user-pinned operationalization (ALGEBRAIC-IDENTITY
+ASSERTION under monthly-scalar coupling)
+---------------------------------------------------------------------
+Arm (b) is an **algebraic-identity assertion** under the user-pinned
+monthly-scalar coupling -- it is NOT a coupled-daily re-simulation. A
+constant per-month scalar drops out of daily Δlog Q exactly; the arm
+asserts (and emits as ``concordance_metric = 0``) the resulting
+mathematical identity. The user-locked elasticity is -0.3 on monthly Q
+with respect to standardized monthly realized FX volatility (within
+currency):
 
     Q_t_coupled = Q_t * (1 + (-0.3) * z_t)
 
@@ -41,13 +47,15 @@ scalar ``s_m = (1 - 0.3 * z_m)``. A constant scalar drops out of daily
 decomposition (``var_fx``, ``var_q``, ``cov_term``, ``var_total``) is
 *unchanged* by this operationalization at the cell level. The per-cell
 ``fx_variance_share = var_fx / var_total`` is therefore IDENTICAL under
-coupling. The concordance metric is exactly zero by construction.
+coupling. **The concordance metric of exactly zero is a mathematical
+identity, NOT a numerical near-miss.**
 
 This is the descriptively honest outcome of the user-pinned
 operationalization: a *monthly* multiplicative coupling rescales monthly
 Q magnitudes but leaves *within-month* Q-variance untouched. The Phase-5
 arm reports this transparently rather than fabricating a daily coupling
-the user did not pin.
+the user did not pin -- a coupled-daily re-simulation would require a
+daily elasticity the user did not pin and is therefore out of scope.
 
 The decision-citation block (4-part) is stamped verbatim on the arm's
 result.
@@ -110,7 +118,11 @@ _ARM_B_DECISION_CITATION: Final[str] = (
     "verbatim and reports the descriptive concordance the resulting "
     "(unchanged) within-month surface produces against the Phase-4 primary; "
     "Q_t_coupled = Q_t * (1 + (-0.3) * z_t), with z_t standardized monthly "
-    "realized FX vol within currency, Q_min floor = 1."
+    "realized FX vol within currency, Q_min floor = 1. "
+    "Arm (b) is an ALGEBRAIC-IDENTITY ASSERTION under monthly-scalar "
+    "coupling -- not a coupled-daily re-simulation. A constant per-month "
+    "scalar drops out of daily Δlog Q exactly; concordance_metric = 0 is "
+    "mathematical, not numerical."
 )
 
 #: Spec-pinned NGN regime-break date (per
@@ -237,7 +249,9 @@ def _arm_b_qfx_coupling(
     primary: SurfaceGridResult,
     s_be: float,
 ) -> SensitivityArmResult:
-    """Arm (b) -- Q-FX behavioral coupling on monthly Q.
+    """Arm (b) -- Q-FX behavioral coupling on monthly Q. ALGEBRAIC-
+    IDENTITY ASSERTION under monthly-scalar coupling -- NOT a
+    coupled-daily re-simulation.
 
     Operationalization (user-locked 2026-05-21):
 
@@ -250,7 +264,10 @@ def _arm_b_qfx_coupling(
     (``var_q``, ``var_fx``, ``cov_term``, ``var_total``) is identical
     under this coupling, and so is ``fx_variance_share = var_fx /
     var_total`` per cell. The arm reports concordance_metric = 0 and
-    preserves Q-dominance by construction.
+    preserves Q-dominance by construction. The zero metric is a
+    mathematical identity, NOT a numerical near-miss; running this arm
+    against any panel re-derives the identity rather than testing the
+    panel against a coupled-daily comparator.
 
     The standardized monthly FX vol ``z_m`` is computed PER CURRENCY
     against that currency's panel-mean and panel-stddev of
@@ -292,6 +309,10 @@ def _arm_b_qfx_coupling(
     metric = _concordance_metric_vs_primary(primary, arm_shares)
 
     notes = (
+        "Arm (b) is an ALGEBRAIC-IDENTITY ASSERTION under monthly-scalar "
+        "coupling -- not a coupled-daily re-simulation. A constant per-"
+        "month scalar drops out of daily Δlog Q exactly; concordance_metric "
+        "= 0 is mathematical, not numerical. Operationalization: "
         f"Q_t_coupled = Q_t * (1 + ({_QFX_COUPLING_ELASTICITY:+.1f}) * z_t) "
         "with z_t standardized monthly Var(Delta log FX) (within currency). "
         "The monthly-scalar multiplier leaves within-month Var(Delta log Q) "
@@ -457,9 +478,11 @@ def _arm_d_gbm_jd_comparator(
         )
 
     # Calibrate one GBM and one JD per currency to its panel-mean
-    # var_fx. The calibrated sigma_per_month is sqrt(panel-mean
-    # var_fx); for a daily series of ~20 trading days the
-    # per-step sigma is sigma_month / sqrt(n_steps).
+    # var_fx. ``var_fx`` per ``decompose_cell`` is the per-day
+    # population variance of Δlog FX within a month-cell; calibrate
+    # the comparator on the SAME per-step time scale: dt = 1 day,
+    # σ = sqrt(target_var_fx), so that the simulated per-step
+    # Var(Δlog X) matches target_var_fx exactly in expectation.
     by_currency: dict[str, list[PanelCell]] = {}
     for cell in panel:
         by_currency.setdefault(cell.currency, []).append(cell)
@@ -504,23 +527,28 @@ def _arm_d_gbm_jd_comparator(
         if not math.isfinite(target_var_fx) or target_var_fx <= 0.0:
             sim_var_fx_by_currency[cur] = float("nan")
             continue
-        # Sigma is the per-month-equivalent vol (NOT per-day). With T =
-        # n_steps * dt = 1 month-equivalent, the sum over n_steps daily
-        # log-increments has variance n_steps * sigma^2 * dt = sigma^2 *
-        # T. Setting Var(sum) = target_var_fx gives sigma = sqrt(
-        # target_var_fx / T) on the month-equivalent scale. dt = T /
-        # n_steps. The GBM/JD generators expect (sigma, dt, n_steps) on
-        # the same time scale so this passes through directly.
-        T_month = 1.0
-        sigma_per_month = math.sqrt(target_var_fx / T_month)
+        # ``target_var_fx`` is the per-day (per-step) population variance
+        # of Δlog FX inside a month-cell (the convention of
+        # ``decompose_cell`` -- see modules/decomposition.py:145 and the
+        # module docstring §population-variance). Calibrate the GBM/JD
+        # comparator on the SAME per-step time scale: step dt = 1 day,
+        # σ = sqrt(target_var_fx) so that Var(Δlog X_t) per step = σ²·dt
+        # = target_var_fx exactly. The simulated month then spans
+        # ``n_steps_default`` daily steps (T = n_steps · dt). The GBM/JD
+        # generators receive (σ, dt, n_steps) on this per-day scale; the
+        # re-measurement at line :536+ then computes the same per-step
+        # population variance the panel uses, closing the loop.
+        dt_day = 1.0
+        T_month = float(n_steps_default) * dt_day
+        sigma_per_day = math.sqrt(target_var_fx)
         # GBM calibration. x_0 set to 100 (arbitrary; relative-return
         # process is scale-invariant in log space).
         gbm_params = GBMParameters(
             mu=0.0,
-            sigma=sigma_per_month,
+            sigma=sigma_per_day,
             x_0=100.0,
             T=T_month,
-            dt=T_month / n_steps_default,
+            dt=dt_day,
             n_steps=n_steps_default,
         )
         gbm_gen = GBMPathGenerator(gbm_params)
@@ -540,18 +568,18 @@ def _arm_d_gbm_jd_comparator(
         gbm_var_fx = float(path_var.mean())
         gbm_notes.append(f"{cur}: gbm_var_fx={gbm_var_fx:.3e}")
 
-        # JD calibration: same continuous drift/vol; small jump component.
-        # lambda_jump = 1 jump/month-equivalent; jump_mean = 0; jump_std
-        # calibrated to add ~10% additional variance.
-        # Merton var(Delta log) per step ~= sigma^2 * dt + lambda * dt *
-        # (jump_mean^2 + jump_std^2). Targeting overall var = target_var_fx
-        # with the diffusion piece supplying 90% and jumps 10%.
+        # JD calibration: same per-step time scale. Merton Var(Δlog X)
+        # per step = σ²·dt + λ·dt·(jump_mean² + jump_std²). Targeting
+        # the per-step total = target_var_fx with the diffusion piece
+        # supplying 90% and jumps 10%. With dt = 1 day and λ expressed
+        # in jumps/day, the per-step jump-variance contribution is
+        # λ·dt·jump_std² = λ·jump_std² (jump_mean = 0).
         diffusion_share = 0.9
-        sigma_jd = math.sqrt(target_var_fx * diffusion_share / T_month)
+        sigma_jd = math.sqrt(target_var_fx * diffusion_share / dt_day)
         jump_variance_total = target_var_fx * (1.0 - diffusion_share)
-        # Distribute over lambda_jump * T expected jumps.
-        lambda_jump = 1.0
-        jump_var = jump_variance_total / max(lambda_jump * T_month, 1e-9)
+        # ~1 jump per month, expressed per day:
+        lambda_jump = 1.0 / float(n_steps_default)
+        jump_var = jump_variance_total / max(lambda_jump * dt_day, 1e-12)
         jump_std = math.sqrt(max(jump_var, 1e-12))
         jd_params = JumpDiffusionParameters(
             mu=0.0,
@@ -561,7 +589,7 @@ def _arm_d_gbm_jd_comparator(
             jump_std=jump_std,
             x_0=100.0,
             T=T_month,
-            dt=T_month / n_steps_default,
+            dt=dt_day,
             n_steps=n_steps_default,
         )
         jd_gen = JumpDiffusionPathGenerator(jd_params)
@@ -633,8 +661,12 @@ def _arm_d_gbm_jd_comparator(
     metric = _concordance_metric_vs_primary(primary, arm_shares)
 
     notes = (
-        "GBM and JD FX comparators calibrated per currency to panel-mean "
-        "var_fx. Substitution surrogate = mean(GBM_ensemble_var_fx, "
+        "GBM and JD FX comparators calibrated per currency to per-step "
+        "(per-day) panel-mean Var(Δlog FX); GBM step dt = 1 day; n_steps "
+        "= monthly day-count (default 21). σ_gbm = sqrt(target_var_fx) so "
+        "that Var(Δlog X)/step = σ²·dt = target_var_fx exactly; JD splits "
+        "90% diffusion / 10% jumps on the same per-step scale. "
+        "Substitution surrogate = mean(GBM_ensemble_var_fx, "
         "JD_ensemble_var_fx) replaces var_fx per cell; var_q and cov_term "
         "preserved; new share = sub_var_fx / (sub_var_fx + var_q + "
         f"cov_term). GBM moments: [{', '.join(gbm_notes)}]. JD moments: "

@@ -66,6 +66,26 @@ the user's calibrated simulator and the user's anchored Q-range. The
 ``q_variance_dominance_flag`` is True iff the share is strictly below
 ``s_be`` at every grid point.
 
+Panel-mean broadcast semantics (Phase-6 Delphi auditor-1 MID-3
+disclosure)
+-----------------------------------------------------------------------
+``evaluate_surface_grid`` emits a flat horizontal surface by
+construction: a single panel-mean ``Var(d log FX) / Var(d log cost)``
+scalar is broadcast across every cell of the Q-grid. This is honest for
+the E10 v0.7 calibration (the share is approximately invariant in Q
+across the anchored range), but the returned ``SurfaceGridResult``
+carries the ``is_panel_mean_broadcast = True`` flag explicitly so
+downstream consumers — notebook 05 §5 LaTeX export, the
+``verdict_classifier`` rationale, and external auditors reading
+``E10.3_surface_summary.json`` — do NOT misread the flat line as a
+Q-dependent function. The adaptive doubling rule is mechanically
+unreachable for a panel whose mean share sits >3 dex below ``s_be``
+(the trigger requires a cell within +/-0.5 dex of ``s_be``); it is
+retained for a future iteration whose kernel-smoothed share might
+exercise it. The per-cell ``SurfaceGridModule.__call__`` overload
+emits one grid point per decomposition cell and sets
+``is_panel_mean_broadcast = False``.
+
 The lower-level ``SurfaceGridModule.__call__`` accepts a sequence of
 decomposition cells and emits one grid point per cell (preserving cell
 ordering) — the empirical realization. Both the empirical realization
@@ -193,6 +213,47 @@ def _log_spaced(q_low: float, q_high: float, n: int) -> tuple[float, ...]:
             f"grid resolution must be at least 2 points: n={n!r}"
         )
     return tuple(np.logspace(math.log10(q_low), math.log10(q_high), n).tolist())
+
+
+def _panel_mean_q_share(panel: Sequence[PanelCell]) -> float:
+    """Panel-mean ``var_q / var_total`` across non-material-gap cells.
+
+    This is the spec-narrative form of the q-dominance check
+    (spec v0.7 §7 field 7b). Equivalent to ``1 - mean_fx_share`` IFF
+    ``cov_term = 0`` in the §4.2 decomposition; differs by the
+    cov-share term in general. Phase-6 Delphi auditor-1 MID-1.
+
+    Args:
+        panel: The Phase-3 panel cells.
+
+    Returns:
+        The panel-mean of ``cell.decomposition.var_q /
+        cell.decomposition.var_total`` across non-material-gap cells
+        with positive ``var_total`` and finite numerator. NaN if no
+        such cell exists.
+    """
+    q_shares: list[float] = []
+    for cell in panel:
+        if cell.material_gap:
+            continue
+        var_total = cell.decomposition.var_total
+        var_q = cell.decomposition.var_q
+        if var_total <= 0.0 or not math.isfinite(var_total):
+            continue
+        if not math.isfinite(var_q):
+            continue
+        q_shares.append(var_q / var_total)
+    if not q_shares:
+        return float("nan")
+    return float(np.mean(q_shares))
+
+
+def _cell_q_share(cell: ThreeWayDecompositionCell) -> float:
+    """The Q-variance share of one decomposition cell — ``var_q /
+    var_total`` if ``var_total > 0``; ``nan`` otherwise."""
+    if cell.var_total <= 0.0:
+        return float("nan")
+    return cell.var_q / cell.var_total
 
 
 def _panel_mean_share(panel: Sequence[PanelCell]) -> float:
@@ -438,6 +499,13 @@ class SurfaceGridModule:
         q_dom_flag = all(
             (math.isfinite(s) and s < break_even_share) for s in shares
         )
+        # Spec-form: var_q / var_total > 1 - break_even_share at every
+        # input cell. Phase-6 Delphi auditor-1 MID-1.
+        one_minus_be = 1.0 - break_even_share
+        q_shares = [_cell_q_share(cell) for cell in decomposition_cells]
+        q_dom_flag_spec = all(
+            (math.isfinite(qs) and qs > one_minus_be) for qs in q_shares
+        )
         return SurfaceGridResult(
             points=points,
             break_even_share=break_even_share,
@@ -455,6 +523,8 @@ class SurfaceGridModule:
                 "user-locked log-spaced 50-pt grid + adaptive doubling "
                 "rule applies in ``evaluate_surface_grid`` instead."
             ),
+            is_panel_mean_broadcast=False,
+            q_variance_dominance_flag_spec_form=q_dom_flag_spec,
         )
 
 
@@ -515,6 +585,7 @@ def evaluate_surface_grid(
     q_low, q_high = q_range
     base_grid = _log_spaced(q_low, q_high, base_n)
     mean_share = _panel_mean_share(panel)
+    mean_q_share = _panel_mean_q_share(panel)
 
     # Initial pass at base resolution.
     base_shares = [mean_share] * base_n
@@ -543,11 +614,19 @@ def evaluate_surface_grid(
         min_run_length=3,
     )
 
-    # q_variance_dominance_flag — True iff share is strictly below s_be
-    # at every grid point.
+    # q_variance_dominance_flag (code/share-form) — True iff share is
+    # strictly below s_be at every grid point.
     q_dom_flag = all(
         (math.isfinite(s) and s < s_be) for s in shares
     )
+
+    # q_variance_dominance_flag_spec_form — True iff var_q / var_total
+    # > 1 - s_be at every grid point (panel-mean broadcast: a single
+    # mean_q_share scalar replicated). Differs from the share-form by
+    # the sign of cov_term in the §4.2 decomposition; coincides for
+    # cov_term = 0. Phase-6 Delphi auditor-1 MID-1.
+    one_minus_s_be = 1.0 - s_be
+    q_dom_flag_spec = math.isfinite(mean_q_share) and mean_q_share > one_minus_s_be
 
     points = tuple(
         SurfaceGridPoint(
@@ -602,4 +681,6 @@ def evaluate_surface_grid(
         refined=refined,
         effective_n_grid=effective_n_grid,
         grid_resolution_decision_citation=_GRID_DECISION_CITATION,
+        is_panel_mean_broadcast=True,
+        q_variance_dominance_flag_spec_form=q_dom_flag_spec,
     )

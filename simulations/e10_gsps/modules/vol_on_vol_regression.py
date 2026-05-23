@@ -144,6 +144,18 @@ def _currency_demean(
 def _within_slope(x_tilde: np.ndarray, y_tilde: np.ndarray) -> float:
     """Within-FE slope: sum(x_t*y_t) / sum(x_t**2).
 
+    Hand-rolled Frisch-Waugh-Lovell slope chosen deliberately. Under the
+    descriptive-only posture (spec v0.7 §4.1) only the slope sign and the
+    two-co-primary-spec gap are reported. NO standard error, NO test
+    statistic, NO confidence interval. Statsmodels OLS would compute
+    standard errors by default that the descriptive-posture firewall
+    would then have to scrub on every result emission; the hand-rolled
+    form makes the no-SE contract syntactically visible — it is
+    structurally incapable of emitting an SE. The β̂ value is
+    mathematically identical to statsmodels OLS on the residualized
+    regressors (FWL theorem). Phase-6 Delphi auditor-2 M-1 — keep-as-is
+    with documented rationale.
+
     Args:
         x_tilde: Within-transformed regressor.
         y_tilde: Within-transformed regressand.

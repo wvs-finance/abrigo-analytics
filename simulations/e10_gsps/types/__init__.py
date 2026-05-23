@@ -41,7 +41,11 @@ from .surface import (
     SurfaceGridPoint,
     SurfaceGridResult,
 )
-from .verdict import DescriptiveVerdict, DescriptiveVerdictResult
+from .verdict import (
+    DescriptiveVerdict,
+    DescriptiveVerdictResult,
+    NonRetirementSubtype,
+)
 from .vol_on_vol import VolOnVolResult
 
 __all__ = [
@@ -67,6 +71,7 @@ __all__ = [
     "SensitivityArmsResult",
     "DescriptiveVerdict",
     "DescriptiveVerdictResult",
+    "NonRetirementSubtype",
     "RegimeBreakScreen",
     "NHPPSimulationEngine",
     "ThreeWayDecomposition",

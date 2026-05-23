@@ -36,9 +36,9 @@
       "arm_name": "d_gbm_jd_comparator",
       "q_variance_dominance_flag": true,
       "interior_crossing_flag": false,
-      "concordance_metric": 0.0001444027250376847,
+      "concordance_metric": 3.412343808447874e-05,
       "concordance_verdict": "concordant",
-      "panel_mean_share": 9.113036737280616e-06
+      "panel_mean_share": 0.00018763919985944407
     },
     {
       "arm_name": "e_per_currency",

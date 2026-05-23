@@ -234,6 +234,8 @@ def surface_grid_results(draw: st.DrawFn) -> SurfaceGridResult:
         grid_resolution_decision_citation=draw(
             st.text(min_size=0, max_size=64)
         ),
+        is_panel_mean_broadcast=draw(st.booleans()),
+        q_variance_dominance_flag_spec_form=draw(st.booleans()),
     )
 
 

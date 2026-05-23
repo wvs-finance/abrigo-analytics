@@ -59,6 +59,7 @@ from simulations.e10_gsps.modules.surface_grid import (
     DEFAULT_REFINED_N,
     DEFAULT_S_BE,
     _log_spaced,
+    _panel_mean_q_share,
     _panel_mean_share,
     scan_interior_crossing,
 )
@@ -117,6 +118,7 @@ def _per_currency_surface(
         SurfaceGridError: This currency has no finite-share cells.
     """
     mean_share = _panel_mean_share(panel_currency_cells)
+    mean_q_share = _panel_mean_q_share(panel_currency_cells)
     n_grid = len(q_grid)
     shares = [mean_share] * n_grid
 
@@ -128,6 +130,11 @@ def _per_currency_surface(
     )
     q_dom_flag = all(
         (math.isfinite(s) and s < s_be) for s in shares
+    )
+    # Spec-form flag — Phase-6 Delphi auditor-1 MID-1. Broadcast a single
+    # mean_q_share scalar; check var_q / var_total > 1 - s_be.
+    q_dom_flag_spec = (
+        math.isfinite(mean_q_share) and mean_q_share > (1.0 - s_be)
     )
 
     points = tuple(
@@ -165,6 +172,8 @@ def _per_currency_surface(
             "(inherits the user-locked log-spaced 50-point + adaptive-"
             "doubling rule from evaluate_surface_grid)."
         ),
+        is_panel_mean_broadcast=True,
+        q_variance_dominance_flag_spec_form=q_dom_flag_spec,
     )
 
 
