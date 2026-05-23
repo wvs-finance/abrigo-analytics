@@ -23,6 +23,12 @@ from .nhpp import (
 )
 from .currency_spread import CurrencySpreadResult
 from .panel import PanelCell
+from .sensitivity_arms import (
+    ArmName,
+    ConcordanceVerdict,
+    SensitivityArmResult,
+    SensitivityArmsResult,
+)
 from .protocols import (
     DescriptiveVerdictClassifier,
     NHPPSimulationEngine,
@@ -55,6 +61,10 @@ __all__ = [
     "InteriorCrossingResult",
     "VolOnVolResult",
     "CurrencySpreadResult",
+    "ArmName",
+    "ConcordanceVerdict",
+    "SensitivityArmResult",
+    "SensitivityArmsResult",
     "DescriptiveVerdict",
     "DescriptiveVerdictResult",
     "RegimeBreakScreen",

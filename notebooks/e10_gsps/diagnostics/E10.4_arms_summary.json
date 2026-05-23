@@ -1,0 +1,62 @@
+{
+  "phase": "E10 GSPS Phase 5 / task 5.2",
+  "panel_cells": 150,
+  "currencies": [
+    "BRL",
+    "COP",
+    "EUR",
+    "GBP",
+    "NGN"
+  ],
+  "anchored_q_range": [
+    28.0,
+    130.0
+  ],
+  "frozen_s_be": 0.25,
+  "primary_q_dominance_flag": true,
+  "primary_panel_mean_share": 0.0001535157617749653,
+  "arms": [
+    {
+      "arm_name": "b_qfx_coupling",
+      "q_variance_dominance_flag": true,
+      "interior_crossing_flag": false,
+      "concordance_metric": 0.0,
+      "concordance_verdict": "concordant",
+      "panel_mean_share": 0.00015351576177496527
+    },
+    {
+      "arm_name": "c_ngn_break_window",
+      "q_variance_dominance_flag": true,
+      "interior_crossing_flag": false,
+      "concordance_metric": 4.038169284941512e-05,
+      "concordance_verdict": "concordant",
+      "panel_mean_share": 0.00011313406892555018
+    },
+    {
+      "arm_name": "d_gbm_jd_comparator",
+      "q_variance_dominance_flag": true,
+      "interior_crossing_flag": false,
+      "concordance_metric": 0.0001444027250376847,
+      "concordance_verdict": "concordant",
+      "panel_mean_share": 9.113036737280616e-06
+    },
+    {
+      "arm_name": "e_per_currency",
+      "q_variance_dominance_flag": true,
+      "interior_crossing_flag": false,
+      "concordance_metric": 9.429814076736078e-05,
+      "concordance_verdict": "concordant",
+      "panel_mean_share": 5.921762100760454e-05
+    },
+    {
+      "arm_name": "f_q_high_extended",
+      "q_variance_dominance_flag": true,
+      "interior_crossing_flag": false,
+      "concordance_metric": 2.710505431213761e-20,
+      "concordance_verdict": "concordant",
+      "panel_mean_share": 0.00015351576177496527
+    }
+  ],
+  "no_rescue_clause": "Sensitivity arms cannot rescue a primary HALT (spec v0.7 \u00a79). Each arm reports descriptive concordance only. The Phase-4 trajectory is NON-RETIREMENT via HALT-Q-DOMINANCE -- the q_variance_dominance_flag fires across the WHOLE anchored Q-range on the real Phase-3 panel; Phase-5 arms quantify how robust that descriptive surface is to alternative panel constructions, nothing more.",
+  "trajectory": "NON-RETIREMENT (spec \u00a77 field 7b; HALT-Q-DOMINANCE rung; unchanged by Phase-5 arms)"
+}
