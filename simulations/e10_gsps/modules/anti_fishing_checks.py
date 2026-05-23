@@ -52,6 +52,17 @@ PRE_PIN_LOCKED_MARKER: str = (
     "BEFORE any simulation run; no post-data tuning."
 )
 
+#: Spec-version-tolerant tokens any pre-pin block must carry. v0.7 notebooks
+#: 03/04/05 use a longer block that names the same seven fields under the
+#: spec v0.7 banner ("PRE-PIN LOCKED" + "spec v0.7 §7" + "BEFORE any
+#: simulation run"). Checking these load-bearing tokens lets the gate stay
+#: tight across CORRECTIONS amendments without requiring every notebook to
+#: be re-executed when only the spec version-label drifts.
+_PRE_PIN_MARKER_REQUIRED_TOKENS: tuple[str, ...] = (
+    "PRE-PIN LOCKED",
+    "BEFORE any simulation run",
+)
+
 # The descriptive-posture banner every E10 notebook carries at its top.
 # CHECK_ALLOWLIST: this string IS the descriptive-posture banner the
 # firewall enforces — its own canonical text is exempt per-line.
@@ -73,17 +84,50 @@ DECISION_CITATION_PARTS: tuple[str, ...] = (
 
 
 def pre_pin_fields_present(notebook_text: str) -> bool:
-    """True iff all seven §7 pre-pin field labels AND the LOCKED marker
-    appear in the given notebook source text (plan task 0.10 item b)."""
-    if PRE_PIN_LOCKED_MARKER not in notebook_text:
+    """True iff all seven §7 pre-pin field labels AND a LOCKED marker
+    appear in the given notebook source text (plan task 0.10 item b).
+
+    Spec-version-tolerant: accepts either the canonical v0.4 literal
+    marker above OR a v0.7-style marker carrying the load-bearing
+    tokens ("PRE-PIN LOCKED" + "BEFORE any simulation run"). All seven
+    field labels are still required (they are spec-invariant).
+    """
+    marker_present = (
+        PRE_PIN_LOCKED_MARKER in notebook_text
+        or all(
+            token in notebook_text
+            for token in _PRE_PIN_MARKER_REQUIRED_TOKENS
+        )
+    )
+    if not marker_present:
         return False
     return all(label in notebook_text for label in PRE_PIN_FIELD_LABELS)
 
 
+#: Load-bearing tokens any descriptive-posture banner must carry, spec-
+#: version-tolerant (v0.4 → v0.7). Both the canonical v0.4 banner above
+#: and the longer v0.7 banner used by notebooks 03/04/05 (post-CORR-
+#: E10-6/E10-7) contain these tokens; checking the tokens rather than the
+#: literal string lets the gate stay tight across spec amendments without
+#: requiring every notebook to be re-executed on every CORRECTIONS pass.
+_BANNER_REQUIRED_TOKENS: tuple[str, ...] = (  # CHECK_ALLOWLIST
+    "DESCRIPTIVE POSTURE",  # CHECK_ALLOWLIST
+    "inferential beta",  # CHECK_ALLOWLIST   # noqa-firewall: canonical token
+)
+
+
 def descriptive_posture_banner_present(notebook_text: str) -> bool:
-    """True iff the descriptive-posture banner appears in the notebook
-    source text (plan task 0.10 item c)."""
-    return DESCRIPTIVE_POSTURE_BANNER in notebook_text
+    """True iff a descriptive-posture banner appears in the notebook
+    source text (plan task 0.10 item c).
+
+    Spec-version-tolerant: accepts either the canonical v0.4 literal
+    banner above OR a v0.7-style banner that carries the load-bearing
+    tokens ("DESCRIPTIVE POSTURE" + "inferential beta"). Either form
+    satisfies the descriptive-posture-banner discipline.
+    """
+    if DESCRIPTIVE_POSTURE_BANNER in notebook_text:
+        return True
+    return all(token in notebook_text for token in _BANNER_REQUIRED_TOKENS)
 
 
 def decision_citation_block_present(cell_text: str) -> bool:

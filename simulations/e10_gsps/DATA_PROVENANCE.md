@@ -1,9 +1,9 @@
 # E10 GSPS — Data Provenance
 
 **Iteration:** E10 GSPS — convex multi-currency data-consumption FX-volatility hedge.
-**Spec basis:** `docs/specs/2026-05-20-e10-gsps-v0.6-convex-multicurrency-design.md` (v0.6).
+**Spec basis:** `docs/specs/2026-05-20-e10-gsps-v0.7-convex-multicurrency-design.md` (v0.7; supersedes v0.6 via CORRECTIONS-E10-7 daily-gapped-grid amendment).
 **Phase:** 3 (E10.2) — panel construction + exact §4.2 three-way log-variance decomposition.
-**Date:** 2026-05-20.
+**Date:** 2026-05-20 (v0.6 baseline); 2026-05-21 (v0.7 reference update).
 
 This record documents the provenance of every empirical input to the E10
 GSPS panel and the Tier-1 → Tier-3 reproducibility contract. Per the §0
