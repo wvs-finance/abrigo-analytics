@@ -1,0 +1,1360 @@
+{
+  "task": "E10 Phase 3 task 3.0 \u2014 common X/Q differencing-grid index-alignment verification (CORR-E10P-3)",
+  "spec": "docs/specs/2026-05-20-e10-gsps-v0.6-convex-multicurrency-design.md \u00a74.2",
+  "generated_at_utc": "2026-05-21T00:45:14.462602+00:00",
+  "grid_definition": "Per (currency,month) cell the common differencing grid is the daily FX trading-day index the central bank quotes; the NHPP simulator emits one daily Q count per FX day (engine aligns trajectory to FX path length). X (dlog FX) and Q (dlog Q) are therefore differenced on an IDENTICAL sub-monthly index, the precondition for the exact \u00a74.2 identity holding cell-by-cell.",
+  "n_cells": 150,
+  "all_aligned": true,
+  "cells": [
+    {
+      "currency": "COP",
+      "year": 2023,
+      "month": 11,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2023,
+      "month": 12,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 1,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 2,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 3,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 4,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 5,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 6,
+      "fx_index_length": 18,
+      "q_index_length": 18,
+      "aligned": true,
+      "log_return_length": 17
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 7,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 8,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 9,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 10,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 11,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2024,
+      "month": 12,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 1,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 2,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 3,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 4,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 5,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 6,
+      "fx_index_length": 17,
+      "q_index_length": 17,
+      "aligned": true,
+      "log_return_length": 16
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 7,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 8,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 9,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 10,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 11,
+      "fx_index_length": 17,
+      "q_index_length": 17,
+      "aligned": true,
+      "log_return_length": 16
+    },
+    {
+      "currency": "COP",
+      "year": 2025,
+      "month": 12,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2026,
+      "month": 1,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2026,
+      "month": 2,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "COP",
+      "year": 2026,
+      "month": 3,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "COP",
+      "year": 2026,
+      "month": 4,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "BRL",
+      "year": 2023,
+      "month": 11,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "BRL",
+      "year": 2023,
+      "month": 12,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 1,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 2,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 3,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 4,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 5,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 6,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 7,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 8,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 9,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 10,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 11,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "BRL",
+      "year": 2024,
+      "month": 12,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 1,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 2,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 3,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 4,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 5,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 6,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 7,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 8,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 9,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 10,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 11,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "BRL",
+      "year": 2025,
+      "month": 12,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "BRL",
+      "year": 2026,
+      "month": 1,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "BRL",
+      "year": 2026,
+      "month": 2,
+      "fx_index_length": 18,
+      "q_index_length": 18,
+      "aligned": true,
+      "log_return_length": 17
+    },
+    {
+      "currency": "BRL",
+      "year": 2026,
+      "month": 3,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "BRL",
+      "year": 2026,
+      "month": 4,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "EUR",
+      "year": 2023,
+      "month": 11,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "EUR",
+      "year": 2023,
+      "month": 12,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 1,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 2,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 3,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 4,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 5,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 6,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 7,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 8,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 9,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 10,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 11,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2024,
+      "month": 12,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 1,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 2,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 3,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 4,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 5,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 6,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 7,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 8,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 9,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 10,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 11,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "EUR",
+      "year": 2025,
+      "month": 12,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2026,
+      "month": 1,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "EUR",
+      "year": 2026,
+      "month": 2,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "EUR",
+      "year": 2026,
+      "month": 3,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "EUR",
+      "year": 2026,
+      "month": 4,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2023,
+      "month": 11,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "GBP",
+      "year": 2023,
+      "month": 12,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 1,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 2,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 3,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 4,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 5,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 6,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 7,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 8,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 9,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 10,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 11,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2024,
+      "month": 12,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 1,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 2,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 3,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 4,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 5,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 6,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 7,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 8,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 9,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 10,
+      "fx_index_length": 23,
+      "q_index_length": 23,
+      "aligned": true,
+      "log_return_length": 22
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 11,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2025,
+      "month": 12,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2026,
+      "month": 1,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "GBP",
+      "year": 2026,
+      "month": 2,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "GBP",
+      "year": 2026,
+      "month": 3,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "GBP",
+      "year": 2026,
+      "month": 4,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2023,
+      "month": 11,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "NGN",
+      "year": 2023,
+      "month": 12,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 1,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 2,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 3,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 4,
+      "fx_index_length": 18,
+      "q_index_length": 18,
+      "aligned": true,
+      "log_return_length": 17
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 5,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 6,
+      "fx_index_length": 17,
+      "q_index_length": 17,
+      "aligned": true,
+      "log_return_length": 16
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 7,
+      "fx_index_length": 24,
+      "q_index_length": 24,
+      "aligned": true,
+      "log_return_length": 23
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 8,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 9,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 10,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 11,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "NGN",
+      "year": 2024,
+      "month": 12,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 1,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 2,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 3,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 4,
+      "fx_index_length": 19,
+      "q_index_length": 19,
+      "aligned": true,
+      "log_return_length": 18
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 5,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 6,
+      "fx_index_length": 18,
+      "q_index_length": 18,
+      "aligned": true,
+      "log_return_length": 17
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 7,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 8,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 9,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 10,
+      "fx_index_length": 22,
+      "q_index_length": 22,
+      "aligned": true,
+      "log_return_length": 21
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 11,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2025,
+      "month": 12,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "NGN",
+      "year": 2026,
+      "month": 1,
+      "fx_index_length": 21,
+      "q_index_length": 21,
+      "aligned": true,
+      "log_return_length": 20
+    },
+    {
+      "currency": "NGN",
+      "year": 2026,
+      "month": 2,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2026,
+      "month": 3,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    },
+    {
+      "currency": "NGN",
+      "year": 2026,
+      "month": 4,
+      "fx_index_length": 20,
+      "q_index_length": 20,
+      "aligned": true,
+      "log_return_length": 19
+    }
+  ]
+}

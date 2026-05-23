@@ -1,0 +1,434 @@
+\documentclass[11pt,letterpaper]{article}
+
+% --- packages (Econometrica-flavored single-column article) ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+% microtype removed — local TeX Live lacks scalable text fonts (lmodern / cm-super / mathptmx)
+% required by font-expansion; protrusion-only still triggers font issues on this install.
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue}
+
+% --- math conveniences ---
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\dln}{\Delta\ln}
+\newcommand{\NotionalCop}{\text{NotionalCost}^{COP}}
+\newcommand{\NotionalUsd}{\text{NotionalCost}^{USD}}
+
+\title{AI-Cost Factor Model --- Counterfactual Risk Quantification
+  (Subscription-Aware Pilot, v0.2.10)\\[0.4em]
+  \large Demonstration-Grade Pilot Iteration Closure}
+\author{Abrigo Analytics --- Iteration \texttt{dev\_ai\_cost\_v2}}
+\date{2026-05-18}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We report the closure of the \texttt{dev\_ai\_cost\_v2} iteration under
+spec v0.2.10 (post audit-econ Delphi). On a single-user Claude Code
+JSONL panel covering 2026-01-06 to 2026-05-14 (\(N = 28\) weekday rows
+after first-differencing), the FX-vol contribution to AI-cost variance
+is empirically approximately zero: under the conservative
+covariance-attribution rule of \citet{PolitisRomano1994}, the FX share
+of \(\Var(\dln\NotionalCop)\) point-estimates to \(0.0000277\) with a
+\(90\%\) stationary-bootstrap confidence interval of
+\([-3.4\!\times\!10^{-6},\,+4.1\!\times\!10^{-5}]\). The pre-registered
+behavioral subscription-inelasticity test (R4-S3-USD), an HAC-OLS
+regression of \(|\dln\NotionalUsd|\) on lagged \(|\dln\text{USDCOP}|\)
+and \(|\dln\text{Tokens}|\) with \citet{NeweyWest1987} bandwidth
+\(L = \lfloor T^{1/3} \rfloor = 3\), is \emph{POWER-HALTED} under the
+canonical lagged-tokens partialling recipe: measured power at MDES
+\(= 0.40\) residual-SD is \(0.1745\), below the
+\emph{demonstration-grade} floor of \(0.50\) (\(N_{\min}=38\),
+\textsc{POWER\_MIN}~\(=0.50\) --- below project defaults
+\(N=75\) / \(0.80\)). The iteration is paused pending an
+\(N \geq 75\) panel and makes \emph{no} population-level transmission
+claim. We recommend the framework owner pivot to (i) data accumulation,
+(ii) the R6 continuous-stream sibling iteration, or (iii) a target
+population where the FX channel is ex-ante stronger.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+The Abrigo project's operating framework studies permissionless on-chain
+convex hedges aimed at the Latin American wage-earner-to-capital
+transition. Each iteration is a \((Y, M, X)\) triple in which
+\(Y\) is an outcome surfacing the target population's exposure,
+\(M\) is a Panoptic-eligible position settling the empirical risk, and
+\(X\) is the major risk currently blocking the transition. The
+present iteration is a \emph{candidate-X identification step}: does
+FX volatility (USDCOP) materially drive AI-cost burden risk for
+LATAM developers? The R5 PRIMARY arm answers a descriptive
+risk-decomposition question (FX share of cost-burden variance); the
+R4-S3-USD AUXILIARY arm answers a behavioral question (does USD-side
+cost vol respond to FX vol despite zero marginal cost under a
+subscription regime).
+
+\paragraph{Subscription-aware proxy.}
+The pilot subject (the repo maintainer) is on a Claude Pro/Max
+subscription. Their realized USD cost is approximately flat per month
+and FX exposure collapses to a single billing-day point. Their
+\emph{notional} cost path --- rate-card price \(\times\) token usage
+per the LiteLLM SHA-pinned rate table \citep{LiteLLM2025} --- serves
+as a fair proxy for what a non-subscribed pay-per-API LATAM developer
+would have paid. This is a strong assumption (equivalent demand under
+both billing regimes) and is documented as a Section~\ref{sec:limits}
+threat.
+
+\paragraph{v0.2.10 audit-closure context.}
+The v0.2.9 verdict (PARTIAL-FAIL\_TO\_REJECT under a contemporaneous
+power-recipe pin) was withdrawn following an audit-econ Delphi
+(2026-05-18). Four critical / high-severity amendments enter v0.2.10:
+(\#4) Z-arms relabeled as \emph{same-ratio} corroborations of R5
+rather than independent measurements; (\#5) demonstration-grade vs.
+verdict-grade scope split with mandatory headline disclosure; (\#6/\#7)
+R4-S3-COP's REGIME-CONDITIONAL FAIL removed from the corroboration
+list as uninformative; (\#8) the canonical power-calculation recipe
+reverted to lagged-tokens partialling, matching the regression's own
+\(k=1\) lag structure. Under the lagged recipe, the power gate fires
+and routes R4-S3-USD to POWER-HALT.
+
+\section{Data}
+\label{sec:data}
+
+The panel is constructed from local Claude Code JSONL session logs on
+the pilot subject's machine. Costs are computed as rate-card
+\(\times\) token-counter usage across the five preserved token
+categories (input, output, cache-creation-ephemeral-5m,
+cache-creation-ephemeral-1h, cache-read) using the LiteLLM rate table
+pinned by both commit SHA and file SHA-256 (dual-pin enforcement,
+audit-econ closure \#3). USDCOP is the Banrep daily TRM. The build
+window observed is 2026-01-06 to 2026-05-14.
+
+\paragraph{Counters and parity.}
+Per audit-econ closures \#1, \#9, and \#10, the row-drop bookkeeping
+is split into named counters (Codex-commingling filter at parse,
+non-Anthropic-model upstream filter, holiday-Monday weekday-mask
+surfacing). ccusage cost-parity on the build window is
+\(0.9994\!\times\) on raw cost totals; the combined-window aggregate
+ratio of \(0.5386\!\times\) reflects the audit-disclosed treatment of
+historical Codex commingling outside the build window and is
+documented separately in \texttt{DATA\_PROVENANCE.md}.
+
+\paragraph{Demonstration-grade pin.}
+The project-level anti-fishing invariants pin \(N_{\min}=75\),
+\textsc{POWER\_MIN}~\(=0.80\), \textsc{MDES\_SD}~\(=0.40\). v0.2.0
+CORRECTIONS-G + CORRECTIONS-J relaxed the first two to \(38\) and
+\(0.50\) without a Pair-D--style preserved-power proof. v0.2.10
+Amendment~\#5 formalizes this as a separate \emph{demonstration-grade}
+surface: relaxed floors are permitted, but every consumer
+(verdict memo, this write-up, downstream M-design hand-off) must
+disclose the relaxation in the headline. The present iteration is
+demonstration-grade with \(N = 28\) observed (sub-floor relative to
+the demonstration-grade \(N_{\min}=38\)). No verdict-grade claim is
+made.
+
+\section{Methodology}
+\label{sec:method}
+
+\subsection{R5 PRIMARY: descriptive counterfactual risk quantification}
+
+The realized COP-denominated cost-burden return is the log
+first-difference of \(\NotionalCop_t = \NotionalUsd_t \cdot
+\text{USDCOP}_t\). Under \citet{PolitisRomano1994} stationary
+bootstrap with expected block length
+\(\lceil T^{1/3} \rceil\) and \(B = 10{,}000\) replicates, we report
+the variance decomposition with \emph{conservative covariance
+attribution} (CORRECTIONS-Q):
+\begin{equation}
+\Var(\dln\NotionalCop) \;=\; \Var(\dln\NotionalUsd) \;+\;
+\Var(\dln\text{USDCOP}) \;+\; 2\,\Cov(\dln\NotionalUsd,\,
+\dln\text{USDCOP}).
+\label{eq:decomp}
+\end{equation}
+The headline FX share is
+\(\Var(\dln\text{USDCOP}) / \Var(\dln\NotionalCop)\) \emph{excluding}
+the covariance term, which is reported separately as a diagnostic
+with its own bootstrap CI. The covariance-exclusion rule is
+conservative for the M-design gate: positive covariance under
+alternative attribution schemes would inflate the apparent FX share.
+
+\paragraph{R5 verdict logic.}
+None. R5 is descriptive --- it produces a number with bootstrap CI
+consumed by the M-design step. The only pre-pinned quality threshold
+is the CI half-width on the FX share \(\leq 0.15\), an M-design
+usability gate (CORRECTIONS-T), not a verdict gate.
+
+\subsection{R4-S3-USD AUXILIARY: behavioral subscription-inelasticity}
+
+The R4-S3-USD specification is
+\begin{equation}
+|\dln\NotionalUsd_t| \;=\; \alpha_0^{USD} \;+\; \alpha_1^{USD}\,
+|\dln\text{USDCOP}_{t-k}| \;+\; \alpha_2^{USD}\,
+|\dln\text{Tokens}_{t-k}| \;+\; u_t^{USD},
+\label{eq:r4s3usd}
+\end{equation}
+with \(k=1\) primary and \(k=5\) sensitivity. The pre-pinned null is
+\(\alpha_1^{USD}=0\) under a \emph{two-sided} test (CORRECTIONS-S):
+under the subscription regime, marginal USD cost is zero, so the
+behavioral channel should produce no response in either direction;
+rejection either way is the informative finding. HAC standard errors
+follow \citet{NeweyWest1987} with the
+\citet[Andrews]{Andrews1991}-style data-dependent bandwidth
+\(L = \lfloor T_{\text{lag}}^{1/3} \rfloor\), automated per
+\citet{NeweyWest1994}.
+
+\paragraph{Power-HALT checkpoint.}
+Power is Monte-Carlo'd at MDES \(=0.40\) residual-SD on the
+post-control residual variance of \(|\dln\NotionalUsd|\) after
+partialling \(|\dln\text{Tokens}|\). Per CORRECTIONS-U the
+power-HALT was expected to fire at \(T = 38\). The canonical
+partialling-regressor recipe is \emph{lagged tokens} (matching the
+regression's own \(k=1\) lag structure), per v0.2.10 Amendment \#8;
+the contemporaneous-tokens recipe is reported for transparency but
+does not gate the verdict.
+
+\subsection{Z-arms sensitivity (diagnostic only)}
+
+Z-1 aggregates the same variance ratio at weekly (Z-1a) and monthly
+(Z-1b) horizons. Z-2-main back-casts the observed \(\dln\NotionalUsd\)
+distribution onto the 2024--2025 daily TRM via stationary bootstrap
+(\(B_{\text{paths}} = 1{,}000\)); Z-2-null repeats the loop with the
+2026-Q1-Q2 TRM only for null calibration; Z-2-W conditionally
+activates a Winsorized robustness sub-arm if observed excess kurtosis
+exceeds \(3.0\). Z-3 is the escalation gate
+(OR over relative-\(5\!\times\)-baseline and absolute-\(0.05\)
+thresholds, with null-calibration suppression). \textbf{Per v0.2.10
+Amendment \#4, all Z-arms decompose the same algebraic variance ratio
+across different horizons / TRM windows and are
+\emph{same-ratio corroborations} of R5, not independent
+measurements.}
+
+\section{Results}
+\label{sec:results}
+
+\subsection{R5 PRIMARY}
+
+The headline FX share over the daily 2026-Q1-Q2 window
+(\(T = 29\) daily rows, \(N = 28\) post-first-diff) is reported in
+Table~\ref{tab:r5}. The FX share's stationary-bootstrap CI half-width
+is \(2.2 \!\times\! 10^{-5}\), three orders of magnitude inside the
+\(0.15\) M-design usability threshold. The covariance term is small,
+negative (\(-0.002924\)), and its CI crosses zero --- consistent with
+a weak natural-hedge effect within the developer's behavior, but not
+significant.
+
+\begin{table}[h]
+\centering
+\caption{R5 PRIMARY variance decomposition --- conservative attribution
+  (CORRECTIONS-Q). 90\% stationary-bootstrap CI,
+  \citet{PolitisRomano1994}, \(B = 10{,}000\), expected block length
+  \(\lceil T^{1/3} \rceil = 4\).}
+\label{tab:r5}
+\begin{tabular}{lccc}
+\toprule
+Component & Point estimate & 90\% CI lower & 90\% CI upper \\
+\midrule
+FX share (excl.\ cov)              & \(0.0000277\)  & \(-3.4 \times 10^{-6}\) & \(+4.1 \times 10^{-5}\) \\
+Usage share (excl.\ cov)           & \(1.001078\)   & \(0.998897\)            & \(1.003730\) \\
+\(2 \times \Cov\) (diagnostic)     & \(-0.002924\)  & \(-0.008650\)           & \(+0.002815\) \\
+\midrule
+\(\hat\sigma_{\dln\NotionalCop}\)  & \(1.659\)      & \(1.216\)               & \(2.125\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{R4-S3-USD: POWER-HALT}
+
+The R4-S3-USD primary regression at \(k=1\) yields
+\(\hat\alpha_1^{USD} = -18.116\), HAC SE \(= 40.221\),
+\(t = -0.450\), two-sided \(p = 0.6524\), with HAC bandwidth
+\(L = \lfloor 28^{1/3} \rfloor = 3\). \textbf{These coefficients are
+reported for the record only; they do not adjudicate the null.}
+Under the canonical lagged-tokens partialling recipe, the measured
+power at MDES \(= 0.40\) residual-SD is \(0.1745\), below the
+demonstration-grade floor of \(0.50\). The contemporaneous-tokens
+recipe (diagnostic only) yields \(0.7115\). The verdict label is
+\textbf{POWER-HALT}; PARTIAL-REJECT and PARTIAL-FAIL\_TO\_REJECT are
+\emph{not applicable} because the power gate fires before the
+\(N\)-floor gate. Table~\ref{tab:r4s3usd} summarizes.
+
+\begin{table}[h]
+\centering
+\caption{R4-S3-USD HAC-OLS results (\(k=1\) primary, \(k=5\)
+  sensitivity) and power gate. Reported coefficients are for-the-record
+  only; the verdict is POWER-HALT.}
+\label{tab:r4s3usd}
+\begin{tabular}{lcc}
+\toprule
+                                         & \(k=1\) (primary)   & \(k=5\) (sensitivity) \\
+\midrule
+\(\hat\alpha_1^{USD}\)                   & \(-18.116\)         & \(-35.750\) \\
+HAC SE                                   & \(40.221\)          & --- \\
+\(t\)-statistic                          & \(-0.450\)          & --- \\
+Two-sided \(p\)                          & \(0.6524\)          & --- \\
+HAC bandwidth \(L\)                      & \(3\)               & \(2\) \\
+\midrule
+Residual SD (lagged partialling)         & \multicolumn{2}{c}{\(1.156\)} \\
+MDES effect \(0.40 \times \sigma_e\)     & \multicolumn{2}{c}{\(0.462\)} \\
+Power (lagged, \textbf{canonical})       & \multicolumn{2}{c}{\(\mathbf{0.1745}\) (gate: \textbf{FAIL})} \\
+Power (contemporaneous, diagnostic)      & \multicolumn{2}{c}{\(0.7115\) (gate: pass)} \\
+\midrule
+\textbf{Verdict}                         & \multicolumn{2}{c}{\textbf{POWER-HALT}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Z-arms (diagnostic, same-ratio)}
+
+Table~\ref{tab:zarms} reports the same-ratio Z-arms. The Z-3 verdict
+is \texttt{NOT\_ESCALATE}: no Z-arm trips the OR-rule
+(\(\geq 5\!\times\) baseline or \(\geq 0.05\) absolute). Per v0.2.10
+Amendment \#4, these arms are \emph{not} independent measurements
+and are not counted as corroborating evidence for the headline R5
+finding.
+
+\begin{table}[h]
+\centering
+\caption{Z-arms (same-ratio corroborations of R5; diagnostic-only).}
+\label{tab:zarms}
+\begin{tabular}{lcc}
+\toprule
+Arm                                  & FX share        & Notes \\
+\midrule
+Daily baseline (R5)                  & \(0.0000277\)   & primary \\
+Z-1a weekly                          & \(0.000073\)    & \(T_w \approx 9\) \\
+Z-1b monthly                         & \(0.000099\)    & \(T_m = 4\), TAGGED uninformative \\
+Z-2-main backcast median             & near baseline   & 2024--2025 TRM, \(B_{\text{paths}}=1{,}000\) \\
+Z-2-W (Winsorized)                   & conditional     & activates iff excess kurtosis \(> 3.0\) \\
+\midrule
+Z-3 verdict                          & \multicolumn{2}{c}{\texttt{NOT\_ESCALATE}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+\label{sec:discuss}
+
+\paragraph{Regime-conditional reading.}
+For this user \(\times\) this 2026-Q1-Q2 window, individual
+cost-burden volatility is dominated by token-burst usage variance,
+not by FX moves. The usage-share point estimate of \(1.001\) (with
+its CI tightly around \(1.0\)) and the FX-share point of
+\(2.77 \!\times\! 10^{-5}\) (CI containing zero on the lower end)
+together imply that the cost panel's variance, on this window, is
+algebraically explained by USD-side variance with a small negative
+covariance adjustment. The reading is descriptive, regime-conditional,
+and bounded to the n=1 proxy subject.
+
+\paragraph{What R5 does and does not say.}
+R5 is Role A (individual-sizing) per CORRECTIONS-R. The implication
+for the M-design step is that an individual hedge for this user, at
+this notional burn rate, should be dominated by token-volume risk
+exposure rather than FX exposure. \emph{This is not a population-level
+channel-existence claim.} Channel existence under the framework
+requires the R4-S3-USD behavioral test, which here POWER-HALTs.
+
+\paragraph{Why R4-S3-USD cannot be adjudicated.}
+The behavioral channel asks whether a subscription user nevertheless
+shifts token consumption in response to FX volatility (e.g.,
+defensively reducing usage when COP weakens, despite the flat USD
+invoice). At \(N=28\) and HAC-corrected SE of \(40.2\) on
+\(\hat\alpha_1^{USD}\), the regression cannot distinguish meaningful
+behavioral response from noise. The high \(p = 0.6524\) is
+\emph{uninformative} once the power gate has failed: with \(B=2{,}000\)
+simulated draws at MDES \(0.40 \sigma_e\), only \(17\%\) of draws
+reject under the lagged canonical recipe. The honest reading is
+"insufficient data," not "no effect."
+
+\paragraph{Why Z-arms cannot rescue R4-S3-USD.}
+Z-arms re-decompose the same R5 ratio across alternate time horizons
+and TRM windows. They corroborate the descriptive small-FX-share
+finding (regime-conditional) but carry no independent inferential
+weight on the behavioral channel. Counting them as independent
+evidence is fishing-by-redundancy under \S 7's anti-fishing
+invariants.
+
+\section{Limitations}
+\label{sec:limits}
+
+\begin{enumerate}[leftmargin=*,nosep]
+\item \textbf{Sub-floor \(N\).} Observed \(N = 28\) is below the
+  demonstration-grade \(N_{\min} = 38\) (itself below the project
+  default of \(75\)). All findings are pilot-grade.
+\item \textbf{Single-user pilot.} The panel is a single-user JSONL
+  trace. No population-level inference is admissible.
+\item \textbf{Subscription-as-proxy.} The notional-cost path
+  substitutes for what a non-subscribed pay-per-API LATAM developer
+  would have paid for equivalent usage. Equal demand under both
+  billing regimes is a strong assumption.
+\item \textbf{v0.2.10 audit-econ corrections context.} The withdrawn
+  v0.2.9 verdict (PARTIAL-FAIL\_TO\_REJECT under the contemporaneous
+  power-recipe pin) remains in git history for audit trail. The
+  current write-up reports the lagged canonical recipe per
+  Amendment \#8.
+\item \textbf{Regime-conditional reading.} The small-FX-share
+  finding is conditional on the 2026-Q1-Q2 USDCOP regime and on the
+  pilot subject's usage pattern. Generalization is not claimed.
+\item \textbf{Same-ratio corroboration discipline.} Z-arms are not
+  independent inferential evidence; they are reported as
+  diagnostic-only.
+\end{enumerate}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+The \texttt{dev\_ai\_cost\_v2} iteration is paused at
+\textbf{demonstration-grade pending an \(N \geq 75\) panel} ---
+explicitly not closed-PASS and explicitly not closed-FAIL. The R5
+descriptive finding (FX share \(\approx 0\%\), regime-conditional)
+informs M-design priors under Role A but is not a framework-level
+channel-existence statement. The R4-S3-USD behavioral test
+POWER-HALTs; it cannot be adjudicated at current sample size and
+power.
+
+Three pre-enumerated pivots are available to the framework owner:
+(i) continue accumulating data on the pilot subject (\(\sim 12\)--\(18\)
+months to reach \(N \geq 75\) at observed cadence; regime-change risk
+material); (ii) pivot within the same \(Y\) to the R6 sibling
+iteration on continuous-stream simulation, parked at v0.1.3 and ready
+for dispatch; or (iii) pivot to a different \(Y\) (target population)
+where the FX channel is ex-ante stronger. The choice is the framework
+owner's. None of the three implies that the FX-channel hypothesis has
+been disconfirmed; only that this particular pilot, on this
+subscription user and this window, cannot adjudicate it.
+
+\begin{thebibliography}{9}
+
+\bibitem[Andrews(1991)]{Andrews1991}
+Andrews, D.\,W.\,K. (1991). Heteroskedasticity and Autocorrelation
+Consistent Covariance Matrix Estimation. \emph{Econometrica} 59(3),
+817--858.
+
+\bibitem[LiteLLM(2025)]{LiteLLM2025}
+LiteLLM. (2025). Model price and context-window registry.
+\url{https://github.com/BerriAI/litellm} (commit SHA + file SHA-256
+pinned in DATA\_PROVENANCE.md).
+
+\bibitem[Newey and West(1987)]{NeweyWest1987}
+Newey, W.\,K., and K.\,D. West (1987). A Simple, Positive
+Semi-Definite, Heteroskedasticity and Autocorrelation Consistent
+Covariance Matrix. \emph{Econometrica} 55(3), 703--708.
+
+\bibitem[Newey and West(1994)]{NeweyWest1994}
+Newey, W.\,K., and K.\,D. West (1994). Automatic Lag Selection in
+Covariance Matrix Estimation. \emph{Review of Economic Studies}
+61(4), 631--653.
+
+\bibitem[Politis and Romano(1994)]{PolitisRomano1994}
+Politis, D.\,N., and J.\,P. Romano (1994). The Stationary Bootstrap.
+\emph{Journal of the American Statistical Association} 89(428),
+1303--1313.
+
+\end{thebibliography}
+
+\end{document}

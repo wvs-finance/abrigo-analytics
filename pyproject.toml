@@ -13,11 +13,13 @@ authors = [{ name = "JMSBPP" }]
 dependencies = [
     "duckdb>=1.5",
     "pandas>=2.2",
+    "polars>=1.20",
     "numpy>=2.0",
     "pyarrow>=18",
     "matplotlib>=3.9",
     "seaborn>=0.13",
     "scipy>=1.13",
+    "sympy>=1.14",
     "statsmodels>=0.14",
     "arch>=8.0",
     "linearmodels>=6.0",
@@ -43,6 +45,9 @@ dev = [
     "pytest-cov>=5",
     "ruff>=0.7",
     "mypy>=1.13",
+    "ty>=0.0.1a1",
+    "hypothesis>=6.100",
+    "mutmut>=2.5",
 ]
 
 [build-system]
@@ -50,12 +55,25 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["scripts"]
+packages = ["scripts", "simulations"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py313"
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "simulations/tests"]
+pythonpath = ["."]
 addopts = "-ra -q"
+
+[tool.mutmut]
+paths_to_mutate = [
+    "simulations/types/",
+    "simulations/modules/",
+    "simulations/utils/",
+]
+tests_dir = ["simulations/tests/"]
+do_not_mutate = [
+    "simulations/**/__init__.py",
+    "simulations/tests/**",
+]

@@ -1,0 +1,49 @@
+========================================================================
+Y-9 ROOT-CAUSE PROBE — empirical findings
+========================================================================
+
+Window: [2024-01-01, 2026-05-17)
+Projects root: /home/jmsbpp/.claude/projects
+
+─── Raw counts ──────────────────────────────────────────────
+  total JSONL lines           :    222,909
+  total assistant rows        :     87,827
+  in-window assistant rows    :     85,543
+
+─── Admission divergence (ours vs ccusage) ──────────────────
+  admitted by ours (any row)  :     85,543
+  admitted by ccusage (Tr/Or) :     85,469
+  admitted by both            :     85,469
+  ours only (ccusage rejects) :         74
+  ccusage only (ours rejects) :          0
+
+─── H5: isApiErrorMessage=true rows ─────────────────────────
+  count                       :         74
+  sum tokenTotal              :          0
+
+─── H6: missing message.id rows (ours admits, ccusage rejects) ─
+  count                       :          0
+  sum tokenTotal              :          0
+
+─── H4: flat vs nested cache_creation ───────────────────────
+  rows where flat == nested   :     85,461
+  rows where flat != nested   :          8
+  sum(flat - nested)          :     17,224
+
+─── H1: iterations[] aggregation ─────────────────────────────
+  rows with iterations[]      :     37,062
+  rows with >1 iteration      :          0
+  iter_input == top_input     :     37,062
+  iter_input != top_input     :          0
+  sum(top input over iter rows):    869,919
+  sum(iterations input)       :    869,919
+  delta (iter - top)          :          0
+
+─── H3: hasSpeed tiebreaker / dedup-keep divergence ──────────
+  uniqueHash collisions (ccu) :     42,386
+  uniqueHash collisions (ours):     42,386
+  divergent keep choices      :          0
+  impact: ours_input - ccu_input  =          0
+  impact: ours_output - ccu_output=          0
+  impact: ours_cc - ccu_cc        =          0
+  impact: ours_cr - ccu_cr        =          0

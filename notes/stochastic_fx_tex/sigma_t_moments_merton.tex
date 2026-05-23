@@ -1,0 +1,11 @@
+% Merton jump-diffusion envelope moments under mean-zero log-drift.
+% ref: Andersen & Piterbarg, Interest Rate Modeling Vol I,
+%      section 2.7 for E[sigma_T] and section 2.7.3 for Var[sigma_T]
+%      (compound-Poisson moment-of-moment).
+% Fourth-moment expansion uses E[(e^J - 1)^4] = sum_{k=0..4} C(4,k) (-1)^(4-k) E[e^{kJ}]
+% with E[e^{kJ}] = exp(k mu_J + k^2 sigma_J^2 / 2).
+\paragraph{Closed forms.}
+\[ \mathbb{E}[\sigma_T] = \frac{T \bar{X}^{2} \lambda \left(- 2 e^{\mu_{J} + \frac{\sigma_{J}^{2}}{2}} + e^{2 \mu_{J} + 2 \sigma_{J}^{2}} + 1\right)}{\bar{Y}^{2}} + \frac{T \bar{X}^{2} \sigma^{2}}{\bar{Y}^{2}} \]
+\[ \mathrm{Var}[\sigma_T] = \frac{T \bar{X}^{4} \lambda \left(- 4 e^{\mu_{J} + \frac{\sigma_{J}^{2}}{2}} + 6 e^{2 \mu_{J} + 2 \sigma_{J}^{2}} - 4 e^{3 \mu_{J} + \frac{9 \sigma_{J}^{2}}{2}} + e^{4 \mu_{J} + 8 \sigma_{J}^{2}} + 1\right)}{\bar{Y}^{4}} + \frac{2 T \bar{X}^{4} \sigma^{4}}{\bar{Y}^{4}} \]
+\paragraph{Numerical pin at canonical fixture}
+At $\sigma = 0.05/\sqrt{12}$, $\lambda = 1$, $\mu_J = 0$, $\sigma_J = 0.10$, $T = 12$, $\bar{X}/\bar{Y} = 4000$: $\mathbb{E}[\sigma_T] = 1.99385e+06$, $\mathrm{Var}[\sigma_T] = 1.02504e+12$.

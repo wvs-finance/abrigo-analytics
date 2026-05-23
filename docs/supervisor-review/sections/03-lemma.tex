@@ -1,0 +1,119 @@
+\section{The Abrigo Lemma: Inequality Differential as Hedge Target}\label{sec:3}
+
+This section states the proposition that motivates the choice of \(Y\) in
+the framework's medium-term iteration roster. It is presented as a
+proposition rather than a proven theorem; the disclaimer is repeated
+immediately after the formal statement and is binding on the rest of the
+memorandum. The economic interpretation given to the proposition is that
+of a parametric-cost-insurance underwriting target rather than that of a
+generic derivative hedge target; the mathematical content is unchanged
+from earlier statements internal to the project, but the framing under
+which the supervisor is invited to evaluate it is the
+parametric-index-insurance literature
+\citep{carter_etal_2017,mahul_stutley_2010,clarke_2016}.
+
+\begin{lemma}[Inequality-Differential Hedge Target]\label{lem:abrigo}
+Let \(R_a(t)\) denote the return process of an asset basket representative
+of capital-holding households' wealth, and let \(R_c(t)\) denote the
+return process of a consumption basket representative of working-class
+households' purchasing power. Define the inequality-differential process
+\[
+  Y_{\text{inequality}}(t) \;=\; R_a(t) - R_c(t).
+\]
+A hedging instrument settled on \(Y_{\text{inequality}}(t)\) is
+welfare-relevant for working-class wealth in a way that no instrument
+settled on \(R_a(t)\) alone or \(R_c(t)\) alone is, because the
+differential directly indexes the relative-wealth gap that determines the
+working-class household's purchasing-power decline relative to
+capital-holding households.
+\end{lemma}
+
+\paragraph{Status of the Lemma --- load-bearing disclaimer.} Lemma
+\ref{lem:abrigo} is stated as a proposition motivating the project's
+iteration design. It is \emph{not} a proven theorem. In particular, the
+existence of a settlement-feasible instrument that materialises the
+differential \(Y_{\text{inequality}}\) on the on-chain substrate, and the
+calibration of the associated stochastic process, are Stage-2 / Stage-3
+work that this memorandum does \emph{not} prove. The proposition's role
+in the memorandum is solely to motivate why the iteration roster targets
+distributional differentials rather than single-aggregate macro
+variables.
+
+\paragraph{Insurance-framing reading.} Under the framing developed in
+Section~\ref{sec:1}, the differential \(Y_{\text{inequality}}(t)\) is the
+welfare-relevant index variable on which a parametric cost-insurance
+product should settle. The working-class household holds the policy ---
+the \emph{insured} party --- and the policy pays out as a function of the
+realised differential. The capital-holding counterparty already carries
+the asset exposure represented by \(R_a(t)\) through pre-existing
+portfolio positions and therefore does not need to be matched to a new
+opt-in derivative leg; the counterparty matching is structural rather
+than negotiated, in the sense documented for parametric-index insurance
+by \citet{carter_etal_2017} and surveyed for developing-country
+agricultural applications in \citet{mahul_stutley_2010}. The basis-risk
+posture that \citet{clarke_2016} formalises --- the gap between an
+index-payoff and the policy-holder's realised loss --- becomes the
+appropriate Stage-1 evaluation discipline, and that posture is the one
+under which the supervisor is asked to evaluate the empirical work in
+Section~\ref{sec:7.2}.
+
+\subsection{Why a single-aggregate hedge is insufficient}
+
+A standard single-aggregate macro hedge --- for example, an instrument
+settled on the headline consumer-price index alone, or on the bilateral
+exchange rate alone --- fails to capture the relative-wealth dimension
+that matters for working-class welfare. The headline consumer-price index
+mixes consumption baskets across the wealth distribution; capital-holding
+households frequently hold consumer-price-index-indexed assets that
+neutralise their own exposure to inflation, leaving the working-class
+household systematically more exposed than the headline number suggests.
+A hedge settled on the headline index therefore prices off the
+\emph{average} household's exposure rather than off the \emph{relative}
+exposure differential that is welfare-relevant for the population of
+interest. Read in insurance terms, the headline-index policy carries
+unmodelled basis risk against the policy-holder's actual loss exposure;
+\citet{clarke_2016} establishes that uninternalised basis risk on an
+index-payoff product is a first-order determinant of rational demand for
+that product. The differential
+\(Y_{\text{inequality}}(t) = R_a(t) - R_c(t)\) removes the aggregation
+problem by construction: it indexes precisely the gap between the two
+baskets rather than the level of either, and therefore admits a
+basis-risk treatment of the kind \citet{clarke_2016} requires.
+
+\subsection{Two-sided market and counterparty matching}
+
+A second motivation for the differential formulation is the existence of
+a natural two-sided market that does not require an opt-in negotiated
+counterparty. On the differential, the working-class household is
+naturally LONG (a widening differential corresponds to a relative loss
+for the household, which the policy-payoff compensates), while
+capital-holding households are naturally SHORT through the asset
+positions they already hold (their existing portfolios deliver the
+\(R_a(t)\) leg, so their natural exposure is to a narrowing
+differential). The differential formulation therefore admits the same
+counterparty-matching structure that \citet{carter_etal_2017} characterise
+for index-insurance arrangements: the index payoff clears the
+counterparty-availability problem that obstructs single-aggregate
+constructions, because the counterparty is not negotiated into a new
+position but is structurally exposed to the index already. The
+counterparty-matching argument is conjectural at the present stage; we
+flag the formal calibration of the differential's joint-leg correlation
+structure and FWER posture as the methodological question in
+Section~\ref{sec:7.3}.
+
+\subsection{Calibration of the continuous-time differential}
+
+The differential \(Y_{\text{inequality}}(t)\) is treated as a
+continuous-time stochastic process. Its calibration --- choice of the
+component variables that constitute each leg, weighting within each leg,
+joint-leg correlation structure, and treatment of regime switches --- is
+deferred to Section~\ref{sec:7.3} as an explicit ask for the supervisor's
+input. The project's current iteration roster has not yet attempted full
+joint calibration; closed and active iterations estimate the response of
+single \(Y\) variables to single \(X\) lags as a precursor exercise. The
+parametric-cost-insurance reading developed above does not change the
+mathematical object being calibrated; it changes the standard against
+which the calibration's adequacy is judged, and that standard is the
+underwriting-discipline standard developed across
+\citet{carter_etal_2017}, \citet{mahul_stutley_2010}, and
+\citet{clarke_2016}.

@@ -1,0 +1,58 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% \usepackage{lmodern} — removed 2026-05-06: redundant under LaTeX 2020+ where
+% Latin Modern is the default with T1 fontenc. texlive-fontsrecommended is not
+% installed on this machine; dropping the line produces identical output.
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{parskip}
+% \usepackage{microtype} — removed 2026-05-06: microtype's font-expansion
+% feature requires scalable fonts which are not installed on this machine
+% (texlive-fontsrecommended absent). microtype is a typographic refinement,
+% not load-bearing for content; document compiles correctly without it.
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+% --- Citation idiom: plain natbib + bibtex backend (NOT biblatex). ---
+% Per Wave-1 RC FLAG-1: avoid the biblatex-with-bibtex-backend hybrid.
+% Sub-agents are instructed to use \cite{key} / \citet{key} / \citep{key}.
+\usepackage[authoryear,round]{natbib}
+\bibliographystyle{plainnat}
+
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}
+
+% --- Provenance footer (per Wave-2 PM NIT) ---
+% Records the spec sha and build date so the supervisor (or any future
+% auditor) can reconstruct the production process from the PDF alone.
+\newcommand{\specsha}{3fd15bb}
+\newcommand{\builddate}{\today}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Supervisor-Review Memorandum}
+\fancyhead[R]{\small \builddate}
+\fancyfoot[L]{\scriptsize spec: \texttt{docs/specs/2026-05-06-supervisor-review-document-design.md@\specsha}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\scriptsize built \builddate}
+
+\titleformat{\section}{\Large\bfseries}{\S\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\S\thesubsection}{0.5em}{}
+
+\title{A Methodological Framework for Identifying and Empirically Validating
+Macroeconomic Risks Suitable for On-Chain Convex Hedge Instruments \\[0.5em]
+\large Record of Closed Iterations and Request for Supervisor Guidance}
+\author{[author block --- fill at composition time]}
+\date{2026-05-06}

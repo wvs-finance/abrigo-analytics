@@ -1,0 +1,23 @@
+{
+  "phase": "E10 GSPS Phase 6 / tasks 6.1 + 6.2",
+  "verdict": "NON-RETIREMENT",
+  "non_retirement_subtype": "q_dominance",
+  "verdict_rationale": "Verdict NON-RETIREMENT (subtype q_dominance). The Q-variance component dominates the \u00a74.2 three-way log-variance decomposition across the whole anchored Q-volume range \u2014 the FX-variance-share sensitivity surface sits orders of magnitude below the ex-ante-pinned break-even s_be = 0.25 at every grid point (spec \u00a77 field 7b; spec \u00a79 NON-RETIREMENT rung). Load-bearing input: q_variance_dominates = True.",
+  "interior_crossing_disclosure": "",
+  "inputs_snapshot": {
+    "surface_computed": true,
+    "material_gap": false,
+    "simulator_anchored": true,
+    "q_variance_dominates": true,
+    "interior_crossing": false,
+    "dv_gate_passed": true
+  },
+  "panel_mean_share": 0.0001535157617749653,
+  "frozen_s_be": 0.25,
+  "decades_below_break_even": -3.211787036673344,
+  "phase5_arms_n": 5,
+  "phase5_all_concordant": true,
+  "no_rescue_clause_held": true,
+  "methods_paper_anchor_preserved": true,
+  "closure_handoff": "audit-econ Delphi (plan task 6.3)"
+}

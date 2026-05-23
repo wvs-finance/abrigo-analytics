@@ -1,0 +1,126 @@
+\section{Glossary}\label{app:A}
+
+\subsection*{Econometric terms}
+\begin{description}
+  \item[HAC (Newey-West)] Heteroskedasticity-and-autocorrelation-consistent
+    standard error using the \citet{hansen_2022}-style Bartlett kernel at
+    fixed lag truncation \(L\); used in the project as a robustness arm
+    rather than as primary inference.
+  \item[Composite-\(\hat{\beta}\)] Sum of lag-distributed slope
+    coefficients across the pre-registered lag set,
+    \(\hat{\beta}_{\mathrm{composite}} = \hat{\beta}_{6} + \hat{\beta}_{9}
+    + \hat{\beta}_{12}\) for monthly iterations; the primary test
+    statistic at Stage~1.
+  \item[MDES] Minimum detectable effect size; the smallest slope under
+    which the pre-registered specification achieves the committed power
+    at the committed significance level.
+  \item[\(\mathrm{MDES}_{\mathrm{SD}}\)] MDES expressed in
+    standard-deviation units of \(Y\); pinned at \(0.40\) in the
+    inherited Phase-A.0 Rev-5.3.1 invariant.
+  \item[FWER] Familywise error rate; the probability of at least one
+    Type-I error across a family of tests.
+  \item[FDR] False-discovery-rate (Benjamini--Hochberg 1995); the expected
+    proportion of false positives among the rejected hypotheses, used as
+    the less conservative alternative to FWER under correlated tests.
+  \item[Structural VAR] Vector autoregression in which contemporaneous
+    relationships among the endogenous variables are identified by
+    economically-motivated restrictions; reference framework
+    \citet{kilian_lutkepohl_2017}.
+  \item[Predictive regression] Regression in which the right-hand-side
+    variable carries past information about the left-hand-side variable
+    but is not assumed exogenous in the structural sense; coefficients
+    are predictive, not impulse-response.
+  \item[Granger causality] Statistical relation in which past values of
+    one series help predict another conditional on the second's own
+    lags; not equivalent to structural causation.
+  \item[DCC-MGARCH] Dynamic conditional-correlation multivariate GARCH
+    specification of \citet{engle_2002}; candidate joint-distribution
+    model for the two legs of the inequality differential.
+  \item[EVT POT] Extreme-value-theory peaks-over-threshold; tail-index
+    estimation framework of
+    \citet{embrechts_kluppelberg_mikosch_1997}, candidate input to the
+    Stage-1 convex-payoff sufficiency test.
+  \item[Quantile regression] Estimation of conditional quantiles of \(Y\)
+    given covariates; alternative to mean-regression for distributional
+    evidence.
+  \item[Pre-analysis plan] Document committing the analytical
+    specification before data are observed; reference frameworks
+    \citet{olken_2015} and \citet{christensen_miguel_2018}.
+  \item[R-row] Single-row pre-registered robustness alternative that
+    varies exactly one design choice from the primary specification;
+    typical universe across closed monthly iterations is R1
+    (regime-dummy), R2 (sample-cut), R3 (functional-form), R4 (HAC
+    inference).
+  \item[ESCALATE Clause A] Verdict-mapping clause covering
+    positive-\(\hat{\beta}\) results with primary \(p\) in
+    \((0.05,\ 0.20]\); routes the iteration to user adjudication rather
+    than auto-PASS or auto-FAIL.
+  \item[ESCALATE Clause B] Verdict-mapping clause covering
+    near-zero-\(\hat{\beta}\) results with high tail asymmetry,
+    operationalised as
+    \(\big|\hat{\beta}/\mathrm{SE}\big| < 0.5\) jointly with
+    \(\big|\mathrm{skew}(\text{residuals})\big| > 1.0\) or
+    excess kurtosis greater than \(3.0\); thresholds pinned at
+    spec-authoring time.
+  \item[\texttt{SUBSTRATE\_TOO\_NOISY}] Verdict label triggered when at
+    least three of four R-rows produce sign-flipped composite
+    \(\hat{\beta}\) relative to the primary; halts the iteration and
+    requires substrate-level review before any pivot.
+\end{description}
+
+\subsection*{On-chain terms}
+\begin{description}
+  \item[On-chain settlement.] Discharge of a financial obligation by execution
+        of a publicly-recorded, programmable rule-set on a public ledger.
+        Traditional-finance analogue: clearinghouse with a public,
+        machine-executable rulebook.
+  \item[Programmable rule-set.] A pre-specified contractual logic, recorded
+        publicly, whose execution is deterministic given observable inputs.
+        Traditional-finance analogue: an ISDA confirmation whose terms are
+        machine-executable rather than discretionarily applied.
+  \item[Uniswap \textsc{v3}/\textsc{v4} LP position.] A two-asset
+        market-making commitment over a bounded price interval
+        \([P_{\ell}, P_{u}]\), whose payoff in the terminal price is
+        piecewise-concave (long-gamma inside the interval, directional
+        outside). Traditional-finance analogue: a passive market-making book
+        with hard inventory limits at the interval bounds.
+  \item[Perpetual option (on-chain).] An option-like instrument with no fixed
+        expiry, whose premium accrues continuously as a streaming funding
+        payment. Traditional-finance analogue: a perpetual swap whose payoff
+        leg is a vanilla option rather than a linear delta.
+  \item[Panoptic.] A deployed protocol that issues perpetual options written
+        against Uniswap \textsc{v3}/\textsc{v4} LP positions
+        \citep{panoptic_docs_2026}. Traditional-finance analogue: an
+        exchange-traded perpetual-future-on-options venue with the option
+        strike encoded as a market-making price interval.
+  \item[Reserve-backed peg.] A stablecoin issuance design in which the pegged
+        claim is collateralised by a reserve portfolio whose composition and
+        valuation are publicly observable. Traditional-finance analogue: a
+        narrow-purpose currency board.
+  \item[Mento.] A deployed reserve-backed stablecoin protocol on the Celo
+        public ledger, maintaining a roster of twelve country-currency-pegged
+        claims as of the 2026-04-27 deployment manifest
+        \citep{mento_v3_deployments_2026}. Traditional-finance analogue: a
+        consortium-issued multi-currency narrow bank.
+  \item[Mento Broker.] The routing contract through which Mento exchanges
+        pegged claims against reserve assets at the protocol-determined
+        reference rate \citep{mento_v3_deployments_2026}. Traditional-finance
+        analogue: the redemption window of the issuing currency board.
+  \item[Purchasing-parity stablecoin.] A reserve-backed pegged claim
+        denominated in the consumption currency of a target population
+        (\textsc{copm}, \textsc{brlm}, \textsc{kesm}, \textsc{eurm},
+        \textsc{usdm}). A hedge denominated in such a claim settles in the
+        user's consumption currency rather than United States dollars,
+        eliminating residual exchange-rate exposure between hedge settlement
+        and consumption at the unit-of-account level.
+  \item[Carbon DeFi (excluded).] A third-party decentralised exchange that
+        hosts Mento-basket claims as standard fungible tokens. Carbon
+        \emph{has no protocol-level integration with Mento}: the Mento V3
+        deployment manifest contains zero references to Carbon DeFi or its
+        arbitrage routers. Carbon-Mento trading volume is third-party DEX
+        activity --- predominantly Bancor's own arbitrage routers extracting
+        value from price misalignment between Mento Reserve pricing and
+        secondary-market liquidity --- and is \emph{not} Mento Reserve user
+        demand. Any framing of Carbon-Mento volume as a Mento-native demand
+        signal is excluded from this document's empirical claims.
+\end{description}

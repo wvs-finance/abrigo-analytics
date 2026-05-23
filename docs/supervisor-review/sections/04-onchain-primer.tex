@@ -1,0 +1,175 @@
+\section{On-Chain Settlement Substrate: Primer for the Non-Specialist Reader}\label{sec:4}
+
+This section introduces the on-chain settlement venue at the level required for
+the supervisor to evaluate the empirical record presented in Sections~\ref{sec:5}
+and~\ref{sec:6}. We anchor each on-chain construct to its closest
+traditional-finance analogue at first introduction and avoid implementation
+detail throughout. We emphasise at the outset that the empirical
+\(\hat{\beta}\)-validation work the supervisor is reviewing is conducted on
+off-chain data series (DANE, Banrep, GEIH); on-chain content is contextual,
+not evidentiary.
+
+\subsection{What ``On-Chain'' Means}\label{sec:4-onchain-meaning}
+
+In the present document, an instrument is said to settle \emph{on-chain} when
+the rule-set governing its cash flows --- the conditions under which obligations
+are recognised, netted, and discharged --- is recorded on a public ledger and
+executed by a programmable settlement engine. The closest traditional-finance
+analogue is a \emph{clearinghouse with a public, verifiable, programmable
+rule-set}: the contractual specification that a clearinghouse keeps in its
+internal rulebook is, in this setting, a publicly inspectable object whose
+execution is automatic and observable to all market participants.
+
+Two properties of this venue are load-bearing for what follows. First,
+settlement is \emph{deterministic} given the rule-set and the observable inputs;
+there is no discretionary intermediary that must be coordinated with at trade
+time. Second, the rule-set is \emph{programmable in advance}: payoff geometries
+that would conventionally require a bespoke ISDA confirmation can be encoded once
+and reused at scale. We emphasise that nothing in this section depends on the
+implementation language of the rule-set; the reader is asked only to accept that
+a programmable, publicly-auditable clearinghouse exists as the settlement
+backdrop for the instrument family the framework targets.
+
+\subsection{Panoptic: Perpetual Options on Liquidity-Provider Positions}\label{sec:4-panoptic}
+
+Panoptic is a deployed protocol that issues perpetual option-like instruments
+written against concentrated liquidity-provider (LP) positions on the Uniswap
+\textsc{v3}/\textsc{v4} automated market makers
+\citep{panoptic_whitepaper_2023,panoptic_docs_2026,uniswap_v3_whitepaper_2021,uniswap_v4_whitepaper_2024}.
+The traditional-finance analogue is a \emph{perpetual-future-on-options
+instrument} in which the option strike is encoded as the price range over
+which a market-making position is concentrated, and the option premium accrues
+continuously as a streaming funding payment rather than as a one-shot premium
+at trade inception.
+
+The economic content can be stated without recourse to implementation. A
+concentrated LP position, in the Uniswap \textsc{v3}/\textsc{v4} sense, is a
+two-asset market-making commitment over a bounded price interval
+\([P_{\ell}, P_{u}]\). Inside the interval, the position behaves as a passive
+market maker; outside, it converts entirely to one of the two assets. The
+payoff of such a position, viewed as a function of the terminal price \(P_T\),
+is a piecewise-concave curve --- a long-gamma exposure inside the interval and
+a directional position outside it. Panoptic's contribution is to allow market
+participants to take \emph{either side} of this payoff continuously: a short
+position in the LP curve (sold to a long counterparty for a streaming premium)
+delivers a payoff geometry equivalent to a long perpetual option, with the
+strike, range, and convexity controlled by the chosen \([P_{\ell}, P_{u}]\)
+bracket and the asset pair. Standard option structures --- covered calls,
+range LPs, perpetual puts, and straddles --- are all expressible as
+combinations of such positions.
+
+For the framework's purposes, three properties matter. First, the instruments
+are \emph{convex} in the underlying price: convexity is the load-bearing
+property required for the (Y, M, X) instrument family articulated in
+Section~\ref{sec:2} and the inequality-differential lemma of
+Section~\ref{sec:3}. Second, the instruments are \emph{perpetual}: they do
+not expire on a fixed calendar date and therefore admit indefinite
+roll-without-rebooking, which is operationally relevant for a wage earner
+paying a small recurring premium out of wage income. Third, the instruments
+are \emph{permissionless}: any market participant who can interact with the
+public ledger can take either side, without bilateral counterparty
+negotiation. We do not litigate liquidity adequacy at the venue here;
+Section~\ref{sec:4-disclaimer} returns to the question of how the framework
+treats the gap between empirical \(\hat{\beta}\)-validation and live deployment
+liquidity.
+
+\subsection{Mento Purchasing-Parity Stablecoins}\label{sec:4-mento}
+
+Mento is a deployed reserve-backed stablecoin protocol on the Celo public
+ledger \citep{mento_protocol_overview_2026,mento_v3_deployments_2026}. As of
+the manifest dated 2026-04-27, the Mento V3 deployment maintains a roster of
+twelve country-currency-pegged claims, of which the framework treats five as
+load-bearing for the target populations under iteration: \textsc{usdm} (United
+States dollar), \textsc{eurm} (Euro), \textsc{brlm} (Brazilian real),
+\textsc{kesm} (Kenyan shilling), and \textsc{copm} (Colombian peso). Each
+claim is, for the supervisor's purposes, a \emph{digital country-currency-pegged
+liability of the protocol}, with the peg maintained by an on-chain reserve
+mechanism. The closest traditional-finance analogue is a narrow-purpose
+digital currency board: the protocol holds a portfolio of reserve assets and
+exchanges fixed amounts of the pegged claim against a basket of redemption
+assets at the protocol-determined reference rate, mediated by a routing
+contract referred to in the manifest as the Mento Broker.
+
+The empirical implication for the framework is decisive and is the principal
+reason Mento appears in this document at all. Consider a working-class
+Colombian household contemplating a hedge against a macro risk \(X\) that
+threatens its purchasing power. A hedge denominated in United States dollars
+settles in a currency the household does not consume; the household then bears
+residual COP/USD exchange-rate risk between hedge settlement and consumption.
+A hedge denominated in \textsc{copm} settles directly in a claim pegged to
+the household's consumption currency, eliminating that residual exchange-rate
+exposure by construction. The hedge is, in this sense,
+\emph{purchasing-parity preserving} at the unit-of-account level. The same
+construction applies to \textsc{brlm} for Brazilian populations,
+\textsc{kesm} for Kenyan populations, and so on across the Mento basket.
+
+We note one item of housekeeping that may bear on supervisor questions about
+on-chain attribution. There exist two distinct Colombian-peso-named claims on
+the Celo ledger: the Mento-protocol-native \textsc{copm} (canonical address
+\texttt{0x8A567e2a\dots4041eA}) and a separate fintech-issued
+\textsc{copm-Minteo} claim (address
+\texttt{0xc92e8fc2\dots1d5606}) that is not Mento-protocol-native and is
+therefore out of scope for any framework-level claim about Mento user
+behaviour. The audit-trail discipline of the framework treats these as
+non-substitutable.
+
+\subsection{Political-Receptivity Context}\label{sec:4-receptivity}
+
+In late January 2025, a tariff standoff between the United States executive
+and the Colombian executive produced a documented forty-eight-hour spike in
+new account formation at Littio, a Colombian fintech provider of USD-pegged
+stablecoin accounts; the spike was on the order of one hundred percent above
+prior baseline (per the project's internal reference document
+\texttt{OFFCHAIN\_COP\_BEHAVIOR.md}, which the same event-window has been used
+as a structural-break event-dummy across multiple iteration specifications).
+This is a \emph{user-side} responsiveness signal: Colombian retail moved into
+a USD-stablecoin rail during a political dollar-access shock. We include the
+observation as anecdotal context for the framework's implicit hypothesis that
+working-class populations facing macro-risk shocks display measurable
+willingness to engage on-chain instruments when the off-chain banking rail
+becomes congested or politically encumbered. We emphasise that this
+observation is \emph{not} a presidential transaction; earlier draft language
+asserting that the Colombian president had publicly transacted on-chain was
+unsourced and has been removed. The receptivity signal is anecdotal frame
+only; it is not load-bearing for any empirical or methodological claim
+elsewhere in this document.
+
+\subsection{Critical Disclaimer: Empirical Validation is Off-Chain}\label{sec:4-disclaimer}
+
+The framework's empirical \(\hat{\beta}\)-validation work --- the verdicts
+recorded in Section~\ref{sec:6} and the methodology of Section~\ref{sec:5} ---
+is conducted on off-chain data series. The Pair D PASS verdict, the
+dev-AI Stage-1 in-progress estimation, the FX-vol-CPI-surprise FAIL, the
+Phase-A.0 EXIT, and the P1 PARKED record all rest on data assembled from the
+Departamento Administrativo Nacional de Estad\'istica (DANE), the Banco de la
+Rep\'ublica de Colombia (Banrep), and the Gran Encuesta Integrada de Hogares
+(GEIH). On-chain data series enter the framework only at later stages of
+candidate \(X_d\) signal-design, and their role there is auxiliary and
+re-pivoting in light of recent verification work
+(see Section~\ref{sec:6}, dev-AI Stage-1 and Phase-A.0 EXIT entries).
+
+The settlement venue --- Panoptic on a Mento-denominated pair --- is the
+\emph{deployment target} once a (Y, X) pair passes Stage-1 empirical
+validation. Stage-1 validation does not require any on-chain interaction;
+Stage-2 instrument design (\(M\)-sketch) does not require live liquidity;
+only Stage-3 deployment requires real liquidity-provider capital. The
+supervisor's review concerns the econometrics --- the Stage-1 layer. Sections
+\ref{sec:5}, \ref{sec:6}, \ref{sec:7}, and \ref{sec:8}, together with
+Appendices~\ref{app:C} and~\ref{app:D}, are readable end-to-end without
+further on-chain familiarity.
+
+\subsection{Reader Takeaways}\label{sec:4-takeaways}
+
+\begin{enumerate}
+  \item On-chain perpetual options exist and are tradable today, via the
+        Panoptic protocol written against Uniswap \textsc{v3}/\textsc{v4} LP
+        positions \citep{panoptic_docs_2026}.
+  \item Purchasing-parity stablecoin denominations exist, via the Mento
+        protocol's roster of country-currency-pegged claims
+        (\textsc{usdm}, \textsc{eurm}, \textsc{brlm}, \textsc{kesm},
+        \textsc{copm}) \citep{mento_v3_deployments_2026}.
+  \item The empirical work the supervisor is reviewing is off-chain
+        econometrics on DANE, Banrep, and GEIH series.
+  \item The remainder of this document does not require on-chain familiarity;
+        the reader may proceed directly to Section~\ref{sec:5}.
+\end{enumerate}

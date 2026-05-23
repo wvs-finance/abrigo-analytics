@@ -15,6 +15,7 @@ data/processed/
 data/downloads/
 data/probes/
 data/extracted/
+data/panels/
 data/*.duckdb
 data/*.duckdb.wal
 data/*.parquet
@@ -42,3 +43,30 @@ notebooks/**/estimates/*.pkl
 .env
 .envrc
 !.env.example
+
+# Mutation testing artifacts (mutmut)
+mutants/
+.mutmut-cache/
+.hypothesis/
+.coverage
+
+# SAAS-COHORT-1 emission outputs (Hive-partitioned + JSON sidecar)
+simulations/saas_builder/data/
+
+# Stochastic-FX variant emission outputs (parquet ensembles + JSON verdicts)
+simulations/stochastic_fx/data/
+
+# Private project memories (strategic / not for public repo)
+memory/project_uhi9_hookathon_june_11.md
+
+# LaTeX intermediates in docs/papers/ (sources + final PDFs committed; intermediates not)
+docs/papers/*.aux
+docs/papers/*.log
+docs/papers/*.toc
+docs/papers/*.out
+docs/papers/*.synctex.gz
+docs/papers/*.bbl
+docs/papers/*.blg
+docs/papers/*.fls
+docs/papers/*.fdb_latexmk
+

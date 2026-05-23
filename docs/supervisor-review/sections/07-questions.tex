@@ -1,0 +1,304 @@
+\section{Open Methodological Questions for Supervisor Review}\label{sec:7}
+
+We present five methodological questions in priority order. The first four
+were enumerated at the brainstorming stage of the memorandum; the fifth
+was added on Wave-2 verification feedback to make the cross-iteration
+multiple-comparison concern explicit rather than allowing the supervisor
+to introduce it as an unanticipated objection. For each ask, we state the
+project's current posture, the references that frame the question for an
+econometrician of the supervisor's training, and the specific decision
+the supervisor's response would unblock.
+
+\subsection{Identification strategy}\label{sec:7.1}
+
+\paragraph{Current posture.} The Stage-1 specification is OLS on lagged
+log-FX with HAC inference at fixed lag truncation \(L\) (see
+Section~\ref{sec:5}). The estimator \(\hat{\beta}_{\mathrm{composite}}\) is
+a predictive-regression coefficient; we do not treat it as an
+impulse-response. The PASS-verdict iteration (Pair~D) flags identification
+non-uniqueness explicitly: the closure memorandum hedges the correlation
+between Section-G--T employment share and lagged COP/USD movement and does
+\emph{not} assert a causal channel running through BPO contracting. The
+FAIL-verdict iteration (FX-vol-on-CPI-surprise) records a T1 exogeneity
+rejection at \(F = 15.12\), \(p \approx 1.3 \times 10^{-9}\), confirming
+that the FX-vol exercise is also predictive rather than structural.
+
+\paragraph{Question for the supervisor.} Should subsequent iterations move
+from a predictive-regression posture to a causally-identified one, and if
+so, what identification standard does the supervisor require before
+declaring a Stage-1 PASS sufficient for Stage-2 dispatch? Specifically:
+
+\begin{itemize}
+  \item Does the supervisor require an instrumental-variable strategy?
+    Candidate instruments under consideration include
+    monetary-policy-rate decisions of the central bank issuing the
+    consumption-basket currency, oil-price shocks (relevant for
+    commodity-exporting populations), and US-side AI-API price changes
+    (relevant for the dev-AI Stage-1 iteration). The relevant references
+    are \citet{hansen_2022}, Chapters~6 and~12, and
+    \citet{wooldridge_2010}.
+  \item Does the supervisor require an event-study formulation? The
+    Phase-A.0 remittance work and the parked P1 Bittensor SN18 work both
+    have event-study apparatus available; we have not promoted either to
+    a Stage-1 primary in any closed iteration.
+  \item Does the supervisor require a structural vector autoregression?
+    The reference framework would be \citet{kilian_lutkepohl_2017}; the
+    project does not currently have a structural identification scheme
+    that we believe defensible against that reference's standards.
+\end{itemize}
+
+\paragraph{What the supervisor's answer unblocks.} A pinned identification
+standard for subsequent iterations, including dev-AI Stage-1's eventual
+Stage-2 dispatch.
+
+\subsection{Convex-payoff sufficiency}\label{sec:7.2}
+
+\paragraph{Current posture.} Stage-1 estimates a mean slope. The internal
+working note
+\texttt{memory/project\_abrigo\_convex\_instruments\_inequality.md}
+records that mean-\(\hat{\beta}\) identification is necessary but not
+sufficient for pricing payoffs that transmit through the upper or lower
+tail of the conditional distribution rather than through the conditional
+mean. Under the parametric-cost-insurance reading developed in
+Sections~\ref{sec:1} and~\ref{sec:3}, this insufficiency is the
+basis-risk question of \citet{clarke_2016}: a mean-calibrated index
+specification can leave the policy-holder materially exposed in precisely
+the tail states that motivate the demand for the policy in the first
+place.
+
+\paragraph{Question for the supervisor (insurance-framing).} The
+operative question is: \emph{what empirical evidence does the supervisor
+require before this \(\hat{\beta}\)-validation is sufficient to underwrite a
+parametric cost-insurance product on the validated \(X\)?} We adopt the
+parametric-index-insurance literature
+\citep{carter_etal_2017,mahul_stutley_2010,clarke_2016} as the
+methodological reference rather than the generic option-pricing
+literature, on the deliberate ground that the insurance literature
+imposes the stricter evidentiary standard. Where option-pricing
+methodology is concerned principally with the second moment of the
+underlying, the parametric-insurance methodology requires the
+underwriter to characterise basis risk against the policy-holder's
+realised loss \citep{clarke_2016}, the adverse-selection structure of the
+policy-holder pool \citep{mahul_stutley_2010}, and the catastrophic-loss
+probability and reinsurance posture of the product
+\citep{carter_etal_2017,mahul_stutley_2010}. Under that stricter
+standard, the specific Stage-1 questions become:
+
+\begin{itemize}
+  \item Is variance-amplification evidence at the \(X\)-shock dates
+    sufficient (for example, a GARCH-X specification with the validated
+    \(X\) entering the conditional-variance equation), or is variance
+    amplification merely necessary?
+  \item Is full quantile-regression coverage required, with explicit
+    estimation of upper- and lower-tail conditional quantiles of
+    \(Y \mid X_{t-k}\), so that the basis-risk envelope of
+    \citet{clarke_2016} is directly observable from the Stage-1 output?
+  \item Is extreme-value-theory peaks-over-threshold tail-index estimation
+    required, in the spirit of
+    \citet{embrechts_kluppelberg_mikosch_1997}, in order to bound the
+    catastrophic-loss probability that
+    \citet{carter_etal_2017} and \citet{mahul_stutley_2010} treat as a
+    first-order underwriting input?
+  \item Should the dynamic conditional-correlation MGARCH specification of
+    \citet{engle_2002} be adopted as the standard joint-distribution model
+    for the differential's two legs in
+    Section~\ref{sec:3}, given that the joint-distribution behaviour
+    determines the differential-leg basis risk?
+\end{itemize}
+
+The supervisor is invited to apply whichever subset of these standards he
+judges appropriate; the project's posture is to err on the side of the
+stricter insurance-underwriting reading rather than the more permissive
+option-pricing reading.
+
+\paragraph{What the supervisor's answer unblocks.} The Stage-1 exit
+criterion for Stage-2 dispatch under the parametric-cost-insurance
+product objective, and in particular the basis-risk evidentiary standard
+that Stage-1 output must meet before the validated \(X\) is treated as
+underwritable.
+
+\subsection{Multi-Y differential calibration}\label{sec:7.3}
+
+\paragraph{Current posture.} Lemma~\ref{lem:abrigo}'s differential
+\(Y_{\text{inequality}} = R_a - R_c\) requires constructing each leg as a
+panel of observable component variables. Closed and active iterations
+estimate single-\(Y\), single-\(X\) responses; the project has not yet
+calibrated the joint-leg structure, and the within-iteration thresholds
+\(\big(N_{\text{MIN}} = 75,\ \mathrm{POWER}_{\text{MIN}} = 0.80,\
+\mathrm{MDES}_{\text{SD}} = 0.40\big)\) were derived under a single-\(Y\)
+assumption.
+
+\paragraph{Question for the supervisor.} How should the joint-leg
+structure of \(Y_{\text{inequality}}\) be calibrated? Specifically:
+
+\begin{itemize}
+  \item Joint-leg correlation: what specification --- a constant-correlation
+    GARCH-type model, the dynamic conditional-correlation specification of
+    \citet{engle_2002}, or a regime-switching extension --- does the
+    supervisor recommend for the conditional joint distribution of
+    \((R_a, R_c)\)?
+  \item Within-leg weighting: what method --- fixed welfare-anchored weights
+    (the working-class consumption basket), principal-components weights,
+    or weights estimated from the panel itself --- should determine the
+    composition of each leg?
+  \item Regime-switching: should the differential admit a
+    Markov-switching mean-and-variance structure to accommodate the
+    documented regime mix (post-2014 oil collapse, COVID,
+    Fed-tightening) noted in the Pair~D closure memorandum, or should
+    regime indicators enter as exogenous covariates only?
+  \item Familywise error: under the multi-\(Y\) panel implied by the
+    differential, should familywise-error-rate control proceed under
+    Bonferroni-Holm, or under the false-discovery-rate framework, given
+    that within-leg components are expected to be highly pairwise
+    correlated and Bonferroni is therefore likely conservative?
+\end{itemize}
+
+\paragraph{What the supervisor's answer unblocks.} The joint
+specification of the inequality-differential dynamics, which is a
+prerequisite for promoting Lemma~\ref{lem:abrigo} from a motivating
+proposition to a calibrated estimation target.
+
+\subsection{Anti-fishing protocol defensibility}\label{sec:7.4}
+
+\paragraph{Current posture.} The within-iteration anti-fishing
+invariants are
+\(N_{\text{MIN}} = 75\),
+\(\mathrm{POWER}_{\text{MIN}} = 0.80\), and
+\(\mathrm{MDES}_{\text{SD}} = 0.40\) standard-deviation units of \(Y\).
+These three thresholds were inherited from the Phase-A.0 Rev-5.3.1
+specification and have \emph{not} been re-derived under each subsequent
+iteration's actual \(N\) and observed first-order autocorrelation
+structure of the residuals. Appendix~D presents whatever
+power-derivation transparency is feasible at the time of writing; we
+flag the inheritance explicitly so that the supervisor's review is on the
+actually-defensible numbers and not on the inherited ones.
+
+\paragraph{Question for the supervisor.} Are these three thresholds
+defensible against the empirical record of the five closed iterations,
+and what additional pre-registration discipline does the supervisor
+require? Specifically:
+
+\begin{itemize}
+  \item Should the project register pre-analysis plans in a public
+    registry, in the spirit of \citet{olken_2015} on
+    pre-analysis plans in development economics and
+    \citet{christensen_miguel_2018} on transparency and reproducibility
+    in economics?
+  \item Should the project adopt the AEA RCT-registry analogue for
+    observational pre-registration? The current discipline pins
+    spec-text by sha256 hash inside the project repository; this is
+    auditable internally but not externally registered.
+  \item Should the three thresholds be re-derived per iteration, taking
+    each iteration's observed \(N\) and HAC-corrected effective sample
+    size as inputs to the power calculation, in the spirit of
+    \citet{hansen_2022}, \S\,6.18 on autocorrelation-corrected effective
+    sample sizes?
+\end{itemize}
+
+\paragraph{What the supervisor's answer unblocks.} The pre-registration
+infrastructure for subsequent iterations, including whether the inherited
+threshold triple should remain in force or be replaced.
+
+\subsection{Cross-iteration FWER and iteration-selection bias}\label{sec:7.5}
+
+\paragraph{Current posture.} The project has run five iterations and all
+five are closed or parked: one PASS (Pair~D), two FAIL (one
+pre-registered-weekly-primary FAIL with two sensitivity-positive arms in
+FX-vol-on-CPI-surprise; one sign-flipped FAIL on the dev-AI Stage-1
+narrow-ICT primary closed 2026-05-06), one \texttt{EXIT}
+(Phase-A.0 remittance), and one PARKED (P1 Bittensor SN18). No Stage-1
+work is in progress as of the memorandum date. Each iteration's
+within-iteration pre-registration discipline is documented in
+Section~\ref{sec:5}; the \emph{cross-iteration} structure is not
+pre-registered. Iteration-selection decisions --- which \((Y, X)\) pairs
+enter the roster, which are dropped after \texttt{EXIT}, which are
+deepened after PASS --- are made at the project level and are not bound
+by an external pre-registration rule.
+
+The numerical mass at the two tails across the five tests is asymmetric
+in a way that matters for any FWER-style correction. On the positive
+tail, the Pair~D closure verdict's headline
+\(p \approx 1.46 \times 10^{-8}\) is overwhelmingly significant against
+any reasonable Bonferroni correction across five iteration-level tests;
+the FX-vol-on-CPI-surprise sensitivity arms are far less robust to such
+a correction (the A1 monthly sensitivity reports a 90\,\% confidence
+interval of \([+0.0057,\ +0.0246]\); the A4 release-day-excluded
+sensitivity reports \([+0.0005,\ +0.0062]\), and the A4 lower bound at
+\(0.0005\) would not survive a meaningful familywise-error-rate
+adjustment). On the \emph{negative} tail, the dev-AI Stage-1 primary
+delivered \(\hat{\beta} = -0.146\) at \(t = -1.726\), which we record as
+a high-information FAIL: the iteration was pre-registered with a
+positive-sign expectation, and the realisation is sign-flipped at the
+direction of the alternative rather than merely insignificant. A
+two-sided cross-iteration FWER procedure has different mass at the two
+tails of the iteration-result distribution, and the supervisor's
+preferred procedure should be specified to make the asymmetry explicit
+rather than letting a default Bonferroni argument flatten it.
+
+\paragraph{Question for the supervisor.} What familywise-error-rate or
+false-discovery-rate correction regime should be applied across the
+iteration history, given the directional asymmetry just described, and
+how should sensitivity-positive findings such as the FX-vol A1 and A4
+results be weighed under such a correction? In particular, should a
+sign-flipped FAIL at conventional significance be counted symmetrically
+with the PASS at the positive tail under the supervisor's preferred
+correction, or should the directional pre-registration on each iteration
+shift the mass allocation?
+
+A second sub-question is methodologically prior. Iteration selection
+itself --- the decision of which \((Y, X)\) pair to specify, which to
+drop, which to deepen --- is a multiple-testing structure that
+within-iteration pre-registration does not address. What mitigations
+does the supervisor recommend? Candidate mitigations under consideration
+include pre-registered iteration-budget caps committed at project
+initiation, an iteration-level alpha-spending function in the spirit of
+group sequential designs, and pre-registered iteration-allocation rules
+that do not depend on prior verdicts. We have no current basis for
+choosing among these and are explicitly asking for the supervisor's
+preferred form.
+
+\paragraph{Sharpened sub-question --- is the Pair~D PASS one test, or one
+test conditional on a sub-aggregate selection?} The dev-AI Stage-1
+iteration's pre-specified Section-M sensitivity arm
+(professional/scientific/technical/admin services, CIIU Rev.~4 Sections
+\(\{69\text{--}75\}\)) produced \(\hat{\beta} = +0.455\) at
+\(p \approx 1.13 \times 10^{-6}\), while the iteration's pre-registered
+Section-J narrow-ICT primary failed sign-flipped at
+\(\hat{\beta} = -0.146\). The Section-M sensitivity was a sensitivity
+arm of the dev-AI iteration, not a pre-registered primary; we therefore
+do not present the Section-M finding as a free-standing positive
+verdict. We do, however, observe that the Section-M result is
+\emph{consistent with} a compositional reading of the Pair~D PASS under
+which the headline broad-services Section-G--T positive estimate
+reflected a Section-M-style transmission averaged across the broader
+G--T aggregate rather than a Section-J ICT-narrow signal. The internal
+specification \texttt{spec~\S 9.16} flagged precisely this compositional
+ambiguity at Pair~D's closure; the formal \texttt{\S 9.16(c)} (G--T
+minus J) decomposition is flagged-not-resolved per the dev-AI Stage-1
+verdict memorandum, and the Section-M sensitivity arm is consistent with
+but not equivalent to that decomposition.
+
+This sharpens the supervisor's FWER question rather than answering it.
+If the Pair~D PASS is read as the resolution of one pre-registered test,
+the cross-iteration tally is one PASS out of five tests at the positive
+tail. If the Pair~D PASS is read as one test conditional on a
+post-hoc-defensible-but-not-pre-registered choice of sub-aggregate
+within G--T (with the dev-AI Section-M sensitivity arm now suggesting
+that the sub-aggregate concentrating the signal is Section M rather
+than Section J), then the multiple-comparison ledger across the
+iteration history must additionally account for the implicit search
+across sub-aggregates of the broad-services panel. We flag this as a
+sharpened sub-question for the supervisor and do not litigate it here.
+The references for selection-on-observables and sample-selection
+correction in the spirit of \citet{heckman_1979} are noted as one
+candidate frame for the supervisor's response, alongside the FWER and
+false-discovery-rate frames already cited in this section.
+
+\paragraph{What the supervisor's answer unblocks.} The project-level
+multiple-testing discipline that supplements within-iteration
+pre-registration; the appropriate weight to assign to the
+sensitivity-positive findings of the FX-vol FAIL-primary iteration; the
+appropriate weight to assign to the sign-flipped FAIL primary of the
+dev-AI Stage-1 iteration under a directionally-aware correction; and
+the appropriate weight to assign to the Pair~D PASS once the
+sub-aggregate-selection question is taken into account.

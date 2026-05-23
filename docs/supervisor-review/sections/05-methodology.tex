@@ -1,0 +1,292 @@
+\section{Empirical Methodology}\label{sec:5}
+
+This section describes the estimation discipline that has governed every
+iteration in the Abrigo log. The framework treats Stage~1 (empirical risk
+validation) as a stand-alone testing exercise: an iteration either produces a
+positive, statistically detectable composite coefficient on a pre-pinned lag
+panel of the macro risk \(X\) for the pre-pinned outcome \(Y\), or it does
+not. The settlement geometry \(M\) on which an iteration would deploy is out
+of scope for the verdict. The methodology below therefore reads as a small,
+fixed kit of econometric primitives applied identically across iterations,
+with a strict pre-registration discipline that fixes every nontrivial design
+choice before the data are touched.
+
+\subsection{Pre-registration discipline}\label{sec:5.1}
+
+For every iteration we author a design specification that pins, in textual
+form and \emph{before any data ingest}, the following objects: the operational
+definition of \(Y\); the construction of \(X\); the lag set; the functional
+form of the dependent variable; the primary inference procedure; the
+robustness arms; the verdict thresholds; and the falsification tree. The
+specification is hashed (sha256) at commit time and the hash is propagated
+through the implementation plan, the result notebooks, and the verdict
+artifact. Any post-data revision recomputes the hash and triggers a
+two-wave independent review (Reality Checker plus a purpose-matched
+specialist) before further execution. Within an iteration, threshold tuning
+post-hoc is treated as silent fishing and is forbidden. This discipline is
+in the spirit of the pre-analysis-plan literature \citep{olken2015,
+christensenmiguel2018} adapted to an observational-econometrics setting in
+which a public registry analogue is not yet adopted by the project; whether
+to register against an external registry is one of the open questions we
+address to the supervisor in Section~\ref{sec:7}.
+
+\subsection{Anti-fishing invariants}\label{sec:5.2}
+
+Three numerical invariants currently bind every iteration:
+
+\begin{itemize}
+  \item Minimum sample size after window compliance and lag-window loss:
+    \(N_{\min} = 75\) observations.
+  \item Minimum power at the pre-registered minimum detectable effect size:
+    \(\mathrm{Power}_{\min} = 0.80\).
+  \item Minimum detectable effect size: \(\mathrm{MDES} = 0.40\) standard
+    deviations of \(Y\).
+\end{itemize}
+
+These three numbers were inherited from the Phase-A.0 specification chain
+(Rev-5.3.1) and have \emph{not} been re-derived per iteration's actual
+\(N\), residual autocorrelation structure, or HAC-adjusted effective sample
+size. We flag this inheritance explicitly here, present whatever
+back-of-the-envelope derivation is feasible at writing time in
+Appendix~\ref{app:D}, and address the defensibility of the three numbers
+to the supervisor as a dedicated open question in Section~\ref{sec:7}
+(\(\S 7.4\)). The document is asking the supervisor whether these
+thresholds are defensible against the empirical record of the
+five closed iterations, not asserting that they have been validated.
+
+\subsection{Functional form and primary inference}\label{sec:5.3}
+
+For each iteration we test a one-sided null on the composite coefficient
+across a pre-pinned lag panel:
+\begin{equation}\label{eq:hypothesis}
+H_0:\ \beta_{\mathrm{composite}} \leq 0
+\qquad\mathrm{vs.}\qquad
+H_1:\ \beta_{\mathrm{composite}} > 0,
+\end{equation}
+with the sign expectation grounded in the literature anchor of the
+iteration's transmission chain (never inferred from the data). For the
+two monthly-cadence iterations that share the COP/USD lag panel (Pair D
+and dev-AI Stage-1), the primary specification is:
+\begin{equation}\label{eq:primary-monthly}
+Y_t^{\mathrm{logit}}
+= \alpha
++ \beta_6\,\log(\mathrm{COP\_USD}_{t-6})
++ \beta_9\,\log(\mathrm{COP\_USD}_{t-9})
++ \beta_{12}\,\log(\mathrm{COP\_USD}_{t-12})
++ \varepsilon_t,
+\end{equation}
+where \(Y_t^{\mathrm{logit}} = \log\!\big(Y_t/(1-Y_t)\big)\) is the logit
+of an interior-bounded employment share. The composite of interest is
+\(\beta_{\mathrm{composite}} \equiv \beta_6 + \beta_9 + \beta_{12}\); its
+hypothesis is tested via the linear-restriction variance
+\(\widehat{\mathrm{Var}}(c'\hat{\beta}) = c'\widehat{\Sigma}\,c\) with
+\(c = (0,1,1,1)'\), equivalent to the Wald-restriction variance and not a
+delta-method object. Lags 6, 9, and 12 of the log-FX series are highly
+serially correlated at monthly frequency; individual coefficients have
+wide intervals, but the composite is precise because the off-diagonal
+entries of \(\widehat{\Sigma}\) are negative under positive collinearity,
+which deflates \(\widehat{\mathrm{Var}}(c'\hat{\beta})\) below the
+sum-of-individual-variances intuition. A reading that ``individual lags
+weren't significant'' is methodologically incorrect: the test is on the
+composite alone.
+
+The logit transform is justified on the standard textbook
+\citep[\S 16.4]{hansen2022} grounds for an interior-bounded share whose
+empirical range lies away from \(0\) and \(1\). The fractional-response
+\citep{papkewooldridge1996} and beta-regression
+\citep{ferraricribarineto2004} alternatives are not pre-committed because
+the iterated \(Y\) ranges (Pair D \([0.55,0.75]\); dev-AI Stage-1
+\([0.014,0.031]\) realized) are well-interior to \((0,1)\); a raw-share
+specification is preserved as a robustness arm rather than as the primary.
+
+\paragraph{Primary inference convention.} The primary standard error is
+the homoskedastic OLS standard error per the project's anti-overclaim
+discipline: HAC bandwidth selection introduces a post-data degree of
+freedom that the pre-registration regime rules out from the primary tier.
+HAC inference is run as the pre-pinned R4 robustness arm (see
+\(\S\ref{sec:5.4}\)) at a fixed lag-truncation chosen at spec-authoring
+time. Where the verdict label is invariant under the OLS and HAC standard
+errors, headline numbers report the \emph{more conservative} of the two
+SE conventions; where the two would diverge across the verdict boundary,
+the OLS-primary SE governs the verdict and the HAC SE is reported as the
+R4 row. In the closed Pair~D iteration the HAC SE produced a marginally
+smaller p-value than the OLS SE, so the headline reports the larger HAC
+SE as the more-conservative anti-fishing convention without re-routing
+the verdict; in the closed dev-AI Stage-1 iteration, primary OLS and R4
+HAC standard errors agree on the FAIL verdict label and the headline
+reports the HAC SE on the same more-conservative-of-the-two convention.
+The verdict label has been invariant across the two SE conventions in
+every iteration that has closed to date.
+
+\subsection{Robustness inference (HAC)}\label{sec:5.4}
+
+The robustness HAC standard error is the Newey-West heteroskedasticity-
+and-autocorrelation-consistent estimator \citep{neweywest1987} with
+\emph{fixed lag truncation \(L\) chosen at spec-authoring time per
+iteration}, not a data-driven automatic rule. The bandwidth values that
+have been used to date are:
+\begin{itemize}
+  \item Monthly cadence (Pair D, dev-AI Stage-1): \(L = 12\). The
+    truncation matches the longest right-hand-side lag in the spec --- the
+    twelve-month offshoring contracting cycle that motivates the lag panel.
+  \item Weekly cadence (FX-vol-CPI primary): \(L = 4\). The truncation was
+    set at spec-authoring time on the basis of the in-sample residual
+    autocorrelation diagnostic that closed at \(L = 4\) in the
+    Phase-A.0 pipeline; a robustness sensitivity at \(L = 12\) is
+    pre-registered as a fat-tail diagnostic, not as the primary.
+\end{itemize}
+Automatic-bandwidth selection rules \citep{neweywest1994, andrews1991}
+are explicitly not used: a data-driven bandwidth introduces a post-data
+degree of freedom that the pre-registration discipline rules out.
+
+\subsection{Robustness arms}\label{sec:5.5}
+
+For monthly iterations (Pair D and dev-AI Stage-1) the spec text
+pre-pins four single-row alternatives, each varying exactly one design
+choice from the primary; multi-dimensional re-specification (varying
+two or more dimensions simultaneously) is forbidden:
+\begin{itemize}
+  \item R1 -- regime-dummy alternative to the methodology-break
+    treatment (e.g., 2021 GEIH \emph{empalme} dummy in place of the DANE
+    splice factor).
+  \item R2 -- sector-cut narrowing alternative on the dependent variable
+    (Pair D: Sections J + M + N as a BPO-narrow cut; dev-AI Stage-1:
+    Section M as a sibling-narrow comparator to Section J).
+  \item R3 -- functional-form alternative (raw share in place of logit).
+  \item R4 -- HAC inference per \(\S\ref{sec:5.4}\), substituted for
+    OLS standard errors.
+\end{itemize}
+The closed FX-vol-CPI iteration uses a wider thirteen-row pre-registered
+sensitivity universe, of which the A1 monthly-cadence and A4
+release-day-excluded rows are two; the universe is pinned via a
+\texttt{sensitivity\_preregistration\_hash} on the panel fingerprint
+artifact. Free lag tuning is forbidden in all iterations.
+
+A coarse stability classifier maps the four-row vector to one of three
+labels: AGREE (zero R-rows produce a sign-flipped composite relative to
+the primary), MIXED (one or two flips), or DISAGREE (three or four
+flips). DISAGREE triggers a special verdict label
+SUBSTRATE\_TOO\_NOISY, regardless of the primary's significance, and
+routes the iteration to a methodology-revision branch rather than to
+verdict assignment. We additionally note that the R4 HAC arm is a
+serial-correlation hedge and not, in itself, a heteroskedasticity hedge:
+the OLS-primary inference assumes conditional homoskedasticity, and
+whether to add a White / sandwich heteroskedasticity-only diagnostic as
+a fifth pre-pinned arm is one of the methodology questions we put to the
+supervisor in Section~\ref{sec:7} (\(\S 7.4\)).
+
+\subsection{Persistent-regressor posture and Stambaugh
+bias}\label{sec:5.5b}
+
+The right-hand-side regressor in the monthly-cadence iterations is
+\(\log(\mathrm{COP\_USD}_{t-k})\), which is empirically near-unit-root
+at the monthly frequency on the realized 2014--2026 sample window. The
+project's identification posture is predictive-regression in the strict
+Granger-predictive sense (see \(\S\ref{sec:5.8}\)); the closed FX-vol-CPI
+iteration's pre-registered T1 exogeneity test rejected at
+\(F = 15.12\), \(p \approx 1.3 \times 10^{-9}\) and consequently the
+project does not interpret \(\hat{\beta}\) as an impulse-response.
+
+The predictive-regression posture, however, is known to suffer
+small-sample bias when the right-hand-side regressor is persistent and
+the residual is correlated with the regressor's innovation
+\citep{stambaugh1999}; the bias does not vanish in finite samples even
+under correct specification, and recent econometric work
+\citep{phillips2014} has extended the asymptotic theory to near-unit-root
+and mildly explosive regressors. The Pair~D and dev-AI Stage-1
+iterations realized \(N = 134\) monthly observations, which is
+modest-but-not-tiny on the conventional Stambaugh-bias scale; the
+bias-correction literature suggests the order-\(1/N\) bias is small
+relative to the realized HAC standard error in both iterations, but the
+project has \emph{not} formally implemented a Stambaugh-corrected
+estimator at writing time. This is one of the leading methodology
+open-questions we put to the supervisor in Section~\ref{sec:7}
+(\(\S 7.1\), identification ask, and \(\S 7.4\), invariants ask): whether
+the predictive-regression posture is sufficient as Stage-1 verdict
+machinery, or whether Stambaugh-correction (or equivalent
+near-unit-root-aware inference) should be elevated from a deferred
+methodology improvement to a pre-pinned R-arm before the next iteration
+spec-pin.
+
+\subsection{Verdict mapping}\label{sec:5.6}
+
+The mapping is deterministic. Given the primary tuple
+\((\hat{\beta}_{\mathrm{composite}}, \hat{p}_{\mathrm{one\text{-}sided}},
+R\text{-consistency})\) and the residual-moment tuple
+\((\hat{s}_3, \hat{s}_4)\), every leaf returns exactly one verdict:
+\begin{enumerate}
+  \item If the realized sample size \(N\) falls below \(N_{\min} = 75\),
+    the iteration HALTs (see \(\S\ref{sec:5.7}\)).
+  \item If R-consistency is DISAGREE, the verdict is
+    SUBSTRATE\_TOO\_NOISY.
+  \item Otherwise:
+    \begin{itemize}
+      \item \(\hat{\beta}_{\mathrm{composite}} > 0\) and
+        \(\hat{p} \leq 0.05\) returns PASS.
+      \item \(\hat{\beta}_{\mathrm{composite}} > 0\) and
+        \(\hat{p} \in (0.05, 0.20]\) returns ESCALATE Clause~A.
+      \item Clause~B fires when
+        \(|\hat{\beta}_{\mathrm{composite}}/\widehat{\mathrm{SE}}| < 0.5\)
+        \emph{and} either
+        \(|\mathrm{skew}(\hat{\varepsilon})| > 1.0\) or
+        \emph{Fisher excess kurtosis}
+        \(\hat{s}_4 \equiv \hat{\kappa}_4 - 3 > 3.0\) (i.e., raw fourth
+        standardized moment \(\hat{\kappa}_4 > 6\); a normal residual
+        has Fisher excess kurtosis \(0\) and the threshold flags
+        substantially leptokurtic tails). When Clause~B fires the
+        verdict is ESCALATE Clause~B; otherwise FAIL.
+      \item \(\hat{\beta}_{\mathrm{composite}} \leq 0\) and
+        \(\hat{p} \leq 0.05\) returns FAIL with no Clause~B evaluation:
+        a wrong-signed significant estimate falsifies \(H_1\), and
+        convex-payoff escalation, which is grounded in the positive
+        sign expectation, does not apply.
+    \end{itemize}
+\end{enumerate}
+The numerical thresholds \(0.5\), \(1.0\), and \(3.0\) in Clause~B are
+pinned at spec-authoring time and are not adjustable post-data; the
+\(3.0\) threshold is on the \emph{Fisher} (excess-over-normal)
+convention, not on the Pearson raw-fourth-moment convention. The
+ESCALATE branches trigger a pre-authorized convex-payoff suite (a
+\(\tau = 0.90\) quantile regression on the central lag, a GARCH-X
+mean-equation regression, and a peaks-over-threshold extreme-value
+regression on the upper-tail residuals); each suite leg has its own
+one-sided p-value at \(\alpha = 0.10\) and the disjunction over the
+three legs determines ESCALATE-PASS or ESCALATE-FAIL. The disjunction
+structure is defended against multiple-testing critique on the grounds
+that each leg estimates a distinct distributional-moment parameter that
+maps to a distinct convex-instrument design, rather than three
+restatements of the same parameter.
+
+\subsection{HALT and disposition discipline}\label{sec:5.7}
+
+When the spec text contradicts the data --- examples already encountered
+include the DANE \texttt{RAMA4D\_R4} schema-stability HALT in the Pair~D
+ingest and the realized cell-size and share-magnitude gap in the dev-AI
+Stage-1 ingest --- the iteration HALTs by raising a typed exception. A
+disposition memo is filed enumerating at least three pivot options; the
+user adjudicates; a CORRECTIONS block lands in the next specification
+revision documenting the disposition, the chosen pivot, and the
+rationale; and a three-way independent review is run before further
+execution. Auto-pivot is forbidden, and post-hoc threshold tuning is
+forbidden. The discipline is documented in the project's internal
+feedback memory under the \emph{pathological halt anti-fishing
+checkpoint} rule.
+
+\subsection{Identification posture}\label{sec:5.8}
+
+Every estimate produced by the framework to date is correlation-identified
+under predictive-regression posture. Wherever an exogeneity test has been
+run as a diagnostic --- the FX-vol-CPI iteration ran a T1 exogeneity test
+that rejected at \(F = 15.12\) and \(p \approx 1.3 \times 10^{-9}\) --- the
+result has reinforced the predictive-regression reading: \(\hat{\beta}\)
+describes how past information predicts current realized volatility, not
+how an exogenous surprise causes future realized volatility. The
+distinction is the standard Granger-predictive versus structural-causal
+distinction; the document does not use \(\hat{\beta}\) as an
+impulse-response. Whether to move to instrumental-variable, event-study,
+or structural VAR identification before declaring a Stage-1 PASS
+sufficient for Stage-2 dispatch --- and whether the persistent-regressor
+posture noted in \(\S\ref{sec:5.5b}\) requires Stambaugh-bias-corrected
+inference at the primary tier --- is the leading open question we put to
+the supervisor in Section~\ref{sec:7}.
+

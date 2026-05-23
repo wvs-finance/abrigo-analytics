@@ -1,0 +1,46 @@
+\section{Sample Artifact: Pair D Verdict Header}\label{app:C}
+
+The Pair~D iteration closed PASS on 2026-04-28. The verdict was
+emitted with a sha256-pinned artifact chain that we reproduce below in
+condensed form so that the supervisor can verify the audit-trail
+discipline of the framework. Each artifact is content-hashed; the
+spec is content-hashed against itself with a sentinel substituted into
+the \texttt{decision\_hash} field, which can be recomputed to verify
+that the document text governing the iteration matches the hash quoted.
+
+\begin{itemize}
+  \item Specification (Pair~D simple-\(\beta\) design, version 1.3.1):
+    \texttt{964c62cca0be1b9070944b5398fe97886c6d07d37ba7121199de8ccc341ef659}.
+  \item Joint estimation panel (\texttt{panel\_combined.parquet}):
+    \texttt{6d7d9e60dad1715ce86e8adb7b3d44ba236d0b063796293b40575994a9363edf};
+    \(N = 134\), window 2015-01-31 through 2026-02-28.
+  \item Primary OLS results (\texttt{primary\_ols.json}):
+    \texttt{d4790e743cdec62f1368cab1833e1266cb2da763d7c0931dd732bdf3d17938cf}.
+  \item Robustness pack (\texttt{robustness\_pack.json}):
+    \texttt{67dd18cfeb2584fa6ed9334b1d0314a1a16830faf7c3f3443f07889b9b078904}.
+  \item Verdict memo (\texttt{VERDICT.md}):
+    \texttt{1efd0e34d7c1af821c8528a7bc895a63e1dc5e1c289f3b6a1b2d392ba59806cf}.
+\end{itemize}
+
+The specification revision chain that produced the governing hash is:
+v1 (initial, 2026-04-27) \(\to\) v1.1 (Wave-1 and Wave-2 reviewer
+defects integrated, 2026-04-27) \(\to\) v1.2 (CORRECTIONS-\(\alpha\),
+2026-04-28; window shortened from 2008-01 to 2010-01 after a
+schema-stability HALT on the DANE empalme nota-técnica coverage)
+\(\to\) v1.2.1 (three-way-review cleanup, 2026-04-28) \(\to\) v1.3
+(CORRECTIONS-\(\alpha'\), 2026-04-28 PM; window shortened from
+2010-01 to 2015-01 after a second HALT under the realization that the
+2010--2014 empalme files ship CIIU Rev.~3 codes in
+\texttt{RAMA4D} despite the column header naming) \(\to\) v1.3.1
+(three-way-review cleanup, 2026-04-28 PM late). Each transition
+recomputed the spec sha256 and re-triggered independent review; the
+chain is reproducible from the spec text in the project repository.
+The point of the exhibit is not the specific hash values but the
+property that every numerical claim in \(\S\ref{sec:6.1}\) is
+content-hashed back to a specific document text, so that any
+post-hoc edit to the specification would invalidate the verdict. The
+compositional reframe noted in \(\S\ref{sec:6.1}\) caveat~(v) is
+metainterpretive --- it does not edit the Pair~D spec text or the
+hash chain above; the Pair~D verdict and headline numbers stand
+verbatim under their original spec.
+

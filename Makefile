@@ -59,7 +59,7 @@ publish:
 # --- Analysis ---------------------------------------------------------------
 
 notebooks:
-	@for nb in $$(find notebooks -name '*.ipynb' -not -path '*/_nbconvert_template/*'); do \
+	@for nb in $$(find notebooks simulations/notebooks -name '*.ipynb' -not -path '*/_nbconvert_template/*' -not -path '*/.ipynb_checkpoints/*'); do \
 	  echo "Executing $$nb"; \
 	  $(PY) -m jupyter nbconvert --to notebook --execute --inplace "$$nb" || exit 1; \
 	done

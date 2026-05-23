@@ -1,0 +1,8 @@
+% Ornstein-Uhlenbeck stationary envelope moments.
+% ref: standard OU stationary Gaussian measure;
+% see e.g. Karatzas-Shreve, Brownian Motion and Stochastic Calculus, section 5.6.
+\paragraph{Closed forms (stationary).}
+\[ \mathbb{E}[\sigma_T] = \frac{\sigma^{2}}{2 \theta} \]
+\[ \mathrm{Var}[\sigma_T] = \frac{\sigma^{4}}{2 T \theta^{2}} \]
+\paragraph{Numerical pin at canonical fixture}
+At $\theta = 1$, $\sigma = 0.10 \cdot 4000 / \sqrt{2}$, $T = 12$: $\mathbb{E}[\sigma_T] = 40000$, $\mathrm{Var}[\sigma_T] = 2.66667e+08$.

@@ -1,0 +1,123 @@
+\section{Introduction \& Economic Motivation}\label{sec:1}
+
+This memorandum is an empirical-methodology record and a request for
+guidelines. It documents the iteration history that the analytics workstream
+has executed to date, presents the methodology that produced each verdict,
+and asks five prioritised methodological questions whose answers we expect to
+bind the design of subsequent iterations. The memorandum is addressed to the
+analytics supervisor; we expect the supervisor's response, where given, to
+serve as the design constraint for the next iteration's pre-registration.
+
+The project's economic motivation is best stated as a financial-intermediation
+gap for an identifiable underserved population rather than as an abstract
+claim about aggregate inequality. The population the iteration roster
+currently centres on is Latin-American digital workers paid in local
+currency (Colombian pesos, in the dev-AI Stage-1 iteration of
+Section~\ref{sec:7}) who carry a recurring USD-denominated cost burden
+through their professional inputs --- subscription AI services, application
+programming interface usage fees, cloud compute, and adjacent
+software-as-a-service spend. These workers are exposed to FX-pass-through
+cost shocks on their monthly USD spend that no Colombian retail-bank
+product currently hedges. Conventional FX-derivative venues are
+inaccessible: minimum notional sizes, counterparty credit standing, and
+intermediating-broker requirements are calibrated for corporate treasury
+clients, not for an individual digital worker carrying a
+hundred-to-low-thousands USD monthly cost line. The intermediation gap is
+the operative phenomenon; aggregate distributional inequality is, under
+this reading, the cumulative consequence of many such uninsured
+intermediation gaps rather than the framing primitive.
+
+We treat the framework's contribution as the identification and
+empirical validation of the macro risks \(X\) that produce the cost shocks,
+followed by the design of \emph{parametric cost-insurance products} that
+close the intermediation gap. This framing is deliberate: it places the
+methodology under the standards of the parametric-index-insurance
+literature \citep{carter_etal_2017,mahul_stutley_2010,clarke_2016} rather
+than under the standards of generic derivatives pricing, and it lets the
+supervisor evaluate the empirical work using the underwriting discipline he
+would apply to any insurance product (basis risk, adverse selection,
+catastrophic-loss probability, counterparty matching). The implementation
+venue described in Section~\ref{sec:4} is on-chain settlement
+infrastructure; that infrastructure is not the economic primitive.
+
+The wage-to-capital boundary remains a documented empirical phenomenon and
+is preserved as the analytical object of the iteration roster.
+\citet{mendieta_munoz_2017} documents premature deindustrialization in
+Colombia and the corresponding reallocation of labor away from
+productivity-rising sectors; \citet{rodrik_2016} establishes the
+cross-country pattern; \citet{mcmillan_rodrik_2011} formalises the
+structural-change-and-productivity decomposition that underlies the
+pattern. Together these references establish that for a substantial subset
+of developing-economy populations, the path from wage income into
+productive-capital ownership has become structurally narrower over the past
+three decades, and that the populations on the wrong side of that
+narrowing are exactly those that an absent intermediation layer fails to
+insure. The project's empirical question is which macro risks \(X\) are
+quantitatively responsible for the recurring uninsured cost shocks that
+keep specific target populations on the wrong side of this boundary.
+
+The unit of work is a triple \((Y, M, X)\) defined formally in
+Section~\ref{sec:2} and motivated by a hedge-target proposition in
+Section~\ref{sec:3}. The validation strategy estimates a composite slope
+\(\hat{\beta}_{\mathrm{composite}}\) of \(Y\) on lagged \(X\), with sign
+expectation, lag structure, primary specification, and verdict thresholds
+pre-registered before the panel is touched. Section~\ref{sec:5} (drafted by
+the data-methodology agent) presents the methodology in full; we mention it
+here only to fix the object the supervisor is being asked to review.
+
+\paragraph{Iteration count and the cross-iteration multiple-comparison
+posture.} As of the date of this memorandum, the project has run five
+iterations and \emph{all five are closed or parked}: no Stage-1 work is in
+progress. The five are: one PASS verdict (Pair~D, broad-services
+Section-G--T employment share against COP/USD lag, closed 2026-04-28); one
+closed FAIL on the pre-registered weekly primary with two pre-registered
+sensitivities producing positive 90\,\% confidence intervals
+(FX-vol-on-CPI-surprise, closed 2026-04-19); one closed
+\texttt{EXIT\_NON\_REMITTANCE} (Phase-A.0 remittance corridor, closed
+2026-04-24); one parked-for-record (P1 Bittensor SN18 event-study
+apparatus); and --- closed within the past week, on 2026-05-06 --- one
+\emph{sign-flipped} FAIL (dev-AI Stage-1, Colombian young-worker Section-J
+narrow-ICT employment share against COP/USD lag), in which the
+pre-registered positive-sign expectation was rejected at conventional
+significance with \(\hat{\beta} = -0.146\). The dev-AI Stage-1 iteration
+also produced, on a pre-specified Section-M sensitivity arm
+(professional/scientific/technical/admin services, CIIU Rev.~4 Sections
+\(\{69\text{--}75\}\)), a strong positive estimate
+\(\hat{\beta} = +0.455\) at \(p \approx 1.13 \times 10^{-6}\). That
+sensitivity result is consistent with --- but does not formally resolve
+--- a compositional reading of the Pair~D PASS under which the headline
+Section-G--T positive estimate reflected Section-M-style transmission
+averaged across the broader G--T aggregate rather than a Section-J
+ICT-narrow signal. The Pair~D Section-J/Section-M decomposition is flagged
+here for reference and is not litigated in this section; the
+methodological consequences --- both for the Pair~D PASS interpretation
+and for the cross-iteration multiple-comparison posture --- are taken up
+in Sections~\ref{sec:6} and~\ref{sec:7.5}.
+
+Each individual iteration was pre-registered, and the within-iteration
+anti-fishing discipline is documented in Section~\ref{sec:5}. The
+\emph{cross-iteration} multiple-comparison structure, however, is not
+addressed by within-iteration pre-registration: which \((Y, X)\) pairs
+entered the iteration roster in the first place, which were dropped after
+\texttt{EXIT}, and which were deepened after \texttt{PASS} are decisions
+made by the project team, not by a pre-registered iteration-allocation
+rule. We acknowledge that this constitutes an open methodological question
+and we treat it explicitly in Section~\ref{sec:7} (specifically
+Section~\ref{sec:7.5}) rather than presenting the five verdicts as if they
+were drawn from independent, pre-iteration-selected experiments. The
+supervisor's guidance on the appropriate cross-iteration familywise-error
+or selection-bias mitigation regime is one of the five asks in
+Section~\ref{sec:7}.
+
+The remainder of the memorandum is organised as follows.
+Section~\ref{sec:2} defines the operating framework and the \((Y, M, X)\)
+triple. Section~\ref{sec:3} introduces the inequality-differential hedge
+proposition that motivates the iteration design and reads it as the
+underwriting target of a parametric cost-insurance product. The on-chain
+settlement substrate is summarised by a separate agent in
+Section~\ref{sec:4} for completeness; it is contextual rather than
+evidentiary, and the supervisor need not engage with it to evaluate the
+econometrics. Sections~\ref{sec:5} and~\ref{sec:6} present the methodology
+and the iteration log. Section~\ref{sec:7} states the five methodological
+questions in priority order. Section~\ref{sec:8} closes with the request
+for guidelines.

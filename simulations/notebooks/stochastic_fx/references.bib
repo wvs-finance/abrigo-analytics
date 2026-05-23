@@ -1,0 +1,48 @@
+% references.bib — stochastic-FX final-simulation notebook trio
+%
+% Citekey convention: authorYEARkeyword (camelCase if multi-author).
+% These are the canonical external references cited from the companion
+% paper at docs/papers/2026-05-16-stochastic-fx-variance-proxy-paper.tex
+% and surfaced in the notebook's decision-citation blocks.
+
+@book{hull2017options,
+  title     = {Options, Futures, and Other Derivatives},
+  author    = {Hull, John C.},
+  year      = {2017},
+  edition   = {10th},
+  publisher = {Pearson},
+  note      = {§15 — geometric Brownian motion and Black-Scholes derivation; reference for the GBM canonical pin in the stochastic-FX variant.},
+}
+
+@book{karatzas1991brownian,
+  title     = {Brownian Motion and Stochastic Calculus},
+  author    = {Karatzas, Ioannis and Shreve, Steven E.},
+  year      = {1991},
+  edition   = {2nd},
+  publisher = {Springer},
+  series    = {Graduate Texts in Mathematics},
+  volume    = {113},
+  note      = {§5.6 — Ornstein-Uhlenbeck process and Vasicek-style mean-reverting SDEs; reference for the OU canonical pin and its exact transition density.},
+}
+
+@book{andersen2010interest,
+  title     = {Interest Rate Modeling — Volume I: Foundations and Vanilla Models},
+  author    = {Andersen, Leif B. G. and Piterbarg, Vladimir V.},
+  year      = {2010},
+  publisher = {Atlantic Financial Press},
+  note      = {§2.7 — Merton jump-diffusion process and its moment-generating function; reference for the Merton canonical pin and the empirical-CDF Phase-C dispatch in spec v0.5 §11.7.},
+}
+
+@misc{stochasticFxSpecV05,
+  title  = {Stochastic-FX Variant Design Spec v0.5},
+  author = {Abrigo Project},
+  year   = {2026},
+  note   = {See {\tt docs/specs/2026-05-11-stochastic-fx-variant-design.md}; §4.2 canonical pins, §6 three-phase verification, §11.6 Pin Z1.3b mean-only Phase-B gate, §11.7 Pin Z1.4 per-family Phase-C reference dispatch.},
+}
+
+@misc{stochasticFxPaper2026,
+  title  = {Stochastic-FX Variance Proxy --- Working Paper},
+  author = {Abrigo Project},
+  year   = {2026},
+  note   = {See {\tt docs/papers/2026-05-16-stochastic-fx-variance-proxy-paper.tex}; §7 Results, §11.6 var-rel-err audit-trail observation, §11.7 per-family Phase-C dispatch.},
+}

@@ -1,0 +1,99 @@
+\section{Operating Framework: The (Y, M, X) Triple}\label{sec:2}
+
+This section defines the unit of analytical work that the iteration roster
+operates on. We adopt the same definitions used internally throughout the
+project's specs, plans, and memory artifacts so that the supervisor's
+comments map directly onto the documents that govern subsequent iterations.
+
+\subsection{Definitions}
+
+The triple \((Y, M, X)\) consists of:
+
+\begin{itemize}
+  \item \(Y\) — the welfare-relevant outcome variable on which a target
+    population's exposure to the wage-to-capital transition is measured.
+    \(Y\) is operationalised per population. Examples used in closed and
+    active iterations include the Section~J information-and-communication
+    employment share for young Colombian workers, the realised volatility
+    of a household consumption basket, and the cross-sectional differential
+    between productive-capital returns and a wage-indexed consumption
+    basket.
+  \item \(X\) — the macro risk hypothesised to block the wage-to-capital
+    transition for the target population. \(X\) identification is empirical
+    and population-specific. The first-cut iteration question is always:
+    which macro variable, at which lag, currently kills wage earners'
+    attempts to enter productive-capital ownership in this population? \(X\)
+    enters the regression as a lag-distributed right-hand-side variable;
+    the lag structure is pinned in the spec text before the panel is
+    constructed.
+  \item \(M\) — the settlement geometry of the candidate hedging
+    instrument. \(M\) is introduced for completeness; it is declared out of
+    scope for empirical validation and deferred to Stage~2 of each
+    iteration. The on-chain operational details that determine the
+    feasibility of \(M\) for a given \((Y, X)\) pair are surveyed in
+    Section~\ref{sec:4} for the supervisor's reference; the rest of the
+    memorandum does not require familiarity with them.
+\end{itemize}
+
+\subsection{Stage discipline}
+
+Each iteration proceeds through three stages with explicit exit criteria:
+
+\begin{enumerate}
+  \item \textbf{Empirical risk validation.} Estimate
+    \(\hat{\beta}_{\mathrm{composite}}\) of \(Y\) on lagged \(X\) under a
+    pre-registered specification. Exit on a positive-\(\hat{\beta}\)
+    verdict at the pre-committed significance threshold. We treat this
+    stage as the object of the supervisor's review.
+  \item \textbf{Ideal-scenario M sketch.} Conditional on a Stage-1 PASS,
+    propose an instrument geometry on the on-chain substrate that
+    \emph{would} settle the empirical \(\hat{\beta}_{\mathrm{composite}}\) if
+    deployed. Stage~2 does not require live counterparty capital. Exit on
+    a settlement-feasible construction that hedges the validated
+    correlation.
+  \item \textbf{Live deployment.} Conditional on Stage~2 and live
+    counterparty capital, deploy and run an execution test. This stage is
+    out of scope for the present memorandum.
+\end{enumerate}
+
+The stage discipline is enforced by an internal anti-fishing rule: stage
+drift, in particular allowing Stage~2 instrument-design considerations to
+re-enter the Stage-1 specification choice, is treated as a silent design
+adjustment under the project's pre-registration discipline (see
+Section~\ref{sec:5} and Section~\ref{sec:7.4}). The empirical exercises
+the supervisor is being asked to review are entirely Stage-1.
+
+\subsection{Iteration order}
+
+The default iteration order is target-population dominant. We fix the
+target population first; we fix \(Y\) on a candidate
+inequality- or wage-to-capital-transition exposure measure for that
+population; we enumerate \(X\) candidates from the empirical risk surface
+that the population faces; for each surviving \(X\) we search the
+on-chain-eligible \(M\) space for tradability. The pair \((Y, X)\) only
+graduates to instrument design once a settlement-feasible \(M\) exists. A
+closed iteration with verdict FAIL or \texttt{EXIT} informs the
+\(X\)-search prior for the next population. We do \emph{not} re-run the
+same \((Y, X)\) at adjusted thresholds after a FAIL; the within-iteration
+anti-fishing invariants carry forward to subsequent iteration design.
+
+\subsection{Acknowledged limitations}
+
+Two limitations of the framework are load-bearing for the supervisor's
+review and worth stating explicitly in this section rather than in
+Section~\ref{sec:7}.
+
+First, the iteration order described above does not, by itself, address
+cross-iteration multiple-comparison concerns. Iteration selection (which
+populations and which \(X\) candidates enter the roster) is a project-level
+decision that is not pre-registered in the same way that within-iteration
+specifications are pre-registered. We treat this as an open methodological
+question (Section~\ref{sec:7.5}).
+
+Second, identification at Stage~1 is correlation-identified rather than
+causally identified. The project's PASS-verdict iteration (Pair~D)
+explicitly hedges the correlation rather than asserting a causal channel
+\citep[per the closure memo
+\texttt{memory/project\_pair\_d\_phase2\_pass.md}, Reality-Checker
+FLAG~\#1]{}. We discuss the identification posture and its implications for
+moving from Stage~1 to Stage~2 in Section~\ref{sec:7.1}.

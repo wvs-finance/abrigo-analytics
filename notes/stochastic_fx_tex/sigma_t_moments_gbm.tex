@@ -1,0 +1,9 @@
+% GBM envelope moments under mean-zero log-drift.
+% ref: Hull, Options Futures and Other Derivatives, section 15.
+% Corrected per NEW-BLOCK-MQ-4: trailing -1 inside the bracket
+% required for the sigma -> 0 vanishing limit.
+\paragraph{Closed forms.}
+\[ \mathbb{E}[\sigma_T] = \frac{\bar{X}^{2} \left(-1 + \frac{e^{T \sigma^{2}} - 1}{T \sigma^{2}}\right)}{\bar{Y}^{2}} \]
+\[ \mathrm{Var}[\sigma_T] = \frac{2 \bar{X}^{4} \left(e^{T \sigma^{2}} - 1\right)^{2}}{T^{2} \bar{Y}^{4} \sigma^{4}} \]
+\paragraph{Numerical pin at canonical fixture}
+At $\sigma = 0.10 / \sqrt{12}$, $T = 12$, $\bar{X}/\bar{Y} = 4000$: $\mathbb{E}[\sigma_T] = 80267.3$, $\mathrm{Var}[\sigma_T] = 5.1715e+14$.

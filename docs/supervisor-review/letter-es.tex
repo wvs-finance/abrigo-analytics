@@ -1,0 +1,160 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% \usepackage{lmodern} — removed 2026-05-06: redundant under LaTeX 2020+ where
+% Latin Modern is the default with T1 fontenc. texlive-fontsrecommended is not
+% installed on this machine; dropping the line produces identical output.
+\usepackage[spanish,es-noindentfirst,es-tabla,es-nodecimaldot]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{parskip}
+% \usepackage{microtype} — removed 2026-05-06: microtype's font-expansion
+% feature requires scalable fonts which are not installed on this machine
+% (texlive-fontsrecommended absent). microtype is a typographic refinement,
+% not load-bearing for content; document compiles correctly without it.
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+% --- Citation idiom: plain natbib + bibtex backend (NOT biblatex). ---
+% Per Wave-1 RC FLAG-1: avoid the biblatex-with-bibtex-backend hybrid.
+% Sub-agents are instructed to use \cite{key} / \citet{key} / \citep{key}.
+\usepackage[authoryear,round]{natbib}
+\bibliographystyle{plainnat}
+
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}
+
+% --- Provenance footer (per Wave-2 PM NIT) ---
+% Records the spec sha and build date so the supervisor (or any future
+% auditor) can reconstruct the production process from the PDF alone.
+\newcommand{\specsha}{3fd15bb}
+\newcommand{\builddate}{\today}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Memorando de Revisión por el Profesor}
+\fancyhead[R]{\small \builddate}
+\fancyfoot[L]{\scriptsize spec: \texttt{docs/specs/2026-05-06-supervisor-review-document-design.md@\specsha}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\scriptsize built \builddate}
+
+\titleformat{\section}{\Large\bfseries}{\S\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\S\thesubsection}{0.5em}{}
+
+\title{Seguro Paramétrico de Costos de Cambio para Trabajadores Digitales Latinoamericanos Subatendidos --- Cobertura mediante Instrumentos On-Chain \\[0.5em]
+\large Registro de Iteraciones Cerradas y Solicitud de Lineamientos Metodológicos}
+\author{d\textsuperscript{2}~finance \\ \href{https://github.com/wvs-finance}{\texttt{github.com/wvs-finance}}}
+\date{2026-05-06}
+
+% Override title for the short letter
+\makeatletter
+\renewcommand{\@title}{Seguro Paramétrico de Costos de Cambio para Trabajadores Digitales Latinoamericanos Subatendidos --- Cobertura mediante Instrumentos On-Chain \\[0.3em]
+\large Registro de Iteraciones Cerradas y Solicitud de Lineamientos Metodológicos}
+\renewcommand{\@author}{d\textsuperscript{2}~finance \\ \href{https://github.com/wvs-finance}{\texttt{github.com/wvs-finance}}}
+\renewcommand{\@date}{2026-05-06}
+\makeatother
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\section{Motivación, problema, solución sugerida, retos}\label{sec:1}
+
+\begin{description}
+  \item[Motivación.] Estudiamos a los trabajadores digitales latinoamericanos remunerados en pesos colombianos que contraen obligaciones recurrentes denominadas en dólares por concepto de insumos profesionales (servicios de IA por suscripción, tarifas de uso de API, cómputo en la nube y gasto en software como servicio); se trata de una población cuya exposición al riesgo macroeconómico está dominada por la volatilidad cambiaria. Para el caso colombiano en particular, el mercado cambiario funciona como agregador eficiente de los choques macroeconómicos, mientras que los rendimientos de los TES y la inflación básica operan como variables seguidoras de la trayectoria del COP/USD \citep{rincontorresInterdependenceFXTreasury2021,rincontorresLowFrequencyEffectMacroNews2023,rinconcastroTraspasoTasaCambio2021,fuentesIntradayExchangeRate2014}; el mismo patrón de transmisión cambiaria como canal primario está documentado de manera general para los mercados emergentes \citep{calvo_reinhart_2002,rey_2015,bruno_shin_2015}.
+  \item[Problema.] Cuando el COP se debilita frente al USD, la línea de costos denominada en dólares se traduce en un gasto no presupuestado en pesos. La práctica actual de gestión de riesgo para esta población es \emph{indirecta}: acumulación de USD mediante productos de ahorro en dólares de neobancos (por ejemplo, Littio, Global66, el piloto de billetera en USD de Nubank) y tenencias informales de divisas, en lugar de una cobertura directa y convexa sobre la trayectoria del COP/USD. Hasta donde el proyecto ha podido establecer, ningún producto de la banca minorista o fintech colombiana ofrece actualmente un contrato de seguro paramétrico de costos al estilo de una opción de compra (call) cambiaria a los nocionales mensuales de cientos a pocos miles de dólares que estos trabajadores manejan; los sustitutos indirectos no cobran una prima explícita por convexidad y no otorgan derecho de cobro frente a un umbral cambiario. Invitamos al profesor a señalar cualquier producto que el proyecto haya pasado por alto en este barrido.
+  \item[Solución sugerida.] Identificamos los riesgos macroeconómicos \(X\) que producen cuantitativamente estos choques de costos, los validamos empíricamente y diseñamos productos de seguro paramétrico de costos que compensan la exposición al traspaso cambiario \citep{carter_etal_2017,mahul_stutley_2010,clarke_2016}. El patrón de demanda al que apuntamos --- hogares de países subatendidos que adquieren un seguro contra devaluación bajo la forma de una opción de compra (call) sobre el tipo de cambio --- está documentado en una entrevista reciente con un profesional del sector \citep{depreciation_insurance_talk}: ``the instrument that people really care about, especially in emerging markets, is more of like a devaluation insurance policy~\ldots~call options are kind of perfect for this because you don't need a credit relationship. You just pay a premium upfront.''\footnote{Traducción libre: el instrumento que de verdad le importa a la gente, especialmente en mercados emergentes, se parece más a una póliza de seguro contra devaluación; las opciones de compra resultan idóneas porque no se requiere una relación crediticia y basta con pagar una prima por adelantado.} El producto de intermediación compensa al trabajador en una unidad que efectivamente gasta (COP, o un stablecoin de paridad de poder adquisitivo anclado al COP); el lugar de implementación es la infraestructura de liquidación on-chain (descrita en el documento técnico complementario de 37 páginas, \S4) y no la primitiva económica.
+  \item[Retos.]\hfill\\
+  \begin{itemize}
+    \item Postura de identificación --- predictiva frente a causal (véase \S\ref{sec:4-risks}).
+    \item Suficiencia del payoff convexo bajo el estándar de suscripción aseguradora (véase \S\ref{sec:4-risks}).
+    \item Calibración diferencial multi-\(Y\); corrección por tasa de error por familia frente a tasa de descubrimientos falsos a través de los brazos (véase \S\ref{sec:4-risks}).
+    \item Defensibilidad del protocolo \texttt{anti-fishing} --- umbrales de pre-registro \(N_{\mathrm{MIN}}=75\), \(\mathrm{POWER}_{\mathrm{MIN}}=0.80\), \(\mathrm{MDES}_{\mathrm{SD}}=0.40\) (véase \S\ref{sec:4-risks}).
+    \item Tasa de error por familia entre iteraciones y sesgo de selección de iteraciones (véase \S\ref{sec:4-risks}).
+  \end{itemize}
+  \item[Puente hacia \S2.] A la fecha hemos ejecutado cuatro iteraciones, todas cerradas o pausadas; las especificaciones del modelo, los resultados y los post-mortem de las fallas se presentan en la Sección~\ref{sec:2}. (Una quinta iteración --- Pareja D, sobre el empleo de trabajadores jóvenes colombianos en el agregado de servicios amplios --- cerró en PASS pero se omite aquí por ortogonalidad de población: su población objetivo es el empleo BPO de trabajadores jóvenes y no la población digital expuesta al choque de costos por traspaso cambiario que ocupa la presente carta; el registro de esa iteración se conserva en el documento técnico complementario de 37 páginas y en la memoria del proyecto.)
+\end{description}
+
+\section{Cuatro iteraciones}\label{sec:2}
+
+\paragraph{Etapa 1 dev-AI --- Sección J TIC mediante rezago COP/USD (FAIL).}
+Trabajadores jóvenes colombianos (14--28 años) restringidos a la Sección J del CIIU Rev.~4 (Información y Comunicaciones, Divisiones 58--63), con cadencia mensual, factores de expansión \texttt{FEX\_C\_2018} y el panel de rezagos detallado a continuación.
+\[ Y_t = \alpha + \beta_6\, X_{t-6} + \beta_9\, X_{t-9} + \beta_{12}\, X_{t-12} + \varepsilon_t \]
+donde \(Y_t = \mathrm{logit}(\mathrm{share}_t^{\mathrm{J}})\) y \(X_{t-k} = \log(\mathrm{COP}/\mathrm{USD}_{t-k})\); pre-registrada \(H_1: \beta_{\mathrm{composite}} > 0\).
+\textit{Datos.} \textbf{Fuente:} microdatos GEIH del DANE restringidos a la Sección J del CIIU Rev.~4 (Divisiones 58--63); TRM del Banrep. \textbf{Frecuencia:} mensual. \textbf{Ventana:} 2015-01-31 hasta 2026-03-31. \textbf{Muestra:} \(N = 134\) observaciones mensuales. \textbf{Transformaciones:} logit sobre la participación de la Sección J; nivel logarítmico sobre el tipo de cambio; mismo panel de rezagos que la Pareja~D; HAC(\(L=12\)); \texttt{FEX\_C\_2018}; diagnóstico de sesgo residual de empalme en la frontera Marco-2018 entre 2020-12 y 2021-01. \textbf{Repositorio:} \href{https://github.com/JMSBPP/abrigo-analytics/tree/master/notebooks/dev_ai_cost}{\texttt{notebooks/dev\_ai\_cost}}. \textbf{Sha de la especificación:} \texttt{7c72292516\ldots 751f5a}.
+\textit{Resultado.} \(\hat{\beta}_{\mathrm{composite}} = -0.14613\), SE HAC \(0.0847\), \(t = -1.726\), \(p \approx 0.958\) a una cola contra \(H_1: \beta > 0\); clasificador R MIXED (3 de 4 filas R coinciden en signo negativo).
+\textit{Interpretación.} FAIL --- con signo invertido en el corte estrecho de la Sección J.
+\textit{Razón del rechazo.} El sustrato de la Sección J no exhibe el patrón de traspaso cambiario rezagado al empleo que la narrativa de tercerización BPO presuponía; emergió un sesgo residual de empalme (el diagnóstico de frontera de la Fase 1 reportó un salto de \(+0.375\) en el logit-\(Y\) en la frontera Marco-2018 entre 2020-12 y 2021-01 frente a una envolvente de \(\pm 0.335\)), de modo que el cambio de nivel posterior a 2021 no queda plenamente neutralizado en el corte de la Sección J. El brazo de sensibilidad R2 Sección M (Secciones 69--75 del CIIU) arrojó \(\hat{\beta}_{\mathrm{composite}} = +0.45482801\), \(t = +4.73\), \(p = 1.13 \times 10^{-6}\), pero este es un objeto candidato para la próxima iteración no pre-registrado, no un PASS graduado, y el rechazo en la Sección J falsea el diseño del instrumento por usuario que la población pagadora de dev-AI habría sostenido.
+
+\paragraph{Sorpresa de IPC y vol-cambiaria --- IPC colombiano mediante volatilidad realizada de la TRM (FAIL).}
+Empresas colombianas y receptores de remesas con exposición a la volatilidad cambiaria sobre el COP/USD en torno a la publicación del IPC del DANE, en cadencia semanal con anclaje el viernes, donde \(Y_w\) es la volatilidad realizada semanal del panel de retornos logarítmicos diarios de la TRM del Banrep y la regresora es la sorpresa de IPC AR(1) firmada y rezagada.
+\[ \mathrm{RV}^{\mathrm{COP/USD}}_w = \alpha + \beta\, \mathrm{Surp}^{\mathrm{CPI}}_{w-1} + \varepsilon_w \]
+donde \(\mathrm{RV}_w\) es la volatilidad realizada en la semana \(w\) y \(\mathrm{Surp}^{\mathrm{CPI}}_{w-1}\) es la sorpresa mensual firmada del IPC AR(1) rezagada y mapeada a cadencia semanal (mantenida durante la semana de publicación, cero en otro caso), con un conjunto reducido de controles de sorpresa macroeconómica en la principal.
+\textit{Datos.} \textbf{Fuente:} panel diario de retornos logarítmicos de la TRM del Banrep; calendario de publicación del IPC del DANE más valores realizados para la construcción de la sorpresa AR(1). \textbf{Frecuencia:} semanal (anclaje el viernes). \textbf{Ventana:} 2008-01-02 hasta 2026-02-23. \textbf{Muestra:} \(N = 947\) observaciones semanales. \textbf{Transformaciones:} RV semanal a partir de retornos logarítmicos diarios; sorpresa de IPC AR(1) firmada mapeada a cadencia semanal (mantenida durante la semana de publicación, cero en otro caso); errores estándar Newey-West HAC(4); conjunto reducido de controles de sorpresa macroeconómica. \textbf{Repositorio:} \href{https://github.com/JMSBPP/abrigo-analytics/tree/master/notebooks/fx_vol_cpi_surprise}{\texttt{notebooks/fx\_vol\_cpi\_surprise}}. \textbf{Huella de la especificación:} \texttt{nb1\_panel\_fingerprint.json}.
+\textit{Resultado.} \(\hat{\beta}_{\mathrm{CPI}} = -0.000685\), SE HAC(4) \(0.001794\), intervalo al \(90\%\) \([-0.003636,\, +0.002266]\) que contiene cero; el criterio de compuerta \(\hat{\beta} - 1.28 \cdot \widehat{\mathrm{SE}} = -0.002981 < 0\) dispara el FAIL.
+\textit{Interpretación.} FAIL --- ninguna respuesta de la RV semanal a las sorpresas de IPC.
+\textit{Razón del rechazo y salvedad de sensibilidad.} La prueba T1 de exogeneidad pre-registrada se rechaza con \(F = 15.12\), \(p \approx 1.3 \times 10^{-9}\), de manera que la iteración constituye una regresión predictiva en lugar de una estructural-causal y \(\hat{\beta}\) no puede leerse como una respuesta a impulso. Dos sensibilidades pre-registradas devolvieron intervalos al \(90\%\) significativos y positivos bajo la convención de \(\alpha = 0.05\) a una cola --- A1 cadencia mensual \(\hat{\beta} = +0.0152\) sobre \([+0.0057,\, +0.0246]\); A4 con exclusión del día de publicación \(\hat{\beta} = +0.0033\) sobre \([+0.0005,\, +0.0062]\) ---, pero ninguna constituye el hallazgo principal de la iteración: la principal semanal pre-registrada es el resultado, y A1/A4 quedan como insumos candidatos para una posible especificación principal futura de cadencia mensual antes que como un rescate de la principal semanal.
+
+\paragraph{Fase A.0 Remesas --- Corredor de remesas colombiano mediante el tipo de cambio (EXIT\_NON\_REMITTANCE).}
+Hogares colombianos receptores de remesas indexados frente al corredor colombiano de remesas con traspaso cambiario, donde \(Y_w\) se hereda del panel semanal de vol-cambiaria y \(X_{w-1}\) es un proxy candidato de flujos de remesas on-chain construido a partir de la actividad agregada de usuarios de cCOP y COPm sobre Celo.
+\[ \mathrm{RV}^{\mathrm{COP/USD}}_w = \alpha + \beta\, \Delta \mathrm{Remit}^{\mathrm{Col}}_{w-1} + \varepsilon_w \]
+donde \(\Delta \mathrm{Remit}^{\mathrm{Col}}_{w-1}\) es la variación rezagada del flujo de remesas de hogares colombianos aproximada por la actividad on-chain en Celo, particionada para intentar aislar las remesas de hogar de la actividad de DEX de terceros, el roundtripping de tesorería y el arbitraje por bots.
+\textit{Datos.} \textbf{Fuente (planeada):} remesas mensuales del Banrep + actividad agregada de usuarios on-chain de cCOP / COPm en Celo. \textbf{Frecuencia:} semanal (planeada; nunca alcanzó el \(N\) final). \textbf{Ventana:} 2024-09 hasta 2026-04 (planeada). \textbf{Muestra:} no producida --- salida pre-estimación. \textbf{Transformaciones:} regla de partición pre-registrada para remesas de hogar frente a actividad de DEX de terceros, roundtripping de tesorería y arbitraje por bots; nunca ejecutada. \textbf{Especificación:} \href{https://github.com/JMSBPP/abrigo-analytics/blob/master/docs/specs/2026-04-20-remittance-surprise-trm-rv-design.md}{\texttt{docs/specs/2026-04-20-remittance-surprise-trm-rv-design.md}} (sin directorio de notebook --- la especificación salió pre-estimación). \textbf{Cadena de especificación:} Fase A.0 Rev~4.1 (con criterios de cierre).
+\textit{Resultado.} No se produjo estimación empírica --- salida por criterios de cierre pre-estimación el 2026-04-24.
+\textit{Interpretación.} EXIT --- nunca se estimó; cerrada por k1 + parcial-k2.
+\textit{Razón de la salida.} La investigación de eventos del Eje 1 de la Tarea~11.F arrojó cero de treinta flujos de día pico identificables como remesa, con aproximadamente el 87\% del flujo examinado descomponiéndose en arbitraje sobre TRM, roundtripping de tesorería, campañas y actividad de bots; la actividad agregada de usuarios de cCOP/COPM en Celo es volumen de DEX de terceros, no remesas de hogares colombianos, así que ningún filtro post-hoc podría reconstruir un \(X\)-driver que jamás se midió aguas arriba. La salida es estructural para la disciplina de criterios de cierre: en ausencia del EXIT pre-registrado, la iteración de filtros sin freno del plan rev-4 habría corrido hacia un filtro que aparentaría ``rescatar'' una señal que nunca se capturó.
+
+\paragraph{P1 Bittensor SN18 --- Aparato de estudio de eventos (PARKED).}
+La población expuesta a choques de política sobre IA propietaria (desarrolladores LATAM que pagan APIs de IA denominadas en dólares como candidato aguas abajo; el aparato es anterior al estrechamiento de la población objetivo), con \(Y_t\) un indicador de estudio de eventos sobre el alfa de Bittensor SN18 (Cortex.t) y \(X_t\) un conjunto de fechas de eventos de política pre-fijadas (halving de Bittensor 2025-12-15; activación de la mainnet de dTAO 2025-02-13; hitos de Cortex.t).
+\[ \mathrm{AR}_{i, \tau} = \alpha_i + \sum_{\tau = -L}^{+L} \gamma_\tau\, \mathbf{1}\{t_i + \tau \in \mathcal{E}\} + \varepsilon_{i, \tau} \]
+donde \(\mathrm{AR}_{i, \tau}\) es el indicador de alfa anormal en la ventana de evento al tiempo relativo \(\tau\) para el evento \(i\), \(\mathcal{E}\) es el conjunto pre-fijado de eventos de política, y el aparato se evalúa sobre un cubo de veredicto de nueve celdas (elegibilidad de veredicto cruzada con consistencia de robustez), con corrección Bonferroni en \(\alpha_{\mathrm{primary}} = 0.0167\) sobre la familia conjuntiva P1+P2+P3 con \(N_{\min}^{\mathrm{events}} = 8\) y una compuerta de placebo asimétrica.
+\textit{Datos.} \textbf{Fuente:} estudio de eventos sobre el alfa de Bittensor SN18 (Cortex.t); fechas de eventos de política pre-fijadas (halving de Bittensor 2025-12-15; mainnet de dTAO 2025-02-13; hitos de Cortex.t). \textbf{Frecuencia:} ventana de evento (\(L\) asimétrico). \textbf{Ventana:} \(\pm L\) por evento. \textbf{Muestra:} planeada \(N_{\min}^{\mathrm{events}} = 8\); ingesta de datos diferida. \textbf{Transformaciones:} indicador de alfa anormal en ventana de evento; cubo de veredicto de nueve celdas; Bonferroni en \(\alpha_{\mathrm{primary}} = 0.0167\) sobre P1+P2+P3. \textbf{Especificación:} \href{https://github.com/JMSBPP/abrigo-analytics/blob/master/docs/specs/2026-04-27-p1-sn18-event-study-design.md}{\texttt{docs/specs/2026-04-27-p1-sn18-event-study-design.md}} (sin directorio de notebook --- aparato pausado pre-ingesta). \textbf{Sha de la especificación:} \texttt{f855e036d3\ldots b47aeab}.
+\textit{Resultado.} Ninguno --- aparato pausado para registro el 2026-04-27; no se produjo afirmación empírica graduada.
+\textit{Interpretación.} PARKED --- aparato completo, ninguna afirmación graduada.
+\textit{Razón de la pausa.} Aparato completo; ninguna afirmación empírica graduada. El usuario pivotó hacia la vía rápida del \(\beta\) compuesto simple (Pareja~D, Etapa 1 dev-AI) y pausó P1 para preservar el capital intelectual del trabajo de especificación, con las condiciones de reactivación documentadas en la memoria de pausa.
+
+\section{Encuadre del riesgo objetivo}\label{sec:3}
+
+El riesgo objetivo es la exposición a la volatilidad cambiaria para una población específica: trabajadores digitales latinoamericanos remunerados en pesos colombianos (flujos de caja en COP) pero con obligaciones recurrentes denominadas en dólares por concepto de insumos profesionales. Cuando el COP se debilita frente al USD, la línea de costos denominada en dólares se traduce en un incremento no presupuestado del gasto en pesos. El producto de intermediación objetivo es un contrato que compensa este choque de costos por traspaso cambiario, denominado en una unidad que el trabajador efectivamente gasta (COP, o un stablecoin de paridad de poder adquisitivo anclado al COP). El encuadre abstracto del Lema de Abrigo \(Y_{\mathrm{inequality}}(t) = R_a(t) - R_c(t)\) --- presente en el documento técnico complementario de 37 páginas, \S3 --- es la generalización analítica eventual; la carta (documento de entrada) introduce únicamente el objetivo concreto.
+
+\section{Solicitudes al profesor}\label{sec:4}
+
+\subsection{Especificaciones sugeridas}\label{sec:4-specs}
+
+Invitamos al profesor a sugerir el par \((Y, X)\), la estructura de rezagos, la ventana muestral, la convención de inferencia principal y los brazos de robustez para la próxima iteración. En particular: cuál corte sectorial debería seguir al rechazo en la Sección J de dev-AI a la luz de la señal de sensibilidad R2 Sección M (Secciones 69--75 del CIIU Rev.~4: consultoría, científicos, administrativos); si conviene repetir la principal de sorpresa de IPC y vol-cambiaria en la cadencia mensual A1 como el próximo pre-registro; o si conviene pivotar hacia un panel LATAM no colombiano.
+
+\subsection{Riesgos}\label{sec:4-risks}
+
+Las viñetas siguientes son riesgos que el proyecto ya ha identificado; solicitamos al profesor agregar riesgos que no hayamos señalado.
+
+\begin{itemize}
+  \item Postura de identificación --- regresión predictiva frente a estructural-causal; T1 de exogeneidad rechazada en vol-cambiaria; HAC con \(L\) fijo por iteración.
+  \item Suficiencia del payoff convexo bajo el estándar de suscripción aseguradora --- la media de \(\hat{\beta}\) es necesaria pero no suficiente; \citet{carter_etal_2017}, \citet{mahul_stutley_2010} y \citet{clarke_2016} fijan los estándares.
+  \item Calibración diferencial multi-\(Y\) --- correlación conjunta entre brazos, FWER frente a FDR, cambio de régimen.
+  \item Defensibilidad del protocolo \texttt{anti-fishing} --- \(N_{\mathrm{MIN}}=75\), \(\mathrm{POWER}_{\mathrm{MIN}}=0.80\), \(\mathrm{MDES}_{\mathrm{SD}}=0.40\) heredados de la Fase A.0 Rev-5.3.1, no re-derivados.
+  \item FWER entre iteraciones y sesgo de selección de iteraciones --- cinco iteraciones cerradas en el conjunto del proyecto (cuatro presentadas en esta carta más la Pareja D omitida por ortogonalidad de población); preocupación de comparación múltiple a nivel meta; \citet{heckman_1979} como marco candidato.
+  \item Sesgo de Stambaugh en muestra pequeña sobre regresiones predictivas con regresor persistente --- \citet{stambaugh1999}, \citet{phillips2014}; el log-FX está cerca de raíz unitaria en frecuencia mensual.
+  \item Sesgo residual de empalme --- la ruptura metodológica del Marco-2018 del DANE no queda plenamente neutralizada; emergió en la Etapa 1 dev-AI NB02 Trío 1, anomalía de frontera.
+\end{itemize}
+
+\subsection{Bibliografía}\label{sec:4-bib}
+
+La bibliografía actual está documentada en el Apéndice B del documento complementario de 37 páginas y se reproduce en \texttt{refs.bib}. Invitamos al profesor a recomendar referencias adicionales que considere estructurales para el trabajo empírico del marco, en particular sobre (a) fijación de precios de seguros paramétricos basados en índices en poblaciones con baja calificación crediticia de contraparte, (b) regresiones predictivas de la participación sectorial del empleo sobre paneles de tipo de cambio real efectivo, y (c) regímenes de corrección de tasa de descubrimientos falsos entre iteraciones para pre-registro observacional.
+
+\subsection{Conexiones}\label{sec:4-connections}
+
+Invitamos al profesor a presentar el proyecto a otros investigadores, profesionales del sector o instituciones cuyo trabajo pueda complementar este conjunto de iteraciones, incluyendo, sin limitarse a ello, suscriptores de seguros paramétricos con exposición LATAM, operadores de derivados cambiarios al servicio de nocionales sub-corporativos, ingenieros de liquidación on-chain y econometristas aplicados que trabajen sobre desindustrialización prematura en América Latina. El trabajo empírico del marco está abierto a la colaboración; la red del profesor es el canal más eficiente para identificar contribuyentes complementarios.
+
+\bibliography{refs}
+
+\end{document}
