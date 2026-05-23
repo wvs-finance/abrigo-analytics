@@ -75,6 +75,11 @@ from simulations.e10_gsps.types import (
 
 # A cell needs at least this many surviving positive-Q days for its daily
 # log-returns (one fewer than the day count) to be non-empty.
+# Phase-3 review I-1 (2026-05-21): with n=2 the decomposition produces a
+# single log-return and population variance is degenerate (=0, share=NaN).
+# Spec v0.7 pins this threshold at 2; a future CORRECTIONS-E10-8 amendment
+# will raise it to 3 (methodologically correct). No production cell hits
+# this: all 150 panel cells have far more than 3 surviving days.
 _MIN_SURVIVING_DAYS: int = 2
 
 

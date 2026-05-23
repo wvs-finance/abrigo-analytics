@@ -1,0 +1,40 @@
+{
+  "phase": "E10 GSPS Phase 4 / task 4.4",
+  "panel_cells": 150,
+  "currencies": [
+    "BRL",
+    "COP",
+    "EUR",
+    "GBP",
+    "NGN"
+  ],
+  "anchored_q_range": [
+    28.0,
+    130.0
+  ],
+  "frozen_s_be": 0.25,
+  "effective_n_grid": 50,
+  "refined": false,
+  "panel_mean_share": 0.0001535157617749653,
+  "envelope_at_q_low": {
+    "min": 2.1007120777926055e-05,
+    "q1": 2.907963130407722e-05,
+    "median": 5.921762100760453e-05,
+    "q3": 6.15916596650237e-05,
+    "max": 0.000596682776120195
+  },
+  "vol_on_vol": {
+    "beta_two_way": 68.15124620607666,
+    "beta_currency_only": 54.714823014552536,
+    "gap": 13.436423191524128,
+    "sign_two_way": 1,
+    "sign_currency_only": 1
+  },
+  "section_9_inputs": {
+    "surface_computed_flag": true,
+    "material_gap_flag": false,
+    "q_variance_dominance_flag": true,
+    "interior_crossing_flag": false
+  },
+  "trajectory": "NON-RETIREMENT (spec \u00a77 field 7b; \u00a79 NON-RETIREMENT rung)"
+}

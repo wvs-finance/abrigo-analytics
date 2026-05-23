@@ -228,6 +228,12 @@ def surface_grid_results(draw: st.DrawFn) -> SurfaceGridResult:
         anchored_range_high=draw(
             st.floats(min_value=1_001.0, max_value=39_900.0, allow_nan=False)
         ),
+        q_variance_dominance_flag=draw(st.booleans()),
+        refined=draw(st.booleans()),
+        effective_n_grid=draw(st.integers(min_value=2, max_value=200)),
+        grid_resolution_decision_citation=draw(
+            st.text(min_size=0, max_size=64)
+        ),
     )
 
 

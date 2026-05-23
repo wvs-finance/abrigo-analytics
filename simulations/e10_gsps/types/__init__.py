@@ -21,6 +21,7 @@ from .nhpp import (
     LambdaModulationSpec,
     NHPPIntensityParameters,
 )
+from .currency_spread import CurrencySpreadResult
 from .panel import PanelCell
 from .protocols import (
     DescriptiveVerdictClassifier,
@@ -29,8 +30,13 @@ from .protocols import (
     SurfaceGridEvaluator,
     ThreeWayDecomposition,
 )
-from .surface import SurfaceGridPoint, SurfaceGridResult
+from .surface import (
+    InteriorCrossingResult,
+    SurfaceGridPoint,
+    SurfaceGridResult,
+)
 from .verdict import DescriptiveVerdict, DescriptiveVerdictResult
+from .vol_on_vol import VolOnVolResult
 
 __all__ = [
     "PANEL_CURRENCIES",
@@ -46,6 +52,9 @@ __all__ = [
     "ThreeWayDecompositionCell",
     "SurfaceGridPoint",
     "SurfaceGridResult",
+    "InteriorCrossingResult",
+    "VolOnVolResult",
+    "CurrencySpreadResult",
     "DescriptiveVerdict",
     "DescriptiveVerdictResult",
     "RegimeBreakScreen",
